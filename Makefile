@@ -6,7 +6,7 @@
 #    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2024/11/20 19:56:01 by mkling           ###   ########.fr        #
+#    Updated: 2024/11/21 11:03:25 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ INC_DIR		= ./inc
 
 HEADER		= ./inc/minishell.h
 
-FUNC		= parse.c
+FUNC		= parse.c execute.c error.c
 
 MAIN		= main.c
 
@@ -81,7 +81,7 @@ debug:		$(OBJ) $(HEADER)
 			@echo "Compiling with debug flag"
 			$(CC) $(CFLAGS) -g -o $(NAME) $(addprefix $(SRC_DIR)/, $(SRC))
 
-$(T_NAME):	$(T_DIR)/$(T_SRC) $(SRC_DIR)/$(FUNC) $(OBJ) $(HEADER)
+$(T_NAME):	$(T_DIR)/$(T_SRC) $(OBJ) $(HEADER)
 			@echo "Compiling unit test"
 			@${T_CC} $(INC) $(T_INC) $(filter-out $(T_EXCL), $(OBJ)) $(T_DIR)/$(T_SRC) -o $(T_DIR)/$(T_NAME)
 

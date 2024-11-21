@@ -1,31 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 16:16:49 by mkling            #+#    #+#             */
-/*   Updated: 2024/11/21 11:18:58 by mkling           ###   ########.fr       */
+/*   Created: 2024/11/21 09:37:40 by mkling            #+#    #+#             */
+/*   Updated: 2024/11/21 09:37:53 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include "/home/mkling/Criterion/include/criterion/criterion.h"
+#include "../inc/minishell.h"
 
 
-
-int	parse(char *string);
-
-
-
-/* ERROR HANDLING  */
-
-void	exit_if(bool condition, char *err_message, int err_code, void *data)
-
-#endif
