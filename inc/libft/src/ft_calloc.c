@@ -1,22 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 16:16:30 by mkling            #+#    #+#             */
-/*   Updated: 2024/11/21 17:07:23 by mkling           ###   ########.fr       */
+/*   Created: 2024/05/22 17:31:17 by mkling            #+#    #+#             */
+/*   Updated: 2024/10/04 15:36:28 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/libft.h"
+#include <stdlib.h>
 
-int	main(int argc, char **argv)
+void	ft_bzero(void *ptr, unsigned long len)
 {
-	t_cmd_tab	cmd_tab;
+	unsigned char	*str;
 
-	if (argc > 1)
-		parse(argv[1], &cmd_tab);
-	return (0);
+	str = ptr;
+	while (len--)
+		*str++ = 0;
+}
+
+void	*ft_calloc(size_t nbr, size_t size)
+{
+	void	*result;
+
+	if (nbr == 0 || size == 0 || ((size_t) - 1 / nbr) < size)
+		return (malloc(0));
+	result = malloc(nbr * size);
+	if (!result)
+		return (NULL);
+	ft_bzero(result, nbr * size);
+	return (result);
 }

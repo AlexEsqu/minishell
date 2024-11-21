@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 16:16:30 by mkling            #+#    #+#             */
-/*   Updated: 2024/11/21 17:07:23 by mkling           ###   ########.fr       */
+/*   Created: 2024/09/10 13:53:31 by mkling            #+#    #+#             */
+/*   Updated: 2024/10/04 15:35:15 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
-int	main(int argc, char **argv)
+void	ft_free_tab(char **array)
 {
-	t_cmd_tab	cmd_tab;
+	size_t	i;
 
-	if (argc > 1)
-		parse(argv[1], &cmd_tab);
-	return (0);
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }

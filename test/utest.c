@@ -6,26 +6,52 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2024/11/20 19:33:48 by mkling           ###   ########.fr       */
+/*   Updated: 2024/11/21 17:34:03 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#include "/home/mkling/Criterion/include/criterion/criterion.h"
+#include "/home/mkling/Criterion/include/criterion/redirect.h"
 
-Test(Parsing, Parsing1)
+
+
+void	redirect_all_stdout(void)
 {
-	cr_expect(parse("hello") == 'h', "FAIL");
-	cr_expect(parse("no") == 'n');
+	cr_redirect_stdout();
+	cr_redirect_stderr();
 }
 
-Test(Parsing, Parsing2)
+// Test(general, error_message, .init=redirect_all_stdout)
+// {
+// 	// exit_if(true, "test1", 0, NULL);
+// 	fprintf(stderr, "AAA");
+// 	cr_assert_stderr_eq_str("AAA");
+// }
+
+Test(General, exit_code, .exit_code = 42)
 {
-	cr_expect(parse("aello") != 'h', "FAIL");
-	cr_expect(parse("no") == 'n');
+	exit_if(true, "No\n", 42, NULL);
 }
 
-Test(Parsing, Parsing3)
+/* Lexer: Tokenizing */
+Test(Lexer, Token_number)
 {
-	cr_expect(parse("aello") != 'h', "FAIL");
-	cr_expect(parse("no") == 'n');
+	t_cmd_tab	cmd_tab;
+
+	parse("llo", &cmd_tab);
+	cr_expect(cmd_tab.content[0] == 'l');
+	parse("no", &cmd_tab);
+	cr_expect(cmd_tab.content[0] == 'n');
+}
+
+/* Parser: */
+Test(Parser, Filling)
+{
+	t_cmd_tab	cmd_tab;
+
+	parse("llo", &cmd_tab);
+	cr_expect(cmd_tab.content[0] == 'l');
+	parse("no", &cmd_tab);
+	cr_expect(cmd_tab.content[0] == 'n');
 }

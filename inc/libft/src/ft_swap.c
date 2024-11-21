@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 16:16:30 by mkling            #+#    #+#             */
-/*   Updated: 2024/11/21 17:07:23 by mkling           ###   ########.fr       */
+/*   Created: 2024/10/04 12:08:43 by mkling            #+#    #+#             */
+/*   Updated: 2024/10/04 12:09:40 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-
-int	main(int argc, char **argv)
+void	ft_swap_int(int *a, int *b)
 {
-	t_cmd_tab	cmd_tab;
+	int	tmp;
 
-	if (argc > 1)
-		parse(argv[1], &cmd_tab);
-	return (0);
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }

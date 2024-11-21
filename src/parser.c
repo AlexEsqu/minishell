@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:15:48 by mkling            #+#    #+#             */
-/*   Updated: 2024/11/20 16:19:48 by mkling           ###   ########.fr       */
+/*   Updated: 2024/11/21 17:03:31 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	parse(char *string)
+void	parse(char *string, t_cmd_tab *cmd_tab)
 {
-	return (string[0]);
+	cmd_tab->content = string;
 }
