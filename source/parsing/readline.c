@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2024/12/03 12:03:07 by mkling           ###   ########.fr       */
+/*   Updated: 2024/12/04 07:56:41 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	init_readline(char **envp)
 			free_cmd_tab(cmd_tab);
 		}
 	}
-	printf("out of readline");
 }
 
 
