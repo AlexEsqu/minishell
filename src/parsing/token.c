@@ -12,9 +12,11 @@
 
 #include "minishell.h"
 
-t_token	*get_last_token(t_shell *shell)
+int	token_is(int lexem, t_list *node)
 {
-	return ((t_token *)ft_lstlast(shell->token_list)->content);
+	if (!node || !node->content)
+		return (0);
+	return (((t_token *)node->content)->lexem == lexem);
 }
 
 t_token	*create_token(t_shell *shell, int lexem, char letter, char *content)

@@ -47,7 +47,7 @@ FUNC_PARS	=	readline.c \
 				signals.c \
 				syntax.c \
 				expand.c \
-				wrapper.c \
+				variable.c \
 				cleanup.c
 
 FUNC_BUTI	=	cd.c \

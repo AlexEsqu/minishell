@@ -49,7 +49,7 @@ void	check_each_path(t_cmd *cmd, char **paths)
 }
 
 /* Accepts input format ./[binary] or [bin_dir]/[binary]*/
-void	check_absolute_path(t_cmd *cmd)
+void	check_absolute_or_relative_path(t_cmd *cmd)
 {
 	if (access(cmd->cmd_path, F_OK) == 0)
 	{
@@ -58,7 +58,7 @@ void	check_absolute_path(t_cmd *cmd)
 	}
 }
 
-void	check_relative_paths(t_shell *shell, t_cmd *cmd)
+void	check_environ_paths(t_shell *shell, t_cmd *cmd)
 {
 	char	*path_env;
 
@@ -87,7 +87,7 @@ void	get_cmd_path(t_shell *shell, t_cmd *cmd)
 	if (cmd->cmd_path[ft_strlen(cmd->cmd_path) - 1] == '/')
 		check_if_directory(cmd, cmd->cmd_path);
 	if (!cmd->exit_code)
-		check_absolute_path(cmd);
+		check_absolute_or_relative_path(cmd);
 	if (!cmd->exit_code && access(cmd->cmd_path, F_OK))
-		check_relative_paths(shell, cmd);
+		check_environ_paths(shell, cmd);
 }

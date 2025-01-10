@@ -24,6 +24,10 @@ void	redirect_all_std(void)
 	cr_redirect_stdout();
 }
 
+/* WARNING : Criterion must be installed and accessible
+For installation on school machine, see:
+https://github.com/RoKerjea/Criterion-demo-42/blob/main/criterion_install.sh */
+
 /* ************************************************************************** */
 /*																			  */
 /*	PARSING																	  */
