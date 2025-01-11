@@ -6,7 +6,7 @@
 #    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/01/12 00:17:41 by alex             ###   ########.fr        #
+#    Updated: 2025/01/12 00:26:03 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,7 +116,8 @@ V_FLAG		= valgrind --leak-check=full --show-leak-kinds=all \
 
 all:				$(NAME)
 
-$(NAME):			$(DEP) $(OBJ) # $(LIB)
+$(NAME):			$(DEP) $(OBJ)
+					$(MAKE) -C $(DIR_LIB)
 					$(CC) $(CFLAGS) $(INC) -o $(NAME) $(OBJ) $(LIB)
 
 $(DIR_OBJ)/%.o:		$(DIR_SRC)/%.c
