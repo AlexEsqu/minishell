@@ -6,7 +6,7 @@
 #    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2024/12/28 13:50:49 by alex             ###   ########.fr        #
+#    Updated: 2025/01/12 00:17:41 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,9 +70,9 @@ SRC			= 	$(addprefix $(DIR_SRC)/, $(FUNC)) \
 
 OBJ			= $(SRC:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
 
-LIB			=  -L$(DIR_LIB) -lft -lreadline
+LIB			= -L$(DIR_LIB) -lft -lreadline
 
-DEP			= $(DIR_LIB)/libft.a $(DIR_OBJS) $(HEADER)
+DEP			= $(DIR_OBJS) $(HEADER) #$(DIR_LIB)/libft.a
 
 INC			= -I$(DIR_INC) -I$(DIR_LIB)
 
@@ -116,9 +116,8 @@ V_FLAG		= valgrind --leak-check=full --show-leak-kinds=all \
 
 all:				$(NAME)
 
-$(NAME):			$(DEP) $(OBJ)
-					$(CC) $(CFLAGS) $(INC) -o $(NAME) $(OBJ) -L$(DIR_LIB) \
-					-lft -lreadline
+$(NAME):			$(DEP) $(OBJ) # $(LIB)
+					$(CC) $(CFLAGS) $(INC) -o $(NAME) $(OBJ) $(LIB)
 
 $(DIR_OBJ)/%.o:		$(DIR_SRC)/%.c
 					$(CC) $(CFLAGS) $(INC) -c $< -o  $@
