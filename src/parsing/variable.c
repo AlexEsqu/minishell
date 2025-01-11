@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wrapper.c                                          :+:      :+:    :+:   */
+/*   variable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 13:50:23 by alex              #+#    #+#             */
-/*   Updated: 2024/12/30 19:17:29 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/11 11:06:54 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,17 @@ int	is_valid_variable(char *input)
 
 int	has_valid_var(char *string)
 {
+	int	i;
+
 	if (!string || !string[0] || !ft_strchr(string, '$'))
 		return (0);
-	while (string)
+	i = 0;
+	while (string[i])
 	{
-		if (string == '$' && is_valid_variable(&string))
+		if (string[i] == '$' && is_valid_variable(&string[i]))
 			return (1);
 		else
-			*string++;
+			i++;
 	}
 	return (0);
 }
