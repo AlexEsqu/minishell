@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/01/09 15:50:31 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/11 11:10:40 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	check_each_path(t_cmd *cmd, char **paths)
 	return (set_cmd_error(CANT_FIND_CMD, cmd, "Command not found"));
 }
 
-/* Accepts input format ./[binary] or [bin_dir]/[binary]*/
+/* Accepts input format ./[relative_dir]/[binary] or /[absolute_dir]/[binary]*/
 void	check_absolute_or_relative_path(t_cmd *cmd)
 {
 	if (access(cmd->cmd_path, F_OK) == 0)
@@ -58,6 +58,7 @@ void	check_absolute_or_relative_path(t_cmd *cmd)
 	}
 }
 
+/* Opens up env to get $PATH, split it, and tries each until one is found */
 void	check_environ_paths(t_shell *shell, t_cmd *cmd)
 {
 	char	*path_env;
@@ -77,7 +78,7 @@ void	check_environ_paths(t_shell *shell, t_cmd *cmd)
 
 /* Checks first if a command path exist
 Throws error if path is directory or trailed by /
-Tries absolute path for command
+Tries absolute and relative path for command
 If non existent, tries paths from $PATH */
 void	get_cmd_path(t_shell *shell, t_cmd *cmd)
 {

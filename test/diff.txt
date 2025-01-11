@@ -1,0 +1,1023 @@
+[33munset PWD ; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell/test
+
+
+[33menv | grep USER(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+2a3,4
+> USER_ZDOTDIR=/home/mkling
+> USER=mkling
+
+
+[33mexport Z=z ; echo $Z(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< z
+
+
+[33mexport A=a B=b C=c; echo $A$B$C(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< abc
+
+
+[33mexport zz zzz= zzzz=asd ; echo $zz$zzz$zzzz; export | grep zz(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,4d0
+< asd
+< declare -x zz
+< declare -x zzz=""
+< declare -x zzzz="asd"
+
+
+[33mexport =a ; echo $a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< 
+[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: export: `=a': not a valid identifier
+
+
+[33mexport /dont/export/this=hola ; export | grep /dont/export/this(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: export: `/dont/export/this=hola': not a valid identifier
+
+
+[33mexport A=a=a=a=a=a; echo $A(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< a=a=a=a=a
+
+
+[33mexport A B C; echo $A$B$C(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< 
+
+
+[33mexport $(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: export: `$': not a valid identifier
+
+
+[33mexport ?=42(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: export: `?=42': not a valid identifier
+
+
+[33mexport A=a ; unset A ; echo $A(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< 
+
+
+[33mexport A=a B=b C=c ; unset A asd B asd ; echo $A$B$C(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< c
+
+
+[33mcd ; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling
+[94m----- STDERR -----(B[m
+0a1
+> shell: cd :;: No such file or directory
+
+
+[33munset HOME ; cd ; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell/test
+[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: cd: HOME not set
+
+
+[33mcd .; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell/test
+[94m----- STDERR -----(B[m
+0a1
+> shell: cd :.;: No such file or directory
+
+
+[33mcd ..; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell
+[94m----- STDERR -----(B[m
+0a1
+> shell: cd :..;: No such file or directory
+
+
+[33mcd ..; echo $OLDPWD; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,2d0
+< /home/mkling/Documents/minishell/test
+< /home/mkling/Documents/minishell
+[94m----- STDERR -----(B[m
+0a1
+> shell: cd :..;: No such file or directory
+
+
+[33munset OLDPWD; cd .. ; echo $OLDPWD; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,2d0
+< /home/mkling/Documents/minishell/test
+< /home/mkling/Documents/minishell
+
+
+[33mcd ' /'; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell/test
+[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd:  /: No such file or directory
+---
+> shell: cd : /: No such file or directory
+
+
+[33mcd ../../ ; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents
+
+
+[33mcd ../../../../../../.. ; pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /
+
+
+[33mcd dirwithoutpermissions(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd: dirwithoutpermissions: Permission denied
+---
+> shell: cd :dirwithoutpermissions: No such file or directory
+
+
+[33mexit -42(B[m
+[35m< bash       (exited with 214)(B[m
+[35m> minishell  (exited with 214)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> shell: exit: Requires numerical arguments
+
+
+[33mexit 512(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 2)
+(B[m
+
+[33mexit 1407(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 132)
+(B[m
+
+[33mexit 21 42(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 21)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: too many arguments
+---
+> shell: exit: Too many arguments
+
+
+[33mexit notanumber(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: notanumber: numeric argument required
+---
+> shell: exit: Requires numerical arguments
+
+
+[33menv -i ./minishell: cd(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd: HOME not set
+---
+> shell: cd :: No such file or directory
+
+
+[33menv -i ./minishell: pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell/test
+
+
+[33menv -i ./minishell: echo $PWD(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< /home/mkling/Documents/minishell/test
+---
+> 
+
+
+[33menv -i ./minishell: cd .. ; echo $OLDPWD(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell/test
+
+
+[33mcd dir ; ../lscp(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< encoreuneautredir
+
+
+[33m/(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: /: Is a directory
+---
+> shell: /: Is a directory
+
+
+[33m../(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ../: Is a directory
+---
+> shell: ../: Is a directory
+
+
+[33m/..(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: /..: Is a directory
+
+
+[33m..(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: ..: command not found
+
+
+[33mls imnotaflag meneither(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m
+
+[33midontexist(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: idontexist: command not found
+---
+> shell: idontexist: Command not found
+
+
+[33m./meneither(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./meneither: No such file or directory
+---
+> shell: ./meneither: Command not found
+
+
+[33m./dir(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: ./dir: Is a directory
+
+
+[33mtouch ucantexecme.e ; chmod 000 ucantexecme.e ; ./ucantexecme.e(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: ./ucantexecme.e: Permission denied
+
+
+[33m;(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `;'
+< minishell: -c: line 1: `;'
+---
+> shell: ;: Permission denied
+
+
+[33m|(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `|'
+< minishell: -c: line 1: `|'
+---
+> shell: syntax error near unexpected token '|'
+
+
+[33m|b(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `|'
+< minishell: -c: line 1: `|b'
+---
+> shell: syntax error near unexpected token '|'
+
+
+[33ma|||b(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1,3
+< minishell: -c: line 1: syntax error near unexpected token `|'
+< minishell: -c: line 1: `a|||b'
+---
+> shell: a: Command not found
+> shell: Command not found
+> shell: b: Command not found
+
+
+[33m> > a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `>'
+< minishell: -c: line 1: `> > a'
+---
+> shell: a: No file
+
+
+[33m< < a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `<'
+< minishell: -c: line 1: `< < a'
+---
+> shell: a: No file
+
+
+[33m< >> a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1,2
+< minishell: -c: line 1: syntax error near unexpected token `>>'
+< minishell: -c: line 1: `< >> a'
+---
+> shell: No outfile
+> shell: a: Command not found
+
+
+[33m>>> a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `>'
+< minishell: -c: line 1: `>>> a'
+---
+> shell: a: No file
+
+
+[33m<<<< a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1,2
+< minishell: -c: line 1: syntax error near unexpected token `<'
+< minishell: -c: line 1: `<<<< a'
+---
+> shell: No delimiter
+> shell: a: Command not found
+
+
+[33ma<<<<(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `<'
+< minishell: -c: line 1: `a<<<<'
+---
+> shell: syntax error near unexpected token 'newline'
+
+
+[33mpwd >;(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `;'
+< minishell: -c: line 1: `pwd >;'
+---
+> shell: No outfile
+
+
+[33m;pwd(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `;'
+< minishell: -c: line 1: `;pwd'
+---
+> shell: ;pwd: Command not found
+
+
+[33mpwd ;;(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+0a1
+> /home/mkling/Documents/minishell/test
+[94m----- STDERR -----(B[m
+1,2d0
+< minishell: -c: line 1: syntax error near unexpected token `;;'
+< minishell: -c: line 1: `pwd ;;'
+
+
+[33mecho "'$HOME'"(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< '/home/mkling'
+---
+> '$HOME'
+
+
+[33mecho " '$PWD' \"$PWD\" '$PWD' "(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+<  '/home/mkling/Documents/minishell/test' "/home/mkling/Documents/minishell/test" '/home/mkling/Documents/minishell/test' 
+---
+>  '$PWD' \
+
+
+[33mecho "\$HOME"(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< $HOME
+---
+> \/home/mkling
+
+
+[33mecho \\\n(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< \n
+---
+> \\\n
+
+
+[33mecho "< no pipe | or semicolon will ; stop me >"(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< < no pipe | or semicolon will ; stop me >
+[94m----- STDERR -----(B[m
+0a1
+> shell: syntax error near unexpected token 'newline'
+
+
+[33mbash -c "I am not a command" "Im the program name"(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 0)
+(B[m
+
+[33mpwd" should not work"(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+0a1
+> /home/mkling/Documents/minishell/test
+[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: pwd should not work: command not found
+
+
+[33mecho\" should not work neiter\"(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: echo": command not found
+---
+> shell: echo\: Command not found
+
+
+[33m> a ; ls(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,19d0
+< ;
+< 000
+< a
+< allowed
+< allowed.c
+< chmod
+< diff.txt
+< dir
+< dirwithoutpermissions
+< err1
+< err2
+< lscp
+< minishell
+< out1
+< out2
+< ucantexecme.e
+< unit_test.sh
+< utest
+< utest.c
+[94m----- STDERR -----(B[m
+0a1,2
+> shell: No outfile
+> shell: a: Command not found
+
+
+[33mpwd > a ; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell/test
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mls > a -f ; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,17d0
+< .
+< ..
+< allowed
+< allowed.c
+< unit_test.sh
+< utest.c
+< utest
+< minishell
+< dir
+< dirwithoutpermissions
+< lscp
+< out1
+< err1
+< out2
+< err2
+< diff.txt
+< ucantexecme.e
+19,21d1
+< chmod
+< 000
+< a
+[94m----- STDERR -----(B[m
+0a1,4
+> shell: No outfile
+> ls: cannot access 'a': No such file or directory
+> ls: cannot access 'cat': No such file or directory
+> ls: cannot access 'a': No such file or directory
+
+
+[33mecho entre el clavel y la rosa > a su majestad es coja; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< entre el clavel y la rosa su majestad es coja
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33m> a echo cucu cantaba la rana; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< cucu cantaba la rana
+[94m----- STDERR -----(B[m
+0a1,2
+> shell: No outfile
+> shell: a: Command not found
+
+
+[33mecho "redirection party trick" > a > b > c > d ; ls ; cat d(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,23d0
+< ;
+< 000
+< a
+< allowed
+< allowed.c
+< b
+< c
+< chmod
+< d
+< diff.txt
+< dir
+< dirwithoutpermissions
+< err1
+< err2
+< lscp
+< minishell
+< out1
+< out2
+< ucantexecme.e
+< unit_test.sh
+< utest
+< utest.c
+< redirection party trick
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mnotacommand > a(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: notacommand: command not found
+---
+> shell: No outfile
+> shell: notacommand: Command not found
+
+
+[33mpwd > dir(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: dir: Is a directory
+---
+> shell: No outfile
+
+
+[33mls > a imnotaflag meneither(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1,2
+> shell: No outfile
+> ls: cannot access 'a': No such file or directory
+
+
+[33m>> a; ls(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,19d0
+< ;
+< 000
+< a
+< allowed
+< allowed.c
+< chmod
+< diff.txt
+< dir
+< dirwithoutpermissions
+< err1
+< err2
+< lscp
+< minishell
+< out1
+< out2
+< ucantexecme.e
+< unit_test.sh
+< utest
+< utest.c
+[94m----- STDERR -----(B[m
+0a1,2
+> shell: No outfile
+> shell: a;: Command not found
+
+
+[33mpwd >> a; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< /home/mkling/Documents/minishell/test
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mecho double the redirection double the fun >> a ; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< double the redirection double the fun
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mpwd >> a ; echo apendicitis >> a ; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,2d0
+< /home/mkling/Documents/minishell/test
+< apendicitis
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mpwd >> a ; ls >> a -f ; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,22d0
+< /home/mkling/Documents/minishell/test
+< .
+< ..
+< allowed
+< allowed.c
+< unit_test.sh
+< utest.c
+< utest
+< minishell
+< dir
+< dirwithoutpermissions
+< lscp
+< out1
+< err1
+< out2
+< err2
+< diff.txt
+< ucantexecme.e
+< ;
+< chmod
+< 000
+< a
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mecho entre el clavel y la rosa >> a su majestad es coja ; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< entre el clavel y la rosa su majestad es coja
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33m>> a echo cucu cantaba la rana; cat a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< cucu cantaba la rana
+[94m----- STDERR -----(B[m
+0a1,2
+> shell: No outfile
+> shell: a: Command not found
+
+
+[33mecho "party trick x2" >> a >> b >> c >> d ; ls ; cat d(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1,23d0
+< ;
+< 000
+< a
+< allowed
+< allowed.c
+< b
+< c
+< chmod
+< d
+< diff.txt
+< dir
+< dirwithoutpermissions
+< err1
+< err2
+< lscp
+< minishell
+< out1
+< out2
+< ucantexecme.e
+< unit_test.sh
+< utest
+< utest.c
+< party trick x2
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mnotacommand >> a(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: notacommand: command not found
+---
+> shell: No outfile
+> shell: notacommand: Command not found
+
+
+[33mpwd >> dir(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: dir: Is a directory
+---
+> shell: No outfile
+
+
+[33mls >> a imnotaflag meneither(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1,2
+> shell: No outfile
+> ls: cannot access 'a': No such file or directory
+
+
+[33mtouch a ; < a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> shell: touch: No file
+
+
+[33mecho pim pam > pum ; cat < pum(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< pim pam
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mecho ayayay > a; echo im a butterfly > b ; cat < a < b(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< im a butterfly
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mtouch a b c; echo sorry > d; cat < a < b < c < d(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< sorry
+[94m----- STDERR -----(B[m
+0a1
+> shell: No outfile
+
+
+[33mecho ayayay > a ; cat < doesnotexist < a(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: doesnotexist: No such file or directory
+---
+> shell: No outfile
+
+
+[33m< doesnotexist(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: doesnotexist: No such file or directory
+---
+> shell: doesnotexist: No file
+
+
+[33mcat < doesnotexist(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: doesnotexist: No such file or directory
+---
+> shell: cat: No file
+
+
+[33mcat < dir(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< cat: -: Is a directory
+---
+> shell: cat: No file
+
+
