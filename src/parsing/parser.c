@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2024/12/28 19:21:09 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 00:51:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current)
 		*current = (*current)->next;
 		((t_token *)(*current)->content)->lexem = HEREDOC;
 	}
-	else if (token_is(OUTFILE, (*current)))
+	else if (token_is(INFILE, (*current)))
 	{
 		if (!token_is(WORD, (*current)->next))
 			return (set_error(SYNTAX_ERROR, shell, "No infile"));
