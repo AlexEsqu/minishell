@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:19:57 by skassimi          #+#    #+#             */
-/*   Updated: 2024/12/29 01:26:54 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 00:55:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ t_list	*find_env(t_list *env_list, char *env_name)
 		return (NULL);
 	while (env_list)
 	{
-		if (ft_strncmp(env_name, (char *)env_list->content, ft_strlen(env_name)) == 0)
+		if (ft_strncmp(env_name, (char *)env_list->content,
+				ft_strlen(env_name)) == 0)
 			return (env_list);
 		env_list = env_list->next;
 	}

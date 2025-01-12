@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/09 14:26:01 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 01:01:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,26 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	*ptr_to_variable = expanded_var;
 }
 
+/* For use on char, not on tokens */
+void	remove_delimiter(t_shell *shell, void **ptr_to_string)
+{
+	char	*original_string;
+	char	*quotefree_string;
+	size_t	len;
+
+	if (shell->critical_er || !ptr_to_string || !*ptr_to_string)
+		return ;
+	original_string = *ptr_to_string;
+	len = ft_strlen(original_string);
+	if (ft_strchr(DELIMITERS, original_string[0]) == NULL
+		|| ft_strchr(DELIMITERS, original_string[len]) == NULL)
+		return ;
+	quotefree_string = ft_calloc(sizeof(char), len - 1);
+	ft_strlcat(quotefree_string, &original_string[1], len - 1);
+	free(original_string);
+	*ptr_to_string = quotefree_string;
+}
+
 char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
 {
 	int		len;
@@ -41,7 +61,7 @@ char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
 	char	*result;
 
 	if (shell->critical_er)
-		return NULL;
+		return (NULL);
 	current = head;
 	len = 0;
 	while (current->next)

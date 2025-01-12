@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:37:37 by mkling            #+#    #+#             */
-/*   Updated: 2024/12/28 22:15:35 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 01:00:28 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	reset_std(t_shell *shell, bool piped)
 int	get_exit_code(int status)
 {
 	if (WIFSIGNALED(status))
-		return(128 + WTERMSIG(status));
+		return (128 + WTERMSIG(status));
 	return (WEXITSTATUS(status));
 }
-

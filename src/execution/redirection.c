@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 00:52:43 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 00:59:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	set_outfile_fd(t_cmd *cmd)
 	cmd->fd_out = file->fd;
 }
 
-int	connect_pipes_and_exec(t_shell *shell, t_tree *tree, int pipe_fd[2], int mode)
+int	connect_pipes_and_exec(t_shell *shell, t_tree *tree, int pipe_fd[2],
+	int mode)
 {
 	int	exit_code;
 

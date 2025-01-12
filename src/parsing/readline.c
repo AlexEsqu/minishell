@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2024/12/30 13:26:06 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 00:57:57 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	init_readline(t_shell *shell)
 			add_history(input);
 			free(input);
 		}
-		// fprintf(stderr, "exit code is %d\n", shell->last_exit_code);
 	}
 	rl_clear_history();
 }

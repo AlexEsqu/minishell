@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2024/12/29 01:26:49 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 00:59:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	**extract_list_as_array(t_shell *shell, t_list *head)
 	int		index;
 	char	**result;
 	t_list	*current;
-
 
 	len = ft_lstsize(head);
 	result = ft_calloc(sizeof(char *), len + 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 09:47:59 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/11 17:12:18 by mkling           ###   ########.fr       */
+/*   Updated: 2025/01/12 00:58:52 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,3 @@ void	signals(void)
 	signal(SIGQUIT, &handle_siquit);
 	signal(SIGTSTP, SIG_IGN);
 }
-
-/*int main(void)
-{
-	char *infile;
-	signals();
-	while(1)
-	{
-		infile = readline("shell>");
-		if(!infile)
-		{
-			write(1, "exit\n", 5);
-			break;
-		}
-		if(*infile)
-			add_history(infile);
-		free(infile);
-	}
-	return(0);
-}*/

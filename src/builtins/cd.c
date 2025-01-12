@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:19:30 by skassimi          #+#    #+#             */
-/*   Updated: 2024/12/23 10:24:34 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 00:56:58 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	*extract_home(t_shell *shell)
 	return (NULL);
 }
 
-
 int	cd(t_shell *shell, char *path)
 {
 	int	exit_code;
@@ -43,6 +42,4 @@ int	cd(t_shell *shell, char *path)
 	}
 	return (exit_code);
 }
-
-
 // cd sans argument renvoie vers le home
