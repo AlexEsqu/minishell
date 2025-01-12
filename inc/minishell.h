@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 12:02:49 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/09 12:04:43 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 01:18:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void		init_readline(t_shell *shell);
 /* TOKENIZER */
 
 void		scan(t_shell *shell, t_list **token_list, char *input);
-t_token		*create_token(t_shell *shell, int lexem, char letter, char *content);
+t_token		*create_token(t_shell *s, int lexem, char letter, char *content);
 void		add_token(t_shell *shell, t_list **dest, char let, char *content);
 void		merge_token(t_shell *shell, t_list *start);
 void		lexer(t_shell *shell, t_list **token_list);

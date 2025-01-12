@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/09 15:50:07 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/12 01:12:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -715,7 +715,7 @@ Test(Redirection, set_outfile_forbidden, .init=redirect_all_std)
 	unlink("test/forbidden.txt");
 }
 
-Test(Redirection, no_path_relative)
+Test(Redirection, no_path_relative, .init=redirect_all_std)
 {
 	t_shell	*shell;
 	t_cmd	*cmd;
@@ -730,6 +730,16 @@ Test(Redirection, no_path_relative)
 	get_cmd_path(shell, cmd);
 	cr_assert(cmd->exit_code = 127);
 	cr_assert_stderr_eq_str("shell: ls: No PATH variable found\n");
+	free_minishell(shell);
+}
+
+Test(Redirection, valid_redirection_in_pipe, .init=redirect_all_std)
+{
+	t_shell *shell;
+
+	shell = create_minishell(environ);
+	parse_and_exec_cmd(shell, "< Makefile grep c | head -n 1 | cat -e");
+	cr_assert_stdout_eq_str("DIR_SRC         = src$\n");
 	free_minishell(shell);
 }
 
