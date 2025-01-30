@@ -3,32 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: vgodoy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 09:47:59 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/12 00:58:52 by alex             ###   ########.fr       */
+/*   Created: 2025/01/30 10:36:09 by vgodoy            #+#    #+#             */
+/*   Updated: 2025/01/30 10:36:35 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int sig)
+void    handle_sigint(int sig)
 {
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	(void) sig;
+        (void)sig;
+
+        write(1, "\n", 1);
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
 }
 
-void	handle_siquit(int sig)
+void    signals(void)
 {
-	(void)sig;
-}
-
-void	signals(void)
-{
-	signal(SIGINT, &handle_sigint);
-	signal(SIGQUIT, &handle_siquit);
-	signal(SIGTSTP, SIG_IGN);
+        signal(SIGINT, &handle_sigint);
+        signal(SIGQUIT, SIG_IGN);
 }
