@@ -3,60 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/01/12 00:51:56 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 17:33:30 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	token_is_redirection(t_list *token_node)
+{
+	return (token_is(OUTFILE, token_node) || token_is(APPEND, token_node)
+		|| token_is(INFILE, token_node) || token_is(HEREDOC, token_node));
+}
+
+int	token_is_operator(t_list *token_node)
+{
+	return (token_is(PIPE, token_node) || token_is(END, token_node)
+		|| token_is(OR, token_node) || token_is(AND, token_node));
+}
+
 void	parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current)
 {
-	if (shell->critical_er)
+	if (shell->critical_er || cmd->exit_code)
 		return ;
-	if (token_is(APPEND, (*current)) || token_is(OUTFILE, (*current)))
-	{
-		if (token_is(WORD, (*current)->next))
-			return (set_error(SYNTAX_ERROR, shell, "No outfile"));
-		*current = (*current)->next;
-		((t_token *)(*current)->content)->lexem = APPEND;
-	}
-	else if (token_is(HEREDOC, (*current)))
-	{
-		if (!token_is(WORD, (*current)->next))
-			return (set_error(SYNTAX_ERROR, shell, "No delimiter"));
-		*current = (*current)->next;
-		((t_token *)(*current)->content)->lexem = HEREDOC;
-	}
-	else if (token_is(INFILE, (*current)))
-	{
-		if (!token_is(WORD, (*current)->next))
-			return (set_error(SYNTAX_ERROR, shell, "No infile"));
-		*current = (*current)->next;
-		((t_token *)(*current)->content)->lexem = INFILE;
-	}
-	create_file(shell, cmd, ((t_token *)(*current)->content));
+	if (!token_is(WORD, (*current)->next))
+		return (set_error(SYNTAX_ERROR, shell, "Missing redirection"));
+	*current = (*current)->next;
+	((t_token *)(*current)->content)->lexem
+		= ((t_token *)(*current)->prev->content)->lexem;
+	open_file_and_store_fd_in_cmd(shell, cmd, *current);
 }
 
 t_tree	*parse_command(t_shell *shell, t_list **node)
 {
 	t_cmd	*cmd;
+	char	*word;
 
 	if (!(*node))
 		return (set_error(CANT_FIND_CMD, shell, "Missing command"), NULL);
 	cmd = create_cmd();
-	while ((*node)->next && !token_is(PIPE, (*node)) && !token_is(END, (*node))
-		&& !token_is(OR, (*node)) && !token_is(AND, (*node)))
+	while ((*node)->next && !token_is_operator(*node))
 	{
-		if (token_is(OUTFILE, (*node)) || token_is(APPEND, (*node))
-			|| token_is(INFILE, (*node)) || token_is(HEREDOC, (*node)))
+		if (token_is_redirection((*node)))
+		{
 			parse_in_out_files(shell, cmd, node);
+			if (cmd->exit_code)
+				return (NULL);
+		}
 		else if (token_is(WORD, (*node)) || token_is(STRING, (*node))
 			|| token_is(VARIABLE, (*node)))
-			ft_lstadd_back(&cmd->arg_list,
-				ft_lstnew(ft_strdup(((t_token *)(*node)->content)->content)));
+		{
+			word = ft_strdup(((t_token *)(*node)->content)->content);
+			if (!word)
+				return (set_error(MALLOC_FAIL, shell, "Malloc\n"), NULL);
+			ft_lstadd_back(&cmd->arg_list, ft_lstnew(word));
+		}
 		*node = (*node)->next;
 	}
 	return (create_branch(shell, AST_CMD, cmd));

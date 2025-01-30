@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 10:22:40 by alex              #+#    #+#             */
-/*   Updated: 2024/12/26 14:43:56 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 16:28:06 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ int	exec_builtin(t_shell *shell, t_cmd *cmd)
 	if (ft_strcmp(cmd->argv[0], "cd") == 0)
 		return (cd(shell, cmd->argv[1]));
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
-		return (echo(cmd->argv, cmd->fd_out));
+		return (echo(cmd->argv));
 	if (ft_strcmp(cmd->argv[0], "env") == 0)
-		return (env(shell, cmd->fd_out));
+		return (env(shell));
 	if (ft_strcmp(cmd->argv[0], "export") == 0)
-		return (export(shell, cmd->argv, cmd->fd_out));
+		return (export(shell, cmd->argv));
 	if (ft_strcmp(cmd->argv[0], "unset") == 0)
 		return (unset(shell, cmd->argv));
 	if (ft_strcmp(cmd->argv[0], "pwd") == 0)
-		return (pwd(cmd->fd_out));
+		return (pwd());
 	else
 		exit_shell(shell, cmd->argv);
 	return (1);

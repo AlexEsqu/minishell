@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 00:59:03 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 12:06:15 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,25 @@ void	put_arg_in_array(t_cmd *cmd)
 		cmd->arg_list = cmd->arg_list->next;
 		index++;
 	}
+}
+
+int	connect_pipes_and_exec(t_shell *shell, t_tree *tree, int pipe_fd[2],
+	int mode)
+{
+	int	exit_code;
+
+	if (mode == WRITE)
+	{
+		close(pipe_fd[READ]);
+		dup2(pipe_fd[WRITE], STDOUT_FILENO);
+		close(pipe_fd[WRITE]);
+	}
+	if (mode == READ)
+	{
+		close(pipe_fd[WRITE]);
+		dup2(pipe_fd[READ], STDIN_FILENO);
+		close(pipe_fd[READ]);
+	}
+	exit_code = exec_tree(shell, tree, true);
+	exit (exit_code);
 }

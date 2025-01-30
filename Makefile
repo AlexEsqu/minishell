@@ -6,7 +6,7 @@
 #    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/01/30 11:31:38 by mkling           ###   ########.fr        #
+#    Updated: 2025/01/30 12:05:37 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,11 @@ DIR_SRC		= src
 DIR_EXEC	= execution
 DIR_PARS	= parsing
 DIR_BUTI	= builtins
+DIR_REDI	= redirection
 
 DIR_OBJ		= obj
-DIR_OBJS	= $(DIR_OBJ) $(DIR_OBJ)/$(DIR_EXEC) $(DIR_OBJ)/$(DIR_PARS) $(DIR_OBJ)/$(DIR_BUTI)
+DIR_OBJS	= $(DIR_OBJ) $(DIR_OBJ)/$(DIR_EXEC) $(DIR_OBJ)/$(DIR_PARS) \
+				$(DIR_OBJ)/$(DIR_BUTI) $(DIR_OBJ)/$(DIR_REDI)
 
 DIR_INC		= inc
 
@@ -32,10 +34,8 @@ HEADER		= $(DIR_INC)/minishell.h
 
 FUNC_EXEC	= 	execution.c \
 				readability.c \
-				redirection.c \
 				path.c \
 				setup.c \
-				heredoc.c \
 				errors.c \
 				ast.c
 
@@ -59,9 +59,13 @@ FUNC_BUTI	=	cd.c \
 				unset.c \
 				builtins.c
 
+FUNC_REDI	=	heredoc.c \
+				redirection.c
+
 FUNC		= 	$(addprefix $(DIR_EXEC)/, $(FUNC_EXEC)) \
 				$(addprefix $(DIR_PARS)/, $(FUNC_PARS)) \
 				$(addprefix $(DIR_BUTI)/, $(FUNC_BUTI)) \
+				$(addprefix $(DIR_REDI)/, $(FUNC_REDI)) \
 
 MAIN		= main.c
 

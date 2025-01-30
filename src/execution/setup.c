@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/01/30 09:40:25 by mkling           ###   ########.fr       */
+/*   Updated: 2025/01/30 18:31:15 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,33 @@ t_cmd	*create_cmd(void)
 	if (!cmd)
 		return (NULL);
 	cmd->fork_pid = -1;
-	cmd->fd_in = -1;
-	cmd->fd_out = -1;
+	cmd->fd_in = -2;
+	cmd->fd_out = -2;
 	return (cmd);
 }
 
-void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
-{
-	t_file	*file;
-	t_list	*node;
+// void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
+// {
+// 	t_file	*file;
+// 	t_list	*node;
 
-	file = (t_file *)ft_calloc(sizeof(t_file), 1);
-	if (!file)
-		return (set_error(MALLOC_FAIL, shell, "Failed to allocate filename"));
-	file->mode = token->lexem;
-	file->path = ft_strdup(token->content);
-	if (!file->path)
-		return (set_error(MALLOC_FAIL, shell, "Failed to allocate filename"));
-	node = ft_lstnew(file);
-	if (!node)
-		return (set_error(MALLOC_FAIL, shell, "Failed to alloc file node"));
-	if (file->mode == HEREDOC)
-		file->delim = file->path;
-	if (file->mode == INFILE || file->mode == HEREDOC)
-		ft_lstadd_back(&cmd->infiles, node);
-	if (file->mode == OUTFILE || file->mode == APPEND)
-		ft_lstadd_back(&cmd->outfiles, node);
-}
+// 	file = (t_file *)ft_calloc(sizeof(t_file), 1);
+// 	if (!file)
+// 		return (set_error(MALLOC_FAIL, shell, "Failed to allocate filename"));
+// 	file->mode = token->lexem;
+// 	file->path = ft_strdup(token->content);
+// 	if (!file->path)
+// 		return (set_error(MALLOC_FAIL, shell, "Failed to allocate filename"));
+// 	node = ft_lstnew(file);
+// 	if (!node)
+// 		return (set_error(MALLOC_FAIL, shell, "Failed to alloc file node"));
+// 	if (file->mode == HEREDOC)
+// 		file->delim = file->path;
+// 	if (file->mode == INFILE || file->mode == HEREDOC)
+// 		ft_lstadd_back(&cmd->infiles, node);
+// 	if (file->mode == OUTFILE || file->mode == APPEND)
+// 		ft_lstadd_back(&cmd->outfiles, node);
+// }
 
 t_shell	*create_minishell(char **env)
 {

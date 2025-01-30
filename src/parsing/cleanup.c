@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2024/12/24 11:49:10 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 18:31:52 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,27 @@ void	free_token(void *to_be_del)
 	if (token == NULL)
 		return ;
 	if (token != NULL)
-		free(((t_token *)token)->content);
-	free(token);
+	{
+		if (token->content != NULL)
+			free(((t_token *)token)->content);
+		free(token);
+	}
+	to_be_del = NULL;
 }
 
-void	free_file(void *to_be_del)
-{
-	t_file	*file;
+// void	free_file(void *to_be_del)
+// {
+// 	t_file	*file;
 
-	file = (t_file *)to_be_del;
-	if (file == NULL)
-		return ;
-	if (file->path != NULL)
-		free(file->path);
-	if (file->delim != NULL)
-		free(file->delim);
-	free(file);
-}
+// 	file = (t_file *)to_be_del;
+// 	if (file == NULL)
+// 		return ;
+// 	if (file->path != NULL)
+// 		free(file->path);
+// 	if (file->delim != NULL)
+// 		free(file->delim);
+// 	free(file);
+// }
 
 void	free_cmd(void *to_be_del)
 {
@@ -47,8 +51,6 @@ void	free_cmd(void *to_be_del)
 		ft_free_tab(cmd->argv);
 	if (cmd->cmd_path != NULL)
 		free(cmd->cmd_path);
-	ft_lstclear(&cmd->outfiles, free_file);
-	ft_lstclear(&cmd->infiles, free_file);
 	ft_lstclear(&cmd->arg_list, free);
 	free(cmd);
 }

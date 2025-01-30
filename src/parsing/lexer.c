@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:34:47 by alex              #+#    #+#             */
-/*   Updated: 2025/01/12 01:00:52 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 18:48:19 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ void	group_strings(t_shell *shell, t_list *node)
 		merge_token(shell, node);
 	}
 	first_delim->lexem = STRING;
-}
-
-void	id_variables(t_shell *shell, t_list *current)
-{
-	t_token	*token;
-
-	token = (t_token *)current->content;
-	if (shell->critical_er || token->letter != '$')
-		return ;
-	if (current->next->next)
-		merge_token(shell, current);
-	if (is_valid_variable((char *)((t_token *)current->content)->content))
-		token->lexem = VARIABLE;
-	else
-		token->lexem = WORD;
 }
 
 void	id_operators(t_shell *shell, t_list *current)

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:52:49 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/30 09:53:09 by mkling           ###   ########.fr       */
+/*   Updated: 2025/01/30 16:31:42 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ void	extract_env_as_linked_list(t_shell *shell)
 	}
 }
 
-int	env(t_shell *shell, int fdout)
+int	env(t_shell *shell)
 {
 	t_list	*current;
 
 	current = shell->env_list;
 	while (current != NULL)
 	{
-		ft_putstr_fd((char *)current->content, fdout);
-		write(fdout, "\n", 1);
+		ft_putstr_fd((char *)current->content, 1);
+		write(1, "\n", 1);
 		current = current->next;
 	}
 	return (0);

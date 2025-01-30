@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utest.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/09 15:50:07 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 18:41:57 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -636,18 +636,77 @@ Test(Expand, string_with_invalid_variable)
 	cr_assert_str_eq(arg_node.content, "hello and $ goodbye");
 }
 
+/* ************************************************************************** */
+/*	Redirection																	  */
+/* ************************************************************************** */
 
+Test(Redirection, forbidden_infile)
+{
+	t_token token = {
+		.content = "test/forbidden",
+		.lexem = INFILE,
+	};
+	t_list token_node = {
+		.next = NULL,
+		.prev = NULL,
+		.content = &token,
+	};
+	t_shell	shell = {
+		.last_exit_code = -1,
+	};
+	t_cmd	cmd = {
+		.fd_in = -2,
+	};
+	char	*filepath = "test/forbidden";
+
+	// Create a forbidden file
+	int fd = open(filepath, O_CREAT);
+	close(fd);
+	chmod(filepath, 0000);
+
+	// Test
+	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
+	cr_assert(eq(int, cmd.fd_out, -1));
+	cr_assert_stderr_eq_str("shell: echo: Forbidden file\n");
+
+	// Cleanup
+	chmod(filepath, 0777);
+	unlink(filepath);
+}
+
+// Test(Redirection, no_path_relative)
+// {
+// 	t_shell *shell;
+// 	t_cmd *cmd;
+// 	t_list *path_env;
+
+// 	shell = create_minishell(environ);
+// 	cmd = create_cmd();
+// 	ft_lstadd_back(&cmd->arg_list, ft_lstnew("ls"));
+// 	path_env = find_env(shell->env_list, "PATH");
+
+// 	// Test
+// 	open_file_and_store_fd_in_cmd(shell, cmd, "nonexistentfile");
+// 	cr_assert(eq(int, cmd->fd_out, -1));
+// 	cr_assert_stderr_eq_str("shell: ls: No such file or directory\n");
+
+// 	// Cleanup
+// 	free_minishell(shell);
+// 	free_cmd(cmd);
+// }
 
 /* ************************************************************************** */
 /*																			  */
 /*	EXECUTION																  */
 /*																			  */
 /* ************************************************************************** */
+
+
 /* ************************************************************************** */
-/*	Redirection																	  */
+/*	Path																	  */
 /* ************************************************************************** */
 
-Test(Redirection, get_valid_cmd_path)
+Test(Path, get_valid_cmd_path)
 {
 	t_shell	*shell;
 	t_cmd	*cmd;
@@ -660,82 +719,6 @@ Test(Redirection, get_valid_cmd_path)
 	cr_assert(cmd->cmd_path != NULL);
 	cr_assert(eq(str, cmd->cmd_path, "/usr/bin/ls"));
 }
-
-Test(Redirection, set_infile_forbidden, .init=redirect_all_std)
-{
-	t_shell	shell;
-	t_cmd	cmd;
-	t_file	file;
-	t_list	node;
-	int		fd;
-
-	shell.critical_er = 0;
-	fd = open("test/forbidden1.txt", O_CREAT);
-	close(fd);
-	chmod("test/forbidden1.txt", 0002);
-	file.path = "test/forbidden1.txt";
-	file.mode = INFILE;
-	node.content = &file;
-	node.next = NULL;
-	node.prev = NULL;
-	cmd.infiles = &node;
-	cmd.arg_list = ft_lstnew("echo");
-	cmd.fd_in = -1;
-
-	set_infile_fd(&shell, &cmd);
-	cr_assert(eq(int, cmd.fd_in, -1));
-	cr_assert_stderr_eq_str("shell: echo: Forbidden file\n");
-	chmod("test/forbidden1.txt", 0777);
-	unlink("test/forbidden1.txt");
-}
-
-Test(Redirection, set_outfile_forbidden, .init=redirect_all_std)
-{
-	t_cmd	cmd;
-	t_file	file;
-	t_list	node;
-	int		fd;
-
-	fd = open("test/forbidden.txt", O_CREAT);
-	close(fd);
-	chmod("test/forbidden.txt", 0004);
-	file.path = "test/forbidden.txt";
-	file.mode = OUTFILE;
-	node.content = &file;
-	node.next = NULL;
-	node.prev = NULL;
-	cmd.outfiles = &node;
-	cmd.arg_list = ft_lstnew("echo");
-	cmd.fd_out = -1;
-
-	set_outfile_fd(&cmd);
-	cr_assert(eq(int, cmd.fd_out, -1));
-	cr_assert_stderr_eq_str("shell: echo: Forbidden file\n");
-	chmod("test/forbidden.txt", 0777);
-	unlink("test/forbidden.txt");
-}
-
-Test(Redirection, no_path_relative)
-{
-	t_shell	*shell;
-	t_cmd	*cmd;
-	t_list	*path_env;
-
-	shell = create_minishell(environ);
-	extract_env_as_linked_list(shell);
-	cmd = create_cmd();
-	ft_lstadd_back(&cmd->arg_list, ft_lstnew("ls"));
-	path_env = find_env(shell->env_list, "PATH");
-	ft_lstpop(&shell->env_list, path_env, free);
-	get_cmd_path(shell, cmd);
-	cr_assert(cmd->exit_code = 127);
-	cr_assert_stderr_eq_str("shell: ls: No PATH variable found\n");
-	free_minishell(shell);
-}
-
-/* ************************************************************************** */
-/*	Path																	  */
-/* ************************************************************************** */
 
 Test(Path, get_path_relative_command_with_dot)
 {
@@ -895,7 +878,7 @@ Test(Builtin, echo_single, .init=redirect_all_std)
 	char	*argv[] = {"echo", "hello", NULL};
 	int		exit_code;
 
-	exit_code = echo(argv, STDOUT_FILENO);
+	exit_code = echo(argv);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello\n");
 }
@@ -905,7 +888,7 @@ Test(Builtin, echo_string, .init=redirect_all_std)
 	char	*argv[] = {"echo", "hello and goodbye", NULL};
 	int		exit_code;
 
-	exit_code = echo(argv, STDOUT_FILENO);
+	exit_code = echo(argv);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello and goodbye\n");
 }
@@ -915,7 +898,7 @@ Test(Builtin, echo_multiple, .init=redirect_all_std)
 	char	*argv[] = {"echo", "hello", "and", "goodbye", NULL};
 	int		exit_code;
 
-	exit_code = echo(argv, STDOUT_FILENO);
+	exit_code = echo(argv);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello and goodbye\n");
 }
@@ -925,7 +908,7 @@ Test(Builtin, echo_option_single, .init=redirect_all_std)
 	char	*argv[] = {"echo", "-n", "hello", NULL};
 	int		exit_code;
 
-	exit_code = echo(argv, STDOUT_FILENO);
+	exit_code = echo(argv);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello");
 }
@@ -935,7 +918,7 @@ Test(Builtin, echo_option_string, .init=redirect_all_std)
 	char	*argv[] = {"echo", "-n", "hello and goodbye", NULL};
 	int		exit_code;
 
-	exit_code = echo(argv, STDOUT_FILENO);
+	exit_code = echo(argv);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello and goodbye");
 }

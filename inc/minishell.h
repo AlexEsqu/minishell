@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 12:02:49 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/30 10:48:23 by mkling           ###   ########.fr       */
+/*   Updated: 2025/01/30 18:19:28 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,6 @@ typedef struct s_token
 	char			letter;		// letter or first letter
 	char			*content;	// malloced words or letter
 }	t_token;
-
-typedef struct s_files
-{
-	int				mode;		// infile, outfile, heredoc or append
-	char			*path;		// pathfile
-	char			*delim;		// delimiter if heredoc, else NULL
-	int				fd;			// resulting fd once opened
-	bool			is_quoted;	// is the delimiter quoted, expanding content
-}	t_file;
 
 typedef struct s_cmd
 {
@@ -119,10 +110,6 @@ t_cmd		*create_cmd(void);
 void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
 void		parser(t_shell *shell);
 
-/* HEREDOC */
-
-int			assemble_heredoc(t_shell *shell, t_cmd *cmd, t_list *file_node);
-
 /* EXECUTION */
 
 int			exec_tree(t_shell *shell, t_tree *tree, bool piped);
@@ -136,11 +123,11 @@ void		expand(t_shell *shell, t_list *node);
 /* BUILT IN */
 
 int			cd(t_shell *shell, char *path);
-int			echo(char **argv, int fdout);
-int			env(t_shell *shell, int fdout);
+int			echo(char **argv);
+int			env(t_shell *shell);
 int			export(t_shell *shell, char **argv);
 int			unset(t_shell *shell, char **argv);
-int			pwd(int fdout);
+int			pwd(void);
 int			exit_shell(t_shell *shell, char **argv);
 int			exec_builtin(t_shell *shell, t_cmd *cmd);
 int			is_builtin(t_cmd *cmd);
@@ -155,9 +142,9 @@ int			create_pipe(t_shell *shell, int *pipe_fd);
 int			connect_pipes_and_exec(t_shell *shell, t_tree *tree,
 				int pipe_fd[2], int mode);
 void		close_pipe(int *pipe_fd);
-void		set_infile_fd(t_shell *shell, t_cmd *cmd);
-void		set_outfile_fd(t_cmd *cmd);
 void		reset_std(t_shell *shell, bool piped);
+void		open_file_and_store_fd_in_cmd(t_shell *shell, t_cmd *cmd, t_list *node);
+int			assemble_heredoc(t_shell *shell, t_cmd *cmd, char *end_of_file);
 
 /* ERROR HANDLING */
 

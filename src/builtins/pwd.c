@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:19:40 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/12 00:57:08 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 16:32:06 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pwd(int fdout)
+int	pwd(void)
 {
-	if (getenv("PWD") == NULL || fdout < 0)
+	if (getenv("PWD") == NULL)
 		return (-1);
-	ft_putstr_fd(getenv("PWD"), fdout);
-	write(fdout, "\n", 1);
+	ft_putstr_fd(getenv("PWD"), 1);
+	write(1, "\n", 1);
 	return (0);
 }

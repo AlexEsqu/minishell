@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 00:52:35 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 12:07:09 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 	cmd = (t_cmd *)tree->content;
 	if (!cmd->arg_list || cmd->exit_code)
 	{
-		fprintf(stderr, "has commmand");
 		redirect_for_cmd(shell, cmd);
 		reset_std(shell, piped);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 00:58:41 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 17:31:38 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ void	handle_heredoc(int sig)
 	(void) sig;
 }
 
-int	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_list *file_node)
+int	assemble_heredoc(t_shell *shell, t_cmd *cmd, char *end_of_file)
 {
 	int		fd[2];
 	char	*line;
-	t_file	*file;
 
-	file = (t_file *)file_node->content;
 	if (create_pipe(shell, fd) != 0)
 		return (set_cmd_error(PIPE_ERROR, cmd, NULL), PIPE_ERROR);
 	while (true)
@@ -35,10 +33,9 @@ int	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_list *file_node)
 		// signal(SIGINT, heredoc_handler);
 		line = readline("> ");
 		// signal(SIGINT, signal_handler);
-		if (!ft_strcmp(line, (file->delim)) || !line)
+		if (!ft_strcmp(line, end_of_file) || !line)
 		{
 			close(fd[1]);
-			file->fd = fd[0];
 			free(line);
 			return (fd[0]);
 		}

@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 09:19:21 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/12 00:56:37 by alex             ###   ########.fr       */
+/*   Created: 2025/01/30 16:26:26 by mkling            #+#    #+#             */
+/*   Updated: 2025/01/30 16:28:05 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo(char **argv, int fdout)
+int	echo(char **argv)
 {
 	int		i;
 	bool	need_newline;
 
-	if (fdout < 0)
-		return (-1);
 	need_newline = true;
 	i = 1;
 	if (argv[i] && ft_strcmp(argv[i], "-n") == 0)
@@ -29,11 +27,12 @@ int	echo(char **argv, int fdout)
 	while (argv[i] != NULL)
 	{
 		if ((need_newline && i > 1) || (!need_newline && i > 2))
-			ft_putstr_fd(" ", fdout);
-		ft_putstr_fd(argv[i], fdout);
+			ft_putstr_fd(" ", 1);
+		ft_putstr_fd(argv[i], 1);
 		i++;
 	}
 	if (need_newline)
-		write(fdout, "\n", 1);
+		write(1, "\n", 1);
+	ft_free_tab(argv);
 	return (0);
 }
