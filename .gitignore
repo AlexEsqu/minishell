@@ -2,3 +2,8 @@ obj/
 inc/libft/obj/
 inc/libft/libft.a
 minishell
+test/*
+!test/utest.c
+!test/unit_test.sh
+!test/allowed.c
+

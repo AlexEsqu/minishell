@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 09:19:50 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/12 00:56:20 by alex             ###   ########.fr       */
+/*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
+/*   Updated: 2025/01/30 10:32:48 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,27 @@ void	print_env_as_export(t_shell *shell, int fdout)
 		current_env = current_env->next;
 	}
 }
+
+int	replace_env(t_shell *shell, char *env_value)
+{
+	t_list	*to_be_replaced;
+
+	to_be_replaced = find_env(shell->env_list, env_value);
+	if (!to_be_replaced)
+	{
+		to_be_replaced = ft_lstnew(ft_strdup(env_value));
+		if (!to_be_replaced)
+			return (MALLOC_FAIL);
+		ft_lstadd_back(&shell->env_list, to_be_replaced);
+	}
+	else
+	{
+		free(to_be_replaced->content);
+		to_be_replaced->content = env_value;
+	}
+	return (SUCCESS);
+}
+
 
 int	export(t_shell *shell, char **argv, int fdout)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:19:30 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/12 00:56:58 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 10:25:29 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ char	*extract_home(t_shell *shell)
 
 int	cd(t_shell *shell, char *path)
 {
-	int	exit_code;
+	int		exit_code;
+	char	*pwd;
 
 	if (path == NULL)
 		path = extract_home(shell);
@@ -40,6 +41,11 @@ int	cd(t_shell *shell, char *path)
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 	}
+	pwd = ft_strjoin("PWD=", path);
+	printf("%s\n", pwd);
+	if (!pwd)
+		return (MALLOC_FAIL);
+	replace_env(shell, pwd);
 	return (exit_code);
 }
 // cd sans argument renvoie vers le home
