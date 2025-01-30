@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 00:57:57 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 10:47:44 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ void	init_readline(t_shell *shell)
 			free(input);
 		}
 	}
+	ft_putstr_fd("exit\n", 1);
 	rl_clear_history();
 }

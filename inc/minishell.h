@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 12:02:49 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/30 10:22:21 by mkling           ###   ########.fr       */
+/*   Updated: 2025/01/30 10:48:23 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ typedef struct s_shell
 
 /* SIGNAL */
 
-void		handle_siquit(int sig);
 void		signals(void);
 
 /* INPUT */
@@ -139,7 +138,7 @@ void		expand(t_shell *shell, t_list *node);
 int			cd(t_shell *shell, char *path);
 int			echo(char **argv, int fdout);
 int			env(t_shell *shell, int fdout);
-int			export(t_shell *shell, char **argv, int fdout);
+int			export(t_shell *shell, char **argv);
 int			unset(t_shell *shell, char **argv);
 int			pwd(int fdout);
 int			exit_shell(t_shell *shell, char **argv);

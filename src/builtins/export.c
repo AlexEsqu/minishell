@@ -6,22 +6,22 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/30 10:32:48 by mkling           ###   ########.fr       */
+/*   Updated: 2025/01/30 10:36:57 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env_as_export(t_shell *shell, int fdout)
+void	print_env_as_export(t_shell *shell)
 {
 	t_list	*current_env;
 
 	current_env = shell->env_list;
 	while (current_env != NULL)
 	{
-		ft_putstr_fd("export ", fdout);
-		ft_putstr_fd((char *)current_env->content, fdout);
-		write(fdout, "\n", 1);
+		ft_putstr_fd("export ", 1);
+		ft_putstr_fd((char *)current_env->content, 1);
+		write(1, "\n", 1);
 		current_env = current_env->next;
 	}
 }
@@ -46,24 +46,16 @@ int	replace_env(t_shell *shell, char *env_value)
 	return (SUCCESS);
 }
 
-
-int	export(t_shell *shell, char **argv, int fdout)
+int	export(t_shell *shell, char **argv)
 {
 	int		i;
-	t_list	*current_env;
 
 	i = 1;
-	if (fdout < 0)
-		return (-1);
 	if (argv[i] == NULL )
-		return (print_env_as_export(shell, fdout), 0);
+		return (print_env_as_export(shell), 0);
 	while (argv[i])
 	{
-		unset(shell, &argv[i]);
-		current_env = ft_lstnew(ft_strdup(argv[i]));
-		if (!current_env || !current_env->content)
-			return (-1);
-		ft_lstadd_back(&shell->env_list, current_env);
+		replace_env(shell, argv[i]);
 		i++;
 	}
 	return (0);
