@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/01/09 11:44:46 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 09:40:25 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_shell	*create_minishell(char **env)
 	if (!shell)
 		return (NULL);
 	shell->env = env;
-	extract_env_as_linked_list(shell);
+	// extract_env_as_linked_list(shell);
 	dup2(STDOUT_FILENO, shell->std_out);
 	dup2(STDIN_FILENO, shell->std_in);
 	extract_env_as_linked_list(shell);

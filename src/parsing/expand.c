@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 01:01:20 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/13 20:31:22 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	expand_in_string(t_shell *shell, t_list *node)
 	node->content = expanded_string;
 }
 
+/* A peaufiner pour expander plusieurs variables sans  boucle infinie */
 void	expand(t_shell *shell, t_list *node)
 {
 	if (!node || !node->content)

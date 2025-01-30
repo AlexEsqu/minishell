@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:20:08 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/12 00:56:47 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/30 09:43:13 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ void	extract_env_as_linked_list(t_shell *shell)
 
 int	env(t_shell *shell, int fdout)
 {
-	while (shell->env_list != NULL)
+	t_list	*current;
+
+	current = shell->env_list;
+	while (current != NULL)
 	{
-		ft_putstr_fd((char *)shell->env_list->content, fdout);
+		ft_putstr_fd((char *)current->content, fdout);
 		write(fdout, "\n", 1);
-		shell->env_list = shell->env_list->next;
+		current = current->next;
 	}
 	return (0);
 }
