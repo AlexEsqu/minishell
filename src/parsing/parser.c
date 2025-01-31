@@ -29,7 +29,7 @@ void	parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current)
 	if (shell->critical_er || cmd->exit_code)
 		return ;
 	if (!token_is(WORD, (*current)->next))
-		return (set_error(SYNTAX_ERROR, shell, "Missing redirection"));
+		return (set_error(SYNTAX_ERROR, shell));
 	*current = (*current)->next;
 	((t_token *)(*current)->content)->lexem
 		= ((t_token *)(*current)->prev->content)->lexem;
@@ -42,7 +42,7 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 	char	*word;
 
 	if (!(*node))
-		return (set_error(CANT_FIND_CMD, shell, "Missing command"), NULL);
+		return (set_error(CANT_FIND_CMD, shell), NULL);
 	cmd = create_cmd();
 	while ((*node)->next && !token_is_operator(*node))
 	{
@@ -57,7 +57,7 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 		{
 			word = ft_strdup(((t_token *)(*node)->content)->content);
 			if (!word)
-				return (set_error(MALLOC_FAIL, shell, "Malloc\n"), NULL);
+				return (set_error(MALLOC_FAIL, shell), NULL);
 			ft_lstadd_back(&cmd->arg_list, ft_lstnew(word));
 		}
 		*node = (*node)->next;

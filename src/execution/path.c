@@ -18,9 +18,14 @@ void	check_if_directory(t_cmd *cmd, char *path)
 
 	fd = open(path, __O_DIRECTORY | O_RDONLY);
 	if (fd < 0)
-		return (set_cmd_error(CANT_EXECUTE_CMD, cmd, "Is not a directory"));
+	{
+		if (cmd->cmd_path[ft_strlen(cmd->cmd_path) - 1] == '/')
+			return (set_cmd_error(IS_NOT_DIR, cmd, cmd->cmd_path));
+		else
+			return ;
+	}
 	close(fd);
-	return (set_cmd_error(CANT_EXECUTE_CMD, cmd, "Is a directory"));
+	return (set_cmd_error(IS_DIR, cmd, cmd->cmd_path));
 }
 
 void	check_each_path(t_cmd *cmd, char **paths)
@@ -35,7 +40,7 @@ void	check_each_path(t_cmd *cmd, char **paths)
 	{
 		tested_path = ft_strjoin(paths[i++], cmd_stem);
 		if (!tested_path)
-			return (set_cmd_error(MALLOC_FAIL, cmd, "Failed to allocate path"));
+			return (set_cmd_error(MALLOC_FAIL, cmd, cmd->cmd_path));
 		if (access(tested_path, F_OK | R_OK) == 0)
 		{
 			cmd->cmd_path = tested_path;
@@ -45,7 +50,7 @@ void	check_each_path(t_cmd *cmd, char **paths)
 		free(tested_path);
 	}
 	free(cmd_stem);
-	return (set_cmd_error(CANT_FIND_CMD, cmd, "Command not found"));
+	return (set_cmd_error(CANT_FIND_CMD, cmd, cmd->cmd_path));
 }
 
 /* Accepts input format ./[relative_dir]/[binary] or /[absolute_dir]/[binary]*/
@@ -54,7 +59,7 @@ void	check_absolute_or_relative_path(t_cmd *cmd)
 	if (access(cmd->cmd_path, F_OK) == 0)
 	{
 		if (access(cmd->cmd_path, X_OK) != 0)
-			return (set_cmd_error(CANT_EXECUTE_CMD, cmd, "Permission denied"));
+			return (set_cmd_error(PERM_ERROR, cmd, cmd->cmd_path));
 	}
 }
 
@@ -64,29 +69,28 @@ void	check_environ_paths(t_shell *shell, t_cmd *cmd)
 	char	*path_env;
 
 	if (!find_env(shell->env_list, "PATH"))
-		return (set_cmd_error(CANT_FIND_CMD, cmd, "No PATH variable found"));
+		return (set_cmd_error(PATH_ERROR, cmd, cmd->cmd_path));
 	path_env = (char *)find_env(shell->env_list, "PATH")->content;
 	shell->paths = ft_split(&path_env[5], ':');
 	if (!shell->paths)
-		set_error(MALLOC_FAIL, shell, "Failed to split path list");
+		set_error(MALLOC_FAIL, shell);
 	check_each_path(cmd, shell->paths);
 	if (cmd->exit_code)
 		return ;
 	if (access(cmd->cmd_path, X_OK) != 0)
-		set_cmd_error(CANT_EXECUTE_CMD, cmd, "Permission denied");
+		set_cmd_error(PERM_ERROR, cmd, cmd->cmd_path);
 }
 
 /* Checks first if a command path exist
-Throws error if path is directory or trailed by /
+Throws error if path is directory or not dir but trailed by /
 Tries absolute and relative path for command
 If non existent, tries paths from $PATH */
 void	get_cmd_path(t_shell *shell, t_cmd *cmd)
 {
 	if (!cmd || !cmd->arg_list || !((char *)cmd->arg_list->content)[0])
-		return (set_cmd_error(CANT_FIND_CMD, cmd, "Command not found"));
+		return (set_cmd_error(CANT_FIND_CMD, cmd, NULL));
 	cmd->cmd_path = (char *)cmd->arg_list->content;
-	if (cmd->cmd_path[ft_strlen(cmd->cmd_path) - 1] == '/')
-		check_if_directory(cmd, cmd->cmd_path);
+	check_if_directory(cmd, cmd->cmd_path);
 	if (!cmd->exit_code)
 		check_absolute_or_relative_path(cmd);
 	if (!cmd->exit_code && access(cmd->cmd_path, F_OK))

@@ -18,7 +18,7 @@ t_tree	*create_branch(t_shell *shell, int type, void *content)
 
 	node = ft_calloc(1, sizeof(t_tree));
 	if (!node)
-		return (set_error(MALLOC_FAIL, shell, "Failed to malloc tree"), NULL);
+		return (set_error(MALLOC_FAIL, shell), NULL);
 	node->type = type;
 	node->content = content;
 	node->left = NULL;
@@ -36,7 +36,7 @@ char	**extract_list_as_array(t_shell *shell, t_list *head)
 	len = ft_lstsize(head);
 	result = ft_calloc(sizeof(char *), len + 1);
 	if (!result)
-		return (set_error(MALLOC_FAIL, shell, "Failed to malloc argv"), NULL);
+		return (set_error(MALLOC_FAIL, shell), NULL);
 	index = 0;
 	current = head;
 	while (index < len)
@@ -56,7 +56,7 @@ void	put_arg_in_array(t_cmd *cmd)
 	argc = ft_lstsize(cmd->arg_list);
 	cmd->argv = ft_calloc(sizeof(char *), argc + 1);
 	if (!cmd->argv)
-		return (set_cmd_error(MALLOC_FAIL, cmd, "Failed to malloc argv"));
+		return (set_cmd_error(MALLOC_FAIL, cmd, NULL));
 	index = 0;
 	while (index < argc)
 	{

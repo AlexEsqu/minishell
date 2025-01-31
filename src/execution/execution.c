@@ -100,7 +100,7 @@ int	exec_tree(t_shell *shell, t_tree *tree, bool piped)
 	int	exit_code;
 
 	if (!tree)
-		return (set_error(SYNTAX_ERROR, shell, "Empty tree"), SYNTAX_ERROR);
+		return (set_error(AST_ERROR, shell), AST_ERROR);
 	if (tree->type == AST_PIPE)
 		return (exec_pipe(shell, tree));
 	if (tree->type == AST_AND)

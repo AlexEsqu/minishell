@@ -25,7 +25,9 @@ void	redirect_all_std(void)
 }
 
 /* WARNING : Criterion must be installed and accessible
-For installation on school machine, see:
+For installation on normal machine, use:
+sudo apt-get install libcriterion-dev
+For installation on school machine, use:
 https://github.com/RoKerjea/Criterion-demo-42/blob/main/criterion_install.sh */
 
 /* ************************************************************************** */
@@ -326,7 +328,7 @@ Test(Syntax, Invalid_Pipe0, .init=redirect_all_std)
 	shell->cmd_line = "   | echo hello";
 	scan(shell, &shell->token_list, shell->cmd_line);
 	cr_assert(check_syntax(shell, shell->token_list) != 0);
-	cr_assert(shell->critical_er == 1);
+	cr_assert(shell->critical_er == SYNTAX_ERROR);
 	cr_assert_stderr_eq_str("shell: syntax error near unexpected token '|'\n");
 }
 
@@ -338,7 +340,7 @@ Test(Syntax, Invalid_Pipe1, .init=redirect_all_std)
 	shell->cmd_line = "echo hello|";
 	scan(shell, &shell->token_list, shell->cmd_line);
 	cr_assert(check_syntax(shell, shell->token_list) != 0);
-	cr_assert(shell->critical_er == 1);
+	cr_assert(shell->critical_er == SYNTAX_ERROR);
 	cr_assert_stderr_eq_str("shell: syntax error near unexpected token '|'\n");
 }
 
@@ -350,7 +352,7 @@ Test(Syntax, Invalid_Redirection1, .init=redirect_all_std)
 	shell->cmd_line = "<";
 	scan(shell, &shell->token_list, shell->cmd_line);
 	cr_assert(check_syntax(shell, shell->token_list) != 0);
-	cr_assert(shell->critical_er == 1);
+	cr_assert(shell->critical_er == SYNTAX_ERROR);
 	cr_assert_stderr_eq_str("shell: syntax error near unexpected token 'newline'\n");
 	free_minishell(shell);
 }
@@ -363,7 +365,7 @@ Test(Syntax, Invalid_Redirection2, .init=redirect_all_std)
 	shell->cmd_line = "> ";
 	scan(shell, &shell->token_list, shell->cmd_line);
 	cr_assert(check_syntax(shell, shell->token_list) != 0);
-	cr_assert(shell->critical_er == 1);
+	cr_assert(shell->critical_er == SYNTAX_ERROR);
 	cr_assert_stderr_eq_str("shell: syntax error near unexpected token 'newline'\n");
 	free_minishell(shell);
 }
@@ -640,7 +642,7 @@ Test(Expand, string_with_invalid_variable)
 /*	Redirection																	  */
 /* ************************************************************************** */
 
-Test(Redirection, forbidden_infile)
+Test(Redirection, forbidden_infile, .init=redirect_all_std)
 {
 	t_token token = {
 		.content = "test/forbidden",
@@ -666,7 +668,7 @@ Test(Redirection, forbidden_infile)
 
 	// Test
 	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
-	cr_assert(eq(int, cmd.fd_out, -1));
+	cr_assert_not(cmd.fd_out >= 0);
 	cr_assert_stderr_eq_str("shell: echo: Forbidden file\n");
 
 	// Cleanup
@@ -774,6 +776,7 @@ Test(Path, get_path_forbidden_command, .init=redirect_all_std)
 	get_cmd_path(shell, cmd);
 	cr_assert(cmd->exit_code == 126);
 	cr_assert_stderr_eq_str("shell: ./test/forbidden: Permission denied\n");
+	chmod("test/forbidden", 777);
 	unlink("test/forbidden");
 }
 

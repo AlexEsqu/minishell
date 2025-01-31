@@ -20,7 +20,7 @@ void	add_delimiter_token(t_shell *shell, t_list **dest, char *input)
 	delim = ft_calloc(sizeof(char), 2);
 	ft_strlcat(delim, &input[shell->index], 2);
 	if (!delim)
-		return (set_error(MALLOC_FAIL, shell, "Failed to malloc token"));
+		return (set_error(MALLOC_FAIL, shell));
 	token = create_token(shell, DELIMITER, input[shell->index], delim);
 	ft_lstadd_back(dest, ft_lstnew(token));
 	shell->index++;
@@ -41,7 +41,7 @@ void	add_word_token(t_shell *shell, t_list **dest, char *input)
 	}
 	word = ft_calloc(sizeof(char), len + 1);
 	if (!word)
-		return (set_error(MALLOC_FAIL, shell, "Failed to malloc token"));
+		return (set_error(MALLOC_FAIL, shell));
 	ft_strlcat(word, &input[shell->index], len + 1);
 	token = create_token(shell, WORD, input[shell->index], word);
 	ft_lstadd_back(dest, ft_lstnew(token));
@@ -59,7 +59,7 @@ void	add_blank_token(t_shell *shell, t_list **dest, char *input)
 		len++;
 	space = ft_calloc(sizeof(char), len + 1);
 	if (!space)
-		return (set_error(MALLOC_FAIL, shell, "Failed to malloc token"));
+		return (set_error(MALLOC_FAIL, shell));
 	ft_strlcat(space, &input[shell->index], len + 1);
 	token = create_token(shell, BLANK, input[shell->index], space);
 	ft_lstadd_back(dest, ft_lstnew(token));
@@ -80,7 +80,7 @@ void	add_operator_token(t_shell *shell, t_list **dest, char *input)
 		return ;
 	ft_strlcat(token->content, &input[shell->index], 2);
 	if (!token->content)
-		return (set_error(MALLOC_FAIL, shell, "Failed to malloc token"));
+		return (set_error(MALLOC_FAIL, shell));
 	token->lexem = OPERATOR;
 	ft_strlcat(token->content, &input[shell->index], len + 1);
 	ft_lstadd_back(dest, ft_lstnew(token));

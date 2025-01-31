@@ -6,4 +6,5 @@ test/*
 !test/utest.c
 !test/unit_test.sh
 !test/allowed.c
+!test/allowed
 

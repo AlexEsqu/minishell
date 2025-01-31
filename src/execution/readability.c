@@ -16,14 +16,14 @@ int	create_fork(t_shell *shell, int	*fork_pid)
 {
 	*fork_pid = fork();
 	if (*fork_pid == -1)
-		return (set_error(FORK_ERROR, shell, "Failed to fork"), FORK_ERROR);
+		return (set_error(FORK_ERROR, shell), FORK_ERROR);
 	return (0);
 }
 
 int	create_pipe(t_shell *shell, int *pipe_fd)
 {
 	if (pipe(pipe_fd) != 0)
-		return (set_error(PIPE_ERROR, shell, "Failed to pipe"), PIPE_ERROR);
+		return (set_error(PIPE_ERROR, shell), PIPE_ERROR);
 	return (0);
 }
 

@@ -148,8 +148,8 @@ int			assemble_heredoc(t_shell *shell, t_cmd *cmd, char *end_of_file);
 
 /* ERROR HANDLING */
 
-void		set_error(int err_code, t_shell *shell, char *err_message);
-void		set_cmd_error(int err_code, t_cmd *cmd, char *err_message);
+void		set_error(int err_code, t_shell *shell);
+void		set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd);
 void		print_error(void);
 void		print_syntax_error(t_token *token);
 
@@ -157,7 +157,6 @@ void		print_syntax_error(t_token *token);
 
 void		free_token(void *token);
 void		free_cmd(void *cmd);
-void		free_file(void *file);
 void		free_tree(t_tree **tree);
 void		free_minishell(t_shell *shell);
 
@@ -199,19 +198,30 @@ enum e_lexem
 	OR			= 20,
 };
 
-enum e_exit_code
+/* Values used inside minishell to print correct error codes
+or act according to error unlocked */
+enum e_err_code
 {
 	SUCCESS = 0,
-	MALLOC_FAIL = 1,
-	GENERAL_ERROR = 1,
-	PIPE_ERROR = 1,
-	FORK_ERROR = 1,
-	DUP_ERROR = 1,
-	NO_FILE = 1,
-	READ_ERROR = 1,
-	OPEN_ERROR = 1,
-	SYNTAX_ERROR = 1,
-	TOO_MANY_HEREDOC = 1,
+	MALLOC_FAIL,
+	GENERAL_ERROR,
+	PIPE_ERROR,
+	FORK_ERROR,
+	DUP_ERROR,
+	NO_FILE,
+	READ_ERROR,
+	OPEN_ERROR,
+	PERM_ERROR,
+	SYNTAX_ERROR,
+	AST_ERROR,
+	PATH_ERROR,
+	IS_DIR,
+	IS_NOT_DIR,
+};
+
+/* Actual return values expected from minishell program */
+enum e_exit_code
+{
 	CANT_EXECUTE_CMD = 126,
 	MISSING_FILE = 126,
 	CANT_FIND_CMD = 127,
@@ -240,5 +250,6 @@ enum e_tree_mode
 	AST_LEFT,
 	AST_RIGHT,
 };
+
 
 #endif

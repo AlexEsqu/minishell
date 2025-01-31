@@ -33,6 +33,6 @@ int	echo(char **argv)
 	}
 	if (need_newline)
 		write(1, "\n", 1);
-	ft_free_tab(argv);
+	// ft_free_tab(argv);
 	return (0);
 }

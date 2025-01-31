@@ -25,7 +25,7 @@ t_token	*create_token(t_shell *shell, int lexem, char letter, char *content)
 
 	token = (t_token *)ft_calloc(sizeof(t_token), 1);
 	if (!token)
-		return (set_error(MALLOC_FAIL, shell, "Failed to alloc token"), NULL);
+		return (set_error(MALLOC_FAIL, shell), NULL);
 	token->letter = letter;
 	token->lexem = lexem;
 	if (content)
@@ -50,7 +50,7 @@ void	merge_token(t_shell *shell, t_list *start)
 	next = ((t_token *)start->next->content);
 	current->content = ft_strjoinfree(current->content, next->content);
 	if (!current->content)
-		return (set_error(MALLOC_FAIL, shell, "Failed to malloc token"));
+		return (set_error(MALLOC_FAIL, shell));
 	ft_lstpop(&shell->token_list, start->next, free_token);
 }
 
