@@ -16,23 +16,25 @@ static void	open_file(t_cmd *cmd, int mode, char *filepath)
 {
 	if (mode == OUTFILE || mode == APPEND)
 	{
-		if (access(filepath, W_OK) == -1)
+		if (access(filepath, F_OK) == SUCCESS && access(filepath, W_OK) != SUCCESS)
 			return (set_cmd_error(PERM_ERROR, cmd, filepath));
 		if (mode == APPEND)
 			cmd->fd_out = open(filepath, O_RDWR | O_APPEND | O_CREAT, 0666);
 		else
 			cmd->fd_out = open(filepath, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+		if (cmd->fd_out < 0)
+			return (set_cmd_error(OPEN_ERROR, cmd, filepath));
 	}
 	if (mode == INFILE)
 	{
 		if (access(filepath, F_OK) == -1)
 			return (set_cmd_error(NO_FILE, cmd, filepath));
 		if (access(filepath, R_OK) == -1)
-			return (set_cmd_error(READ_ERROR, cmd, filepath));
+			return (set_cmd_error(PERM_ERROR, cmd, filepath));
 		cmd->fd_in = open(filepath, O_RDONLY);
+		if (cmd->fd_in < 0)
+			return (set_cmd_error(OPEN_ERROR, cmd, filepath));
 	}
-	if (cmd->fd_in == -1)
-		return (set_cmd_error(OPEN_ERROR, cmd, filepath));
 }
 
 void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
@@ -45,7 +47,7 @@ void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
 		return (set_cmd_error(DUP_ERROR, cmd, NULL));
 	if (cmd->fd_out == -2)
 		cmd->fd_out = STDOUT_FILENO;
-	else if (dup2(cmd->fd_in, STDOUT_FILENO) == -1)
+	else if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
 		return (set_cmd_error(DUP_ERROR, cmd, NULL));
 }
 

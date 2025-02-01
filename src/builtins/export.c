@@ -20,8 +20,8 @@ void	print_env_as_export(t_shell *shell)
 	while (current_env != NULL)
 	{
 		ft_putstr_fd("export ", 1);
-		ft_putstr_fd((char *)current_env->content, 1);
-		write(1, "\n", 1);
+		ft_putstr_fd((char *)current_env->content, STDOUT_FILENO);
+		write(STDOUT_FILENO, "\n", 1);
 		current_env = current_env->next;
 	}
 }

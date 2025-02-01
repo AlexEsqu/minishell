@@ -32,8 +32,8 @@ int	env(t_shell *shell)
 	current = shell->env_list;
 	while (current != NULL)
 	{
-		ft_putstr_fd((char *)current->content, 1);
-		write(1, "\n", 1);
+		ft_putstr_fd((char *)current->content, STDOUT_FILENO);
+		write(1, "\n", STDOUT_FILENO);
 		current = current->next;
 	}
 	return (0);

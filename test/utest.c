@@ -660,42 +660,164 @@ Test(Redirection, forbidden_infile, .init=redirect_all_std)
 		.fd_in = -2,
 	};
 	char	*filepath = "test/forbidden";
-
-	// Create a forbidden file
 	int fd = open(filepath, O_CREAT);
 	close(fd);
 	chmod(filepath, 0000);
-
-	// Test
 	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
-	cr_assert_not(cmd.fd_out >= 0);
-	cr_assert_stderr_eq_str("shell: echo: Forbidden file\n");
-
-	// Cleanup
+	cr_assert_not(cmd.fd_in >= 0);
+	cr_assert_stderr_eq_str("shell: test/forbidden: Permission denied\n");
 	chmod(filepath, 0777);
 	unlink(filepath);
 }
 
-// Test(Redirection, no_path_relative)
-// {
-// 	t_shell *shell;
-// 	t_cmd *cmd;
-// 	t_list *path_env;
+Test(Redirection, forbidden_outfile, .init=redirect_all_std)
+{
+	t_token token = {
+		.content = "test/forbidden",
+		.lexem = OUTFILE,
+	};
+	t_list token_node = {
+		.next = NULL,
+		.prev = NULL,
+		.content = &token,
+	};
+	t_shell	shell = {
+		.last_exit_code = -1,
+	};
+	t_cmd	cmd = {
+		.fd_out = -2,
+	};
+	char	*filepath = "test/forbidden";
+	int fd = open(filepath, O_CREAT);
+	close(fd);
+	chmod(filepath, 0000);
+	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
+	cr_assert(cmd.fd_out < 0);
+	cr_assert_stderr_eq_str("shell: test/forbidden: Permission denied\n");
+	chmod(filepath, 0777);
+	unlink(filepath);
+}
 
-// 	shell = create_minishell(environ);
-// 	cmd = create_cmd();
-// 	ft_lstadd_back(&cmd->arg_list, ft_lstnew("ls"));
-// 	path_env = find_env(shell->env_list, "PATH");
+Test(Redirection, forbidden_append_outfile, .init=redirect_all_std)
+{
+	t_token token = {
+		.content = "test/forbidden",
+		.lexem = APPEND,
+	};
+	t_list token_node = {
+		.next = NULL,
+		.prev = NULL,
+		.content = &token,
+	};
+	t_shell	shell = {
+		.last_exit_code = -1,
+	};
+	t_cmd	cmd = {
+		.fd_out = -2,
+	};
+	char	*filepath = "test/forbidden";
+	int fd = open(filepath, O_CREAT);
+	close(fd);
+	chmod(filepath, 0000);
+	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
+	cr_assert_not(cmd.fd_out >= 0);
+	cr_assert_stderr_eq_str("shell: test/forbidden: Permission denied\n");
+	chmod(filepath, 0777);
+	unlink(filepath);
+}
 
-// 	// Test
-// 	open_file_and_store_fd_in_cmd(shell, cmd, "nonexistentfile");
-// 	cr_assert(eq(int, cmd->fd_out, -1));
-// 	cr_assert_stderr_eq_str("shell: ls: No such file or directory\n");
+Test(Redirection, no_infile, .init=redirect_all_std)
+{
+	t_token token = {
+		.content = "test/nonexistent",
+		.lexem = INFILE,
+	};
+	t_list token_node = {
+		.next = NULL,
+		.prev = NULL,
+		.content = &token,
+	};
+	t_shell	shell = {
+		.last_exit_code = -1,
+	};
+	t_cmd	cmd = {
+		.fd_in = -2,
+	};
+	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
+	cr_assert_not(cmd.fd_in >= 0);
+	cr_assert_stderr_eq_str("shell: test/nonexistent: No such file or directory\n");
+}
 
-// 	// Cleanup
-// 	free_minishell(shell);
-// 	free_cmd(cmd);
-// }
+Test(Redirection, valid_outfile, .init=redirect_all_std)
+{
+	t_token token = {
+		.content = "test/testing",
+		.lexem = OUTFILE,
+	};
+	t_list token_node = {
+		.next = NULL,
+		.prev = NULL,
+		.content = &token,
+	};
+	t_shell	shell = {
+		.last_exit_code = -1,
+	};
+	t_cmd	cmd = {
+		.fd_in = -2,
+	};
+	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
+	cr_assert(cmd.fd_out >= 0);
+	cr_assert(access("test/testing", F_OK) == SUCCESS);
+	close(cmd.fd_out);
+	unlink("test/testing");
+}
+
+Test(Redirection, valid_append_outfile, .init=redirect_all_std)
+{
+	t_token token = {
+		.content = "test/testing",
+		.lexem = APPEND,
+	};
+	t_list token_node = {
+		.next = NULL,
+		.prev = NULL,
+		.content = &token,
+	};
+	t_shell	shell = {
+		.last_exit_code = -1,
+	};
+	t_cmd	cmd = {
+		.fd_out = -2,
+	};
+	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
+	cr_assert(cmd.fd_out >= 0);
+	cr_assert(access("test/testing", F_OK) == SUCCESS);
+	cr_assert(access("test/testing", W_OK) == SUCCESS);
+	close(cmd.fd_out);
+	unlink("test/testing");
+}
+
+Test(Redirection, valid_infile, .init=redirect_all_std)
+{
+	t_token token = {
+		.content = "Makefile",
+		.lexem = INFILE,
+	};
+	t_list token_node = {
+		.next = NULL,
+		.prev = NULL,
+		.content = &token,
+	};
+	t_shell	shell = {
+		.last_exit_code = -1,
+	};
+	t_cmd	cmd = {
+		.fd_in = -2,
+	};
+	open_file_and_store_fd_in_cmd(&shell, &cmd, &token_node);
+	cr_assert(cmd.fd_in >= 0);
+	close(cmd.fd_in);
+}
 
 /* ************************************************************************** */
 /*																			  */
@@ -924,4 +1046,21 @@ Test(Builtin, echo_option_string, .init=redirect_all_std)
 	exit_code = echo(argv);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello and goodbye");
+}
+
+Test(Builtin, echo_into_infile)
+{
+	char	*cmd_line = "echo hello > test/beep";
+	t_shell	shell = {
+		.last_exit_code = -1,
+	};
+	char	*filepath = "test/beep";
+	char	buf[100];
+
+	parse_and_exec_cmd(&shell, cmd_line);
+	cr_assert(eq(int, shell.last_exit_code, 0));
+	read(open(filepath, O_RDONLY), buf, 100);
+	cr_assert_str_eq(buf, "hello\n");
+	close(open(filepath, O_RDONLY));
+	unlink(filepath);
 }

@@ -107,7 +107,6 @@ void		id_operator(t_shell *shell, t_list *current);
 t_shell		*create_minishell(char **env);
 t_tree		*create_branch(t_shell *shell, int type, void *content);
 t_cmd		*create_cmd(void);
-void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
 void		parser(t_shell *shell);
 
 /* EXECUTION */

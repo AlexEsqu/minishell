@@ -27,12 +27,12 @@ int	echo(char **argv)
 	while (argv[i] != NULL)
 	{
 		if ((need_newline && i > 1) || (!need_newline && i > 2))
-			ft_putstr_fd(" ", 1);
-		ft_putstr_fd(argv[i], 1);
+			ft_putstr_fd(" ", STDOUT_FILENO);
+		ft_putstr_fd(argv[i], STDOUT_FILENO);
 		i++;
 	}
 	if (need_newline)
-		write(1, "\n", 1);
+		write(1, "\n", STDOUT_FILENO);
 	// ft_free_tab(argv);
 	return (0);
 }
