@@ -126,7 +126,7 @@ int			echo(char **argv);
 int			env(t_shell *shell);
 int			export(t_shell *shell, char **argv);
 int			unset(t_shell *shell, char **argv);
-int			pwd(void);
+int			pwd(t_shell *shell);
 int			exit_shell(t_shell *shell, char **argv);
 int			exec_builtin(t_shell *shell, t_cmd *cmd);
 int			is_builtin(t_cmd *cmd);

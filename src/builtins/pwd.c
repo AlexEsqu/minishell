@@ -5,18 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 09:19:40 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/30 16:32:06 by mkling           ###   ########.fr       */
+/*   Created: 2025/02/01 19:56:20 by mkling            #+#    #+#             */
+/*   Updated: 2025/02/01 19:59:52 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pwd(void)
+int	pwd(t_shell *shell)
 {
-	if (getenv("PWD") == NULL)
+	char	*pwd;
+	t_list	*pwd_env;
+
+	pwd_env = find_env(shell->env_list, "PWD");
+	if (pwd_env == NULL || pwd_env->content == NULL
+		|| ft_strlen((char *)pwd_env->content) < 4)
 		return (-1);
-	ft_putstr_fd(getenv("PWD"), STDOUT_FILENO);
+	pwd = (char *)pwd_env->content;
+	ft_putstr_fd(&pwd[4], STDOUT_FILENO);
 	write(STDOUT_FILENO, "\n", 1);
 	return (0);
 }
