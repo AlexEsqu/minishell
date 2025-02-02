@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/02 15:33:26 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 18:48:51 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,20 @@ void	free_token(void *to_be_del)
 	to_be_del = NULL;
 }
 
-// void	free_file(void *to_be_del)
-// {
-// 	t_file	*file;
-
-// 	file = (t_file *)to_be_del;
-// 	if (file == NULL)
-// 		return ;
-// 	if (file->path != NULL)
-// 		free(file->path);
-// 	if (file->delim != NULL)
-// 		free(file->delim);
-// 	free(file);
-// }
-
 void	free_cmd(void *to_be_del)
 {
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)to_be_del;
-	if (cmd->argv != NULL && cmd->argv[0] != NULL)
-		ft_free_tab(cmd->argv);
-	if (cmd->cmd_path != NULL)
+	if (cmd->argv)
+		free(cmd->argv);
+	if (cmd->cmd_path)
 		free(cmd->cmd_path);
-	ft_lstclear(&cmd->arg_list, free);
+	if (cmd->arg_list)
+	{
+		ft_lstclear(&cmd->arg_list, free);
+		cmd->arg_list = NULL;
+	}
 	free(cmd);
 }
 
@@ -59,7 +49,7 @@ void	free_tree(t_tree **tree)
 {
 	if (!(*tree))
 		return ;
-	if ((*tree)->type == CMD)
+	if ((*tree)->type == AST_CMD)
 		free_cmd((*tree)->content);
 	else
 	{

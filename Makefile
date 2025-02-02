@@ -6,7 +6,7 @@
 #    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/01/30 12:05:37 by mkling           ###   ########.fr        #
+#    Updated: 2025/02/02 18:02:55 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -153,7 +153,7 @@ test:		$(T_NAME)
 			@echo "Running unit tests :"
 			./$(T_DIR)/$(T_NAME)
 
-valgrind:	$(NAME)
+valgrind:	debug
 			@echo "Running with valgrind :"
 			$(V_FLAG) ./$(NAME)
 

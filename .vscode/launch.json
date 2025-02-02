@@ -27,8 +27,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/alex/AlexEsqu/minishell/src",
-      "program": "/home/alex/AlexEsqu/minishell/src/build/Debug/outDebug",
+      "cwd": "/home/alex/minishell",
+      "program": "/home/alex/minishell/minishell",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

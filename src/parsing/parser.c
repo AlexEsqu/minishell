@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/01/30 17:33:30 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 18:44:24 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,9 @@ t_tree	*parse_and_or(t_shell *shell, t_list **node)
 
 void	parser(t_shell *shell)
 {
-	shell->tree_root = parse_and_or(shell, &shell->token_list);
+	t_list	*current;
+
+	current = shell->token_list;
+	shell->tree_root = parse_and_or(shell, &current);
 	ft_lstclear(&shell->token_list, free_token);
 }

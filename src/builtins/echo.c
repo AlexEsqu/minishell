@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:26:26 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 13:56:20 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 17:51:38 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,5 @@ int	echo(t_cmd *cmd)
 	}
 	if (need_newline)
 		write(1, "\n", STDOUT_FILENO);
-	// ft_free_tab(argv);
 	return (0);
 }

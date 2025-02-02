@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/30 12:06:15 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 18:27:47 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,20 @@ char	**extract_list_as_array(t_shell *shell, t_list *head)
 
 void	put_arg_in_array(t_cmd *cmd)
 {
-	int	argc;
-	int	index;
+	int		argc;
+	int		index;
+	t_list	*current;
 
 	argc = ft_lstsize(cmd->arg_list);
 	cmd->argv = ft_calloc(sizeof(char *), argc + 1);
 	if (!cmd->argv)
 		return (set_cmd_error(MALLOC_FAIL, cmd, NULL));
 	index = 0;
+	current = cmd->arg_list;
 	while (index < argc)
 	{
-		cmd->argv[index] = cmd->arg_list->content;
-		cmd->arg_list = cmd->arg_list->next;
+		cmd->argv[index] = current->content;
+		current = current->next;
 		index++;
 	}
 }
