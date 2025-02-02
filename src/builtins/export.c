@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/01 20:37:18 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 13:12:09 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_env_as_export(t_shell *shell)
 	current_env = shell->env_list;
 	while (current_env != NULL)
 	{
-		ft_putstr_fd("export ", 1);
+		ft_putstr_fd("export ", STDOUT_FILENO);
 		ft_putstr_fd((char *)current_env->content, STDOUT_FILENO);
 		write(STDOUT_FILENO, "\n", 1);
 		current_env = current_env->next;
@@ -63,16 +63,17 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	return (SUCCESS);
 }
 
-int	export(t_shell *shell, char **argv)
+int	export(t_shell *shell, t_cmd *cmd)
 {
-	int		i;
+	int	i;
 
 	i = 1;
-	if (argv[i] == NULL)
+	if (cmd->argv[i] == NULL)
 		return (print_env_as_export(shell), 0);
-	while (argv[i])
+	while (cmd->argv[i])
 	{
-		replace_env(shell, argv[i]);
+		if (replace_env(shell, cmd->argv[i]) != SUCCESS)
+			return (set_cmd_error(MALLOC_FAIL, cmd, NULL), MALLOC_FAIL);
 		i++;
 	}
 	return (0);

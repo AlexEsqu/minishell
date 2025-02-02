@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 12:02:49 by skassimi          #+#    #+#             */
-/*   Updated: 2025/01/30 18:19:28 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 10:41:26 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,13 @@ void		expand(t_shell *shell, t_list *node);
 
 /* BUILT IN */
 
-int			cd(t_shell *shell, char *path);
-int			echo(char **argv);
+int			cd(t_shell *shell, t_cmd *cmd);
+int			echo(t_cmd *cmd);
 int			env(t_shell *shell);
-int			export(t_shell *shell, char **argv);
-int			unset(t_shell *shell, char **argv);
-int			pwd(t_shell *shell);
-int			exit_shell(t_shell *shell, char **argv);
+int			export(t_shell *shell, t_cmd *cmd);
+int			unset(t_shell *shell, t_cmd *cmd);
+int			pwd(t_shell *shell, t_cmd *cmd);
+int			exit_shell(t_shell *shell, t_cmd *cmd);
 int			exec_builtin(t_shell *shell, t_cmd *cmd);
 int			is_builtin(t_cmd *cmd);
 t_list		*find_env(t_list *env_list, char *env_name);
@@ -171,6 +171,7 @@ void		print_tokens(t_list *first);
 # define BLANKS			" \n\t"
 # define HEREDOC_LOC	"tmp/heredoc"
 # define SHELL_NAME		"shell"
+# define PATH_MAX		4096
 
 enum e_lexem
 {
@@ -216,6 +217,8 @@ enum e_err_code
 	PATH_ERROR,
 	IS_DIR,
 	IS_NOT_DIR,
+	TOO_MANY_ARGS,
+	TOO_FEW_ARGS,
 };
 
 /* Actual return values expected from minishell program */

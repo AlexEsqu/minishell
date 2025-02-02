@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:20:16 by skassimi          #+#    #+#             */
-/*   Updated: 2024/12/26 15:13:29 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/02 13:14:25 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,26 @@ int	string_is_only_digit(char *str)
 /* Exit with first argument as exit code
 Bash documentation points out arg higher than 255 is undefined
 Here supports up to int max, then throws syntax error */
-int	exit_shell(t_shell *shell, char **argv)
+int	exit_shell(t_shell *shell, t_cmd *cmd)
 {
 	int	exit_code;
-	int	i;
 
-	i = 1;
-	if (argv[i])
+	if (cmd->argv[1])
 	{
-		if (argv[i + 1])
+		if (cmd->argv[2])
+			return (set_cmd_error(TOO_MANY_ARGS, cmd, NULL), TOO_MANY_ARGS);
+		if (!string_is_only_digit(cmd->argv[1]) || is_too_long_for_int(cmd->argv[1]))
 		{
 			print_error();
-			ft_putstr_fd("exit: Too many arguments\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: exit: Requires numerical arguments\n", STDERR_FILENO);
+			exit_code = 1;
 		}
-		if (!string_is_only_digit(argv[i]) || is_too_long_for_int(argv[i]))
+		else
 		{
-			print_error();
-			ft_putstr_fd("exit: Requires numerical arguments\n", STDERR_FILENO);
+			exit_code = ft_atoi(cmd->argv[1]);
+			while (exit_code > 255)
+				exit_code -= 255;
 		}
-		exit_code = ft_atoi(argv[i]);
-		while (exit_code > 255)
-			exit_code -= 255;
 	}
 	else
 		exit_code = shell->last_exit_code;

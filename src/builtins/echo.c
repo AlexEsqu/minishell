@@ -6,29 +6,29 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:26:26 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/30 16:28:05 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 13:01:20 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo(char **argv)
+int	echo(t_cmd *cmd)
 {
-	int		i;
 	bool	need_newline;
+	int		i;
 
 	need_newline = true;
 	i = 1;
-	if (argv[i] && ft_strcmp(argv[i], "-n") == 0)
+	if (cmd->argv[1] && ft_strcmp(cmd->argv[1], "-n") == 0)
 	{
-		i++;
 		need_newline = false;
+		i++;
 	}
-	while (argv[i] != NULL)
+	while (cmd->argv[i] != NULL)
 	{
-		if ((need_newline && i > 1) || (!need_newline && i > 2))
+		if ((need_newline && i > 2) || (!need_newline && i > 1))
 			ft_putstr_fd(" ", STDOUT_FILENO);
-		ft_putstr_fd(argv[i], STDOUT_FILENO);
+		ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
 		i++;
 	}
 	if (need_newline)
