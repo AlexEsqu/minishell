@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 14:13:24 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 15:07:49 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1091,9 +1091,8 @@ Test(Builtin, echo_into_infile)
 	unlink(filepath);
 }
 
-
 /* ************************************************************************** */
-/*	Cd & Pwd																  */
+/*	Cd																		  */
 /* ************************************************************************** */
 
 Test(Builtin, cd_home)
@@ -1145,5 +1144,44 @@ Test(Builtin, cd_test_and_back)
 	cwd = getcwd(NULL, 0);
 	cr_assert(ends_with(cwd, "minishell"));
 	cr_assert(ends_with(cwd, "test") == false);
+	free(cwd);
+}
+
+/* ************************************************************************** */
+/*	Pwd																		  */
+/* ************************************************************************** */
+
+Test(Builtin, pwd_static, .init=redirect_all_std)
+{
+	char	*argv[] = {"pwd", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	t_shell	*shell;
+	int		exit_code;
+	char	*cwd;
+
+	shell = create_minishell(environ);
+	exit_code = pwd(shell, &cmd);
+	cr_assert(eq(int, exit_code, 0));
+	cwd = getcwd(NULL, 0);
+	cwd = ft_strjoinfree(cwd, "\n");
+	cr_assert_stdout_eq_str(cwd);
+	free(cwd);
+}
+
+Test(Builtin, pwd_after_cd, .init=redirect_all_std)
+{
+	char	*cmd_line = "cd test && pwd";
+	t_shell	*shell;
+	char	*cwd;
+
+	shell = create_minishell(environ);
+	parse_and_exec_cmd(shell, cmd_line);
+	cr_assert(eq(int, shell->last_exit_code, 0));
+	cwd = getcwd(NULL, 0);
+	cr_assert(ends_with(cwd, "test"));
+	cwd = ft_strjoinfree(cwd, "\n");
+	cr_assert_stdout_eq_str(cwd);
 	free(cwd);
 }
