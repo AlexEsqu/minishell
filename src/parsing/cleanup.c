@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/01/30 18:31:52 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 15:33:26 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	free_tree(t_tree **tree)
 	else
 	{
 		free_tree(&(*tree)->left);
-		free_tree(&(*tree)->right);
+		if ((*tree)->right)
+			free_tree(&(*tree)->right);
 	}
 	free(*tree);
 	(*tree) = NULL;

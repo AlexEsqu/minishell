@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/30 12:07:09 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 15:30:33 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	exec_with_fork(t_shell *shell, t_cmd *cmd)
 		if (!cmd->argv)
 			exit(cmd->exit_code);
 		execve(cmd->cmd_path, cmd->argv, shell->env);
+		free_minishell(shell);
 		exit(CANT_EXECUTE_CMD);
 	}
 	waitpid(cmd->fork_pid, &cmd->exit_code, 0);
