@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 15:07:49 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 15:25:20 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1184,4 +1184,71 @@ Test(Builtin, pwd_after_cd, .init=redirect_all_std)
 	cwd = ft_strjoinfree(cwd, "\n");
 	cr_assert_stdout_eq_str(cwd);
 	free(cwd);
+	free_minishell(shell);
+}
+
+/* ************************************************************************** */
+/*	Exit																		  */
+/* ************************************************************************** */
+
+Test(Builtin, exit_no_arg, .exit_code = 0)
+{
+	char	*argv[] = {"exit", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	t_shell	*shell;
+
+	shell = create_minishell(environ);
+	exit_shell(shell, &cmd);
+}
+
+Test(Builtin, exit_valid_arg, .exit_code = 42)
+{
+	char	*argv[] = {"exit", "42", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	t_shell	*shell;
+
+	shell = create_minishell(environ);
+	exit_shell(shell, &cmd);
+}
+
+Test(Builtin, exit_bid_valid_arg, .exit_code = 255)
+{
+	char	*argv[] = {"exit", "510", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	t_shell	*shell;
+
+	shell = create_minishell(environ);
+	exit_shell(shell, &cmd);
+}
+
+Test(Builtin, exit_invalid_arg, .exit_code = 2, .init=redirect_all_std)
+{
+	char	*argv[] = {"exit", "beep", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	t_shell	*shell;
+
+	shell = create_minishell(environ);
+	exit_shell(shell, &cmd);
+	cr_assert_stderr_eq_str("minishell: exit: Requires numerical arguments\n");
+}
+
+Test(Builtin, exit_too_many_arg, .init=redirect_all_std)
+{
+	char	*argv[] = {"exit", "42", "1", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	t_shell	*shell;
+
+	shell = create_minishell(environ);
+	exit_shell(shell, &cmd);
+	cr_assert_stderr_eq_str("shell: exit: Too many arguments\n");
 }

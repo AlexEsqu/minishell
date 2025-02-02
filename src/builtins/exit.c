@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:20:16 by skassimi          #+#    #+#             */
-/*   Updated: 2025/02/02 13:14:25 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 15:24:25 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 	if (cmd->argv[1])
 	{
 		if (cmd->argv[2])
-			return (set_cmd_error(TOO_MANY_ARGS, cmd, NULL), TOO_MANY_ARGS);
+			return (set_cmd_error(TOO_MANY_ARGS, cmd, cmd->argv[0]), TOO_MANY_ARGS);
 		if (!string_is_only_digit(cmd->argv[1]) || is_too_long_for_int(cmd->argv[1]))
 		{
 			print_error();
 			ft_putstr_fd("minishell: exit: Requires numerical arguments\n", STDERR_FILENO);
-			exit_code = 1;
+			exit_code = 2;
 		}
 		else
 		{

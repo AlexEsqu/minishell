@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:37:02 by mkling            #+#    #+#             */
-/*   Updated: 2024/12/28 19:26:35 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/02 15:22:35 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static char	*get_error_message(int err_code)
 		return ("Redirection failed");
 	if (err_code == NO_FILE)
 		return ("No such file or directory");
-	if (err_code == READ_ERROR)
-		return ("Read permission denied");
 	if (err_code == OPEN_ERROR)
 		return ("Open failed");
 	if (err_code == PERM_ERROR)
@@ -44,6 +42,8 @@ static char	*get_error_message(int err_code)
 		return ("Is not a directory");
 	if (err_code == CANT_FIND_CMD)
 		return ("Command not found");
+	if (err_code == TOO_MANY_ARGS)
+		return ("Too many arguments");
 	return ("Error");
 }
 
