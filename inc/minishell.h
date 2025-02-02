@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 12:02:49 by skassimi          #+#    #+#             */
-/*   Updated: 2025/02/02 10:41:26 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 19:43:10 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ typedef struct s_cmd
 	char			**argv;		// array created with cmd_path, then arguments
 	char			*cmd_path;	// binary filepath, absolute/through PATH
 	t_list			*arg_list;	// linked list of command arguments
-	t_list			*infiles;	// linked list of input files
-	t_list			*outfiles;	// linked list of output files
 	int				fd_out;		// fd of the final output redirection
 	int				fd_in;		// fd of the final input redirection
 	int				exit_code;	// value returned by the execution of command
@@ -50,7 +48,7 @@ typedef struct s_cmd
 typedef struct s_ast
 {
 	int				type;		// either pipe, or, and or single cmd node
-	void			*content;	// may contain pointer to cmd structure
+	void			*content;	// if cmd node, contain pointer to cmd structure
 	struct s_ast	*left;		// part of the cmd line left of the operator
 	struct s_ast	*right;		// part of the cmd line right of the operator
 }	t_tree;
@@ -59,11 +57,9 @@ typedef struct s_shell
 {
 	char		*cmd_line;		// readline return
 	t_list		*token_list;	// linked list of tokens id from cmd line
-	t_list		*cmd_list;		// linked list of commands as a structs
 	t_list		*env_list;		// linked list of env strings
 	t_tree		*tree_root;		// abstract syntaxic tree
 	int			pipe_fd[2][2];	// two pair of pipe fd for all pipe execution
-	size_t		cmd_count;		// total of commands in commmand line
 	size_t		index;			// index of command currently being executed
 	char		**env;			// env received at start of program
 	char		**paths;		// extracted PATH variable of the env
@@ -94,13 +90,16 @@ int			check_syntax(t_shell *shell, t_list *token_list);
 void		apply_to_list(t_shell *s, t_list *n, void f(t_shell *, t_list *));
 int			letter_is(int lexem, char *string);
 int			token_is(int lexem, t_list *node);
-int			is_valid_variable(char *input);
-void		id_variables(t_shell *shell, t_list *current);
 void		group_strings(t_shell *shell, t_list *node);
 void		remove_delimiter(t_shell *shell, void **ptr_to_string);
+void		id_operators(t_shell *shell, t_list *current);
+
+/* EXPANSION */
+
 int			can_expand(t_list *node);
 int			has_valid_var(char *string);
-void		id_operator(t_shell *shell, t_list *current);
+int			is_valid_variable(char *input);
+void		id_variables(t_shell *shell, t_list *current);
 
 /* PARSER */
 
