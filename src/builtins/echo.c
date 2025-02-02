@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:26:26 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 13:01:20 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 13:56:20 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	echo(t_cmd *cmd)
 	}
 	while (cmd->argv[i] != NULL)
 	{
-		if ((need_newline && i > 2) || (!need_newline && i > 1))
+		if ((need_newline && i > 1) || (!need_newline && i > 2))
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
 		i++;

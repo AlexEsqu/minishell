@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/30 18:41:57 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/02 14:13:24 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ void	redirect_all_std(void)
 {
 	cr_redirect_stderr();
 	cr_redirect_stdout();
+}
+
+bool ends_with(const char *str, const char *suffix)
+{
+	if (!str || !suffix)
+		return false;
+	size_t str_len = strlen(str);
+	size_t suffix_len = strlen(suffix);
+	if (suffix_len > str_len)
+		return false;
+	return strncmp(str + str_len - suffix_len, suffix, suffix_len) == 0;
 }
 
 /* WARNING : Criterion must be installed and accessible
@@ -1001,9 +1012,12 @@ Test(Pipe, pipe_yes_head, .init=redirect_all_std)
 Test(Builtin, echo_single, .init=redirect_all_std)
 {
 	char	*argv[] = {"echo", "hello", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
 	int		exit_code;
 
-	exit_code = echo(argv);
+	exit_code = echo(&cmd);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello\n");
 }
@@ -1011,9 +1025,12 @@ Test(Builtin, echo_single, .init=redirect_all_std)
 Test(Builtin, echo_string, .init=redirect_all_std)
 {
 	char	*argv[] = {"echo", "hello and goodbye", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
 	int		exit_code;
 
-	exit_code = echo(argv);
+	exit_code = echo(&cmd);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello and goodbye\n");
 }
@@ -1021,9 +1038,12 @@ Test(Builtin, echo_string, .init=redirect_all_std)
 Test(Builtin, echo_multiple, .init=redirect_all_std)
 {
 	char	*argv[] = {"echo", "hello", "and", "goodbye", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
 	int		exit_code;
 
-	exit_code = echo(argv);
+	exit_code = echo(&cmd);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello and goodbye\n");
 }
@@ -1031,9 +1051,12 @@ Test(Builtin, echo_multiple, .init=redirect_all_std)
 Test(Builtin, echo_option_single, .init=redirect_all_std)
 {
 	char	*argv[] = {"echo", "-n", "hello", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
 	int		exit_code;
 
-	exit_code = echo(argv);
+	exit_code = echo(&cmd);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello");
 }
@@ -1041,9 +1064,12 @@ Test(Builtin, echo_option_single, .init=redirect_all_std)
 Test(Builtin, echo_option_string, .init=redirect_all_std)
 {
 	char	*argv[] = {"echo", "-n", "hello and goodbye", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
 	int		exit_code;
 
-	exit_code = echo(argv);
+	exit_code = echo(&cmd);
 	cr_assert(eq(int, exit_code, 0));
 	cr_assert_stdout_eq_str("hello and goodbye");
 }
@@ -1063,4 +1089,61 @@ Test(Builtin, echo_into_infile)
 	cr_assert_str_eq(buf, "hello\n");
 	close(open(filepath, O_RDONLY));
 	unlink(filepath);
+}
+
+
+/* ************************************************************************** */
+/*	Cd & Pwd																  */
+/* ************************************************************************** */
+
+Test(Builtin, cd_home)
+{
+	char	*argv[] = {"cd", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	int		exit_code;
+	t_shell	*shell;
+
+	shell = create_minishell(environ);
+	exit_code = cd(shell, &cmd);
+	cr_assert(eq(int, exit_code, 0));
+	cr_assert_str_eq(getcwd(NULL, 0), getenv("HOME"));
+}
+
+Test(Builtin, cd_test)
+{
+	char	*argv[] = {"cd", "test", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	int		exit_code;
+	t_shell	*shell;
+	char	*cwd;
+
+	shell = create_minishell(environ);
+	exit_code = cd(shell, &cmd);
+	cwd = getcwd(NULL, 0);
+	cr_assert(eq(int, exit_code, 0));
+	cr_assert(ends_with(cwd, "test"));
+	free(cwd);
+}
+
+Test(Builtin, cd_test_and_back)
+{
+	char	*argv[] = {"cd", "test/..", NULL};
+	t_cmd	cmd = {
+		.argv = argv,
+	};
+	int		exit_code;
+	t_shell	*shell;
+	char	*cwd;
+
+	shell = create_minishell(environ);
+	exit_code = cd(shell, &cmd);
+	cr_assert(eq(int, exit_code, 0));
+	cwd = getcwd(NULL, 0);
+	cr_assert(ends_with(cwd, "minishell"));
+	cr_assert(ends_with(cwd, "test") == false);
+	free(cwd);
 }
