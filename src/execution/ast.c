@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 18:27:47 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 10:44:28 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ int	connect_pipes_and_exec(t_shell *shell, t_tree *tree, int pipe_fd[2],
 		close(pipe_fd[READ]);
 	}
 	exit_code = exec_tree(shell, tree, true);
-	exit (exit_code);
+	free_minishell(shell);
+	exit(exit_code);
 }
