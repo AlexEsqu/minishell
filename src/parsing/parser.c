@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/02/02 18:44:24 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 11:27:31 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 	char	*word;
 
 	if (!(*node))
-		return (set_error(CANT_FIND_CMD, shell), NULL);
+		return (set_error(E_NO_CMD, shell), NULL);
 	cmd = create_cmd();
 	while ((*node)->next && !token_is_operator(*node))
 	{

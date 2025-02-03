@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 15:25:20 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 11:52:45 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -890,8 +890,9 @@ Test(Path, get_path_unknown_command, .init=redirect_all_std)
 	cmd = create_cmd();
 	cmd->arg_list = ft_lstnew("eccho");
 	get_cmd_path(shell, cmd);
-	cr_assert(cmd->exit_code == 127);
+	cr_assert(cmd->exit_code == E_NO_CMD);
 	cr_assert_stderr_eq_str("shell: eccho: Command not found\n");
+	free_minishell(shell);
 }
 
 Test(Path, get_path_forbidden_command, .init=redirect_all_std)

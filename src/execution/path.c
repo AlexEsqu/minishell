@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/01/11 11:10:40 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 11:51:27 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	check_each_path(t_cmd *cmd, char **paths)
 		free(tested_path);
 	}
 	free(cmd_stem);
-	return (set_cmd_error(CANT_FIND_CMD, cmd, cmd->cmd_path));
+	return (set_cmd_error(NO_CMD, cmd, cmd->cmd_path));
 }
 
 /* Accepts input format ./[relative_dir]/[binary] or /[absolute_dir]/[binary]*/
@@ -88,7 +88,7 @@ If non existent, tries paths from $PATH */
 void	get_cmd_path(t_shell *shell, t_cmd *cmd)
 {
 	if (!cmd || !cmd->arg_list || !((char *)cmd->arg_list->content)[0])
-		return (set_cmd_error(CANT_FIND_CMD, cmd, NULL));
+		return (set_cmd_error(NO_CMD, cmd, NULL));
 	cmd->cmd_path = (char *)cmd->arg_list->content;
 	check_if_directory(cmd, cmd->cmd_path);
 	if (!cmd->exit_code)

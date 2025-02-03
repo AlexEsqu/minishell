@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 12:02:49 by skassimi          #+#    #+#             */
-/*   Updated: 2025/02/02 19:43:10 by mkling           ###   ########.fr       */
+/*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
+/*   Updated: 2025/02/03 11:36:56 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_cmd
 	int				fd_out;		// fd of the final output redirection
 	int				fd_in;		// fd of the final input redirection
 	int				exit_code;	// value returned by the execution of command
-	size_t			cmd_index;	// number of the command among other commands
 	int				fork_pid;	// process id of fork sent to execute command
 }	t_cmd;
 
@@ -59,7 +58,6 @@ typedef struct s_shell
 	t_list		*token_list;	// linked list of tokens id from cmd line
 	t_list		*env_list;		// linked list of env strings
 	t_tree		*tree_root;		// abstract syntaxic tree
-	int			pipe_fd[2][2];	// two pair of pipe fd for all pipe execution
 	size_t		index;			// index of command currently being executed
 	char		**env;			// env received at start of program
 	char		**paths;		// extracted PATH variable of the env
@@ -116,7 +114,6 @@ int			exec_single_cmd(t_shell *shell, t_tree *tree, bool piped);
 int			create_fork(t_shell *shell, int	*fork_pid);
 void		get_cmd_path(t_shell *shell, t_cmd *cmd);
 void		put_arg_in_array(t_cmd *cmd);
-void		expand(t_shell *shell, t_list *node);
 
 /* BUILT IN */
 
@@ -129,6 +126,10 @@ int			pwd(t_shell *shell, t_cmd *cmd);
 int			exit_shell(t_shell *shell, t_cmd *cmd);
 int			exec_builtin(t_shell *shell, t_cmd *cmd);
 int			is_builtin(t_cmd *cmd);
+
+/* ENVIRON */
+
+void		expand(t_shell *shell, t_list *node);
 t_list		*find_env(t_list *env_list, char *env_name);
 char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
@@ -197,17 +198,18 @@ enum e_lexem
 	OR			= 20,
 };
 
-/* Values used inside minishell to print correct error codes
-or act according to error unlocked */
+/* Internal values used inside minishell to print correct error
+message or execute correct line of code */
 enum e_err_code
 {
 	SUCCESS = 0,
-	MALLOC_FAIL,
 	GENERAL_ERROR,
+	MALLOC_FAIL,
 	PIPE_ERROR,
 	FORK_ERROR,
 	DUP_ERROR,
 	NO_FILE,
+	NO_CMD,
 	READ_ERROR,
 	OPEN_ERROR,
 	PERM_ERROR,
@@ -223,9 +225,11 @@ enum e_err_code
 /* Actual return values expected from minishell program */
 enum e_exit_code
 {
-	CANT_EXECUTE_CMD = 126,
-	MISSING_FILE = 126,
-	CANT_FIND_CMD = 127,
+	E_BAD_EXEC = 1,
+	E_SYNTAX = 2,
+	E_NO_PERM = 126,
+	E_NO_CMD = 127,
+	E_BAD_EXIT = 128,
 };
 
 enum e_pipe_fd

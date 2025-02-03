@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:42:40 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 00:57:28 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/03 11:48:16 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,7 @@ int	check_syntax(t_shell *shell, t_list *node)
 	apply_to_list(shell, node, is_missing_cmd_after_pipe);
 	apply_to_list(shell, node, is_missing_redirection);
 	apply_to_list(shell, node, is_missing_delimiter);
+	if (shell->critical_er)
+		shell->last_exit_code = E_SYNTAX;
 	return (shell->critical_er);
 }

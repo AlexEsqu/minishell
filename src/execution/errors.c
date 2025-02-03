@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:37:02 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 15:22:35 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 11:38:28 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*get_error_message(int err_code)
 		return ("Is a directory");
 	if (err_code == IS_NOT_DIR)
 		return ("Is not a directory");
-	if (err_code == CANT_FIND_CMD)
+	if (err_code == NO_CMD)
 		return ("Command not found");
 	if (err_code == TOO_MANY_ARGS)
 		return ("Too many arguments");
@@ -65,11 +65,13 @@ void	set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd)
 	}
 	ft_putstr_fd(get_error_message(err_code), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
-	if (err_code == PERM_ERROR || err_code == PATH_ERROR
-		|| err_code == IS_DIR || err_code == IS_NOT_DIR)
-		cmd->exit_code = 126;
+	if (err_code == PERM_ERROR || err_code == IS_DIR
+		|| err_code == IS_NOT_DIR)
+		cmd->exit_code = E_NO_PERM;
+	else if (err_code == PATH_ERROR || err_code == NO_CMD)
+		cmd->exit_code = E_NO_CMD;
 	else
-		cmd->exit_code = err_code;
+		cmd->exit_code = E_SYNTAX;
 }
 
 void	print_syntax_error(t_token *token)
