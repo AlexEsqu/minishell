@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/03 18:22:49 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 18:28:35 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,12 @@ int	assemble_heredoc(t_shell *shell, t_cmd *cmd, char *end_of_file)
 		write(STDIN_FILENO, "> ", 3);
 		result = get_next_line(STDIN_FILENO);
 		if (ft_strncmp(end_of_file, result, ft_strlen(end_of_file)) == 0)
+		{
+			free(result);
 			break ;
+		}
 		write(fd, result, ft_strlen(result));
+		free(result);
 	}
 	close(fd);
 	cmd->fd_in = open(heredoc_filepath, O_RDONLY);
