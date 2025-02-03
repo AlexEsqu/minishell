@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/02 19:43:35 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 17:29:54 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void	free_minishell(t_shell *shell)
 		ft_lstclear(&shell->env_list, free);
 	if (shell->tree_root)
 		free_tree(&shell->tree_root);
+	destroy_heredoc(shell);
 	free(shell);
 }

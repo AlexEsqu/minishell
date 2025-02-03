@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/30 17:32:43 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 18:00:55 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
 		return (set_cmd_error(DUP_ERROR, cmd, NULL));
 }
 
-
 void	open_file_and_store_fd_in_cmd(t_shell *shell, t_cmd *cmd, t_list *node)
 {
 	t_token	*token;
@@ -68,7 +67,7 @@ void	open_file_and_store_fd_in_cmd(t_shell *shell, t_cmd *cmd, t_list *node)
 		if (cmd->fd_in != -2)
 			close(cmd->fd_in);
 		if (token->lexem == HEREDOC)
-			cmd->fd_in = assemble_heredoc(shell, cmd, token->content);
+			assemble_heredoc(shell, cmd, token->content);
 		else
 			open_file(cmd, INFILE, token->content);
 	}

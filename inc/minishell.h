@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/03 11:36:56 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 17:34:35 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_shell
 	t_list		*token_list;	// linked list of tokens id from cmd line
 	t_list		*env_list;		// linked list of env strings
 	t_tree		*tree_root;		// abstract syntaxic tree
+	t_list		*heredoc;		// heredoc to be closed once cmd line is exec
 	size_t		index;			// index of command currently being executed
 	char		**env;			// env received at start of program
 	char		**paths;		// extracted PATH variable of the env
@@ -144,6 +145,7 @@ void		close_pipe(int *pipe_fd);
 void		reset_std(t_shell *shell, bool piped);
 void		open_file_and_store_fd_in_cmd(t_shell *shell, t_cmd *cmd, t_list *node);
 int			assemble_heredoc(t_shell *shell, t_cmd *cmd, char *end_of_file);
+void		destroy_heredoc(t_shell *shell);
 
 /* ERROR HANDLING */
 
@@ -169,7 +171,7 @@ void		print_tokens(t_list *first);
 # define OPERATORS		"|><&$"
 # define DOLLAR			"$"
 # define BLANKS			" \n\t"
-# define HEREDOC_LOC	"tmp/heredoc"
+# define HEREDOC_LOC	"/home/alex/minishell/heredoc"
 # define SHELL_NAME		"shell"
 # define PATH_MAX		4096
 
@@ -225,11 +227,12 @@ enum e_err_code
 /* Actual return values expected from minishell program */
 enum e_exit_code
 {
-	E_BAD_EXEC = 1,
+	E_CMD_FAIL = 1,
 	E_SYNTAX = 2,
 	E_NO_PERM = 126,
 	E_NO_CMD = 127,
 	E_BAD_EXIT = 128,
+	E_SIG_INT = 130,
 };
 
 enum e_pipe_fd
