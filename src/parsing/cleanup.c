@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/03 17:29:54 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/03 18:23:14 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ void	free_token(void *to_be_del)
 	token = (t_token *)to_be_del;
 	if (token == NULL)
 		return ;
-	if (token != NULL)
-	{
-		if (token->content != NULL)
-			free(((t_token *)token)->content);
-		free(token);
-	}
+	if (token->content != NULL)
+		free(((t_token *)token)->content);
+	free(token);
 	to_be_del = NULL;
 }
 
@@ -61,6 +58,17 @@ void	free_tree(t_tree **tree)
 	(*tree) = NULL;
 }
 
+void	unlink_heredoc(void *heredoc)
+{
+	char	*heredoc_filepath;
+
+	heredoc_filepath = (char *)heredoc;
+	if (heredoc_filepath == NULL)
+		return;
+	unlink(heredoc_filepath);
+	free(heredoc);
+}
+
 void	free_minishell(t_shell *shell)
 {
 	shell->index = 0;
@@ -72,6 +80,7 @@ void	free_minishell(t_shell *shell)
 		ft_lstclear(&shell->env_list, free);
 	if (shell->tree_root)
 		free_tree(&shell->tree_root);
-	destroy_heredoc(shell);
+	if (shell->heredoc)
+		ft_lstclear(&shell->heredoc, unlink_heredoc);
 	free(shell);
 }
