@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 22:40:44 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 22:54:13 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_cmd(void *to_be_del)
 	cmd = (t_cmd *)to_be_del;
 	if (!cmd)
 		return ;
+	close_cmd_fd(cmd);
 	if (cmd->argv)
 		free(cmd->argv);
 	if (cmd->cmd_path)

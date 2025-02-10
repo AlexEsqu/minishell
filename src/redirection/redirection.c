@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 19:13:38 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 23:17:12 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,17 @@ void	open_file_and_store_fd_in_cmd(t_shell *shell, t_cmd *cmd, t_list *node)
 void	close_cmd_fd(t_cmd *cmd)
 {
 	if (cmd->fd_in != STDIN_FILENO && cmd->fd_in > 0)
+	{
+		fprintf(stderr, "closing %d\n", cmd->fd_in);
 		close(cmd->fd_in);
+		cmd->fd_in = -2;
+	}
 	if (cmd->fd_out != STDOUT_FILENO && cmd->fd_out > 0)
+	{
+		fprintf(stderr, "closing %d\n", cmd->fd_out);
 		close(cmd->fd_out);
+		cmd->fd_out = -2;
+	}
 }
 
 

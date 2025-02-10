@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 22:40:14 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 23:08:03 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	exec_with_fork(t_shell *shell, t_cmd *cmd)
 		if (!cmd->argv || cmd->exit_code)
 			exit(cmd->exit_code);
 		execve(cmd->cmd_path, cmd->argv, shell->env);
-		close_cmd_fd(cmd);
 		free_cmd(cmd);
 		free_minishell(shell);
 		exit(E_CMD_FAIL);
@@ -68,7 +67,6 @@ int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 		exit_code = exec_with_main(shell, cmd, piped);
 	else
 		exit_code = exec_with_fork(shell, cmd);
-	// free_cmd(cmd);
 	return (exit_code);
 }
 
