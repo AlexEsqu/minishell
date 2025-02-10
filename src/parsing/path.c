@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 20:59:58 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 22:48:50 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	check_each_path(t_cmd *cmd, char **paths)
 	{
 		tested_path = ft_strjoin(paths[i], cmd_stem);
 		if (!tested_path)
-			return (set_cmd_error(MALLOC_FAIL, cmd, cmd->cmd_path));
+			return (set_cmd_error(MALLOC_FAIL, cmd, cmd->arg_list->content));
 		if (access(tested_path, F_OK | R_OK) == 0)
 		{
 			cmd->cmd_path = tested_path;
@@ -53,7 +53,7 @@ void	check_each_path(t_cmd *cmd, char **paths)
 		i++;
 	}
 	free(cmd_stem);
-	return (set_cmd_error(NO_CMD, cmd, cmd->cmd_path));
+	return (set_cmd_error(NO_CMD, cmd, cmd->arg_list->content));
 }
 
 /* Accepts input format ./[relative_dir]/[binary] or /[absolute_dir]/[binary]*/
