@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 16:27:47 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 00:05:59 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,26 @@ t_token	*create_token(t_shell *shell, int lexem, char letter, char *content)
 	if (content)
 		token->content = content;
 	return (token);
+}
+
+void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
+{
+	t_file	*file;
+	t_list	*node;
+
+	file = (t_file *)ft_calloc(sizeof(t_file), 1);
+	if (!file)
+		return (set_error(MALLOC_FAIL, shell));
+	file->mode = token->lexem;
+	file->path = ft_strdup(token->content);
+	if (!file->path)
+		return (set_error(MALLOC_FAIL, shell));
+	node = ft_lstnew(file);
+	if (!node)
+		return (set_error(MALLOC_FAIL, shell));
+	if (file->mode == HEREDOC)
+		assemble_heredoc(shell, cmd, file, file->path);
+	ft_lstadd_back(&cmd->files, node);
 }
 
 t_cmd	*create_cmd(void)

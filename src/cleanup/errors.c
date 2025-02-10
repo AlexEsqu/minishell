@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:37:02 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 15:58:35 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 00:24:05 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	set_error(int err_code, t_shell *shell)
 	ft_putstr_fd("\n", STDERR_FILENO);
 	if (shell->tree_root)
 		free_tree(&shell->tree_root);
-	if (shell->heredoc)
-		ft_lstclear(&shell->heredoc, unlink_heredoc);
 	shell->critical_er = err_code;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:13:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 22:31:19 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 00:17:14 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current)
 	*current = (*current)->next;
 	((t_token *)(*current)->content)->lexem
 		= ((t_token *)(*current)->prev->content)->lexem;
-	open_file_and_store_fd_in_cmd(shell, cmd, *current);
+	create_file(shell, cmd, (t_token *)(*current)->content);
 }
 
 void	parse_command_arg(t_shell *shell, t_cmd *cmd, t_list **current)

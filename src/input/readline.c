@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 16:22:46 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 00:24:12 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	parse_and_exec_cmd(t_shell *shell, char *input)
 	parser(shell);
 	shell->last_exit_code = exec_tree(shell, shell->tree_root, false);
 	free_tree(&shell->tree_root);
-	if (shell->heredoc)
-		ft_lstclear(&shell->heredoc, unlink_heredoc);
 }
 
 void	init_readline(t_shell *shell)

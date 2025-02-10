@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 22:54:13 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 00:23:48 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@ void	free_token(void *to_be_del)
 	to_be_del = NULL;
 }
 
+void	free_file(void *to_be_del)
+{
+	t_file	*file;
+
+	file = (t_file *)to_be_del;
+	if (file == NULL)
+		return ;
+	if (file->delim != NULL)
+	{
+		free(file->delim);
+		unlink(file->path);
+	}
+	if (file->path != NULL)
+		free(file->path);
+	free(file);
+}
+
 void	free_cmd(void *to_be_del)
 {
 	t_cmd	*cmd;
@@ -38,10 +55,9 @@ void	free_cmd(void *to_be_del)
 	if (cmd->cmd_path)
 		free(cmd->cmd_path);
 	if (cmd->arg_list)
-	{
 		ft_lstclear(&cmd->arg_list, free);
-		cmd->arg_list = NULL;
-	}
+	if (cmd->files)
+		ft_lstclear(&cmd->files, free_file);
 	free(cmd);
 	to_be_del = NULL;
 }
@@ -62,16 +78,7 @@ void	free_tree(t_tree **tree)
 	(*tree) = NULL;
 }
 
-void	unlink_heredoc(void *heredoc)
-{
-	char	*heredoc_filepath;
 
-	heredoc_filepath = (char *)heredoc;
-	if (heredoc_filepath == NULL)
-		return ;
-	unlink(heredoc_filepath);
-	free(heredoc);
-}
 
 void	free_minishell(t_shell *shell)
 {
@@ -82,7 +89,5 @@ void	free_minishell(t_shell *shell)
 		ft_lstclear(&shell->env_list, free);
 	if (shell->tree_root)
 		free_tree(&shell->tree_root);
-	if (shell->heredoc)
-		ft_lstclear(&shell->heredoc, unlink_heredoc);
 	free(shell);
 }

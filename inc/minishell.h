@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 18:43:27 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 00:23:40 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,21 @@ typedef struct s_token
 	char			*content;	// malloced words or letter
 }	t_token;
 
+typedef struct s_files
+{
+	int				mode;		// infile, outfile, heredoc or append
+	char			*path;		// pathfile
+	char			*delim;		// delimiter if heredoc, else NULL
+	int				fd;			// resulting fd once opened
+	bool			is_quoted;	// is the delimiter quoted, expanding content
+}	t_file;
+
 typedef struct s_cmd
 {
 	char			**argv;		// array created with cmd_path, then arguments
 	char			*cmd_path;	// binary filepath, absolute/through PATH
 	t_list			*arg_list;	// linked list of command arguments
+	t_list			*files;		// linked list of input and / or output files
 	int				fd_out;		// fd of the final output redirection
 	int				fd_in;		// fd of the final input redirection
 	int				exit_code;	// value returned by the execution of command
@@ -144,9 +154,8 @@ int			connect_pipes_and_exec(t_shell *shell, t_tree *tree,
 				int pipe_fd[2], int mode);
 void		close_pipe(int *pipe_fd);
 void		reset_std(t_shell *shell, bool piped);
-void		open_file_and_store_fd_in_cmd(t_shell *shell, t_cmd *cmd, t_list *node);
-int			assemble_heredoc(t_shell *shell, t_cmd *cmd, char *end_of_file);
-void		unlink_heredoc(void *heredoc);
+void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
+void		assemble_heredoc(t_shell *s, t_cmd *cmd, t_file *file, char *eof);
 void		close_cmd_fd(t_cmd *cmd);
 
 /* ERROR HANDLING */
