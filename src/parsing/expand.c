@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/13 20:31:22 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 10:48:20 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	{
 		relevant_env = find_env(shell->env_list, &var_name[1]);
 		if (relevant_env)
-			expanded_var = (char *)relevant_env->content + ft_strlen(var_name);
+			expanded_var = ft_strdup(relevant_env->content + ft_strlen(var_name));
 		else
 			expanded_var = NULL;
 	}
@@ -101,6 +101,8 @@ void	expand_in_string(t_shell *shell, t_list *node)
 		token = (t_token *)current->content;
 		if (token->lexem == VARIABLE)
 			expand_variable(shell, &token->content);
+		if (token->lexem == STRING && token->letter != '\'')
+			expand_in_string(shell, current);
 		current = current->next;
 	}
 	expanded_string = flatten_token_list_into_string(shell, token_list);

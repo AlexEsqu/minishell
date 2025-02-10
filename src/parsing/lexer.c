@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:34:47 by alex              #+#    #+#             */
-/*   Updated: 2025/01/30 18:48:19 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 10:39:12 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	lexer(t_shell *shell, t_list **token_list)
 	apply_to_list(shell, *token_list, id_operators);
 	apply_to_list(shell, *token_list, group_strings);
 	apply_to_list(shell, *token_list, remove_space);
+	// print_tokens(shell->token_list);
 }
 
 // TO DO

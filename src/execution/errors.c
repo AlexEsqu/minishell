@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:37:02 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/03 11:38:28 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 10:57:38 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void	set_error(int err_code, t_shell *shell)
 	print_error();
 	ft_putstr_fd(get_error_message(err_code), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
+	if (shell->tree_root)
+		free_tree(&shell->tree_root);
+	if (shell->heredoc)
+		ft_lstclear(&shell->heredoc, unlink_heredoc);
 	shell->critical_er = err_code;
 }
 
@@ -72,6 +76,15 @@ void	set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd)
 		cmd->exit_code = E_NO_CMD;
 	else
 		cmd->exit_code = E_SYNTAX;
+	if (cmd->argv)
+		free(cmd->argv);
+	if (cmd->cmd_path)
+		free(cmd->cmd_path);
+	if (cmd->arg_list)
+	{
+		ft_lstclear(&cmd->arg_list, free);
+		cmd->arg_list = NULL;
+	}
 }
 
 void	print_syntax_error(t_token *token)
