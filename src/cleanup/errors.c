@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:37:02 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 14:34:48 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:58:35 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,6 @@ void	set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd)
 		cmd->exit_code = E_NO_CMD;
 	else
 		cmd->exit_code = E_SYNTAX;
-	// if (cmd->argv)
-	// 	free(cmd->argv);
-	// if (cmd->cmd_path)
-	// 	free(cmd->cmd_path);
-	// if (cmd->arg_list)
-	// {
-	// 	ft_lstclear(&cmd->arg_list, free);
-	// 	cmd->arg_list = NULL;
-	// }
 }
 
 void	print_syntax_error(t_token *token)

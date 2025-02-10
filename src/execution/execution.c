@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/03 17:49:57 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:18:30 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,16 @@ int	exec_with_fork(t_shell *shell, t_cmd *cmd)
 	if (cmd->exit_code)
 		return (cmd->exit_code);
 	if (create_fork(shell, &cmd->fork_pid) != SUCCESS)
-		return (FORK_ERROR);
+		return (set_cmd_error(FORK_ERROR, cmd, NULL), FORK_ERROR);
 	if (cmd->fork_pid == 0)
 	{
 		redirect_for_cmd(shell, cmd);
-		if (cmd->exit_code)
-			exit(cmd->exit_code);
-		get_cmd_path(shell, cmd);
+		find_cmd_path(shell, cmd);
 		if (cmd->exit_code)
 			exit(cmd->exit_code);
 		apply_to_list(shell, cmd->arg_list, expand);
 		put_arg_in_array(cmd);
-		if (!cmd->argv)
+		if (!cmd->argv || cmd->exit_code)
 			exit(cmd->exit_code);
 		execve(cmd->cmd_path, cmd->argv, shell->env);
 		free_minishell(shell);
@@ -55,17 +53,17 @@ int	exec_with_main(t_shell *shell, t_cmd *cmd, bool piped)
 int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 {
 	t_cmd	*cmd;
+	int		exit_code;
 
 	cmd = (t_cmd *)tree->content;
 	if (!cmd->arg_list || cmd->exit_code)
-		return (cmd->exit_code);
-	// {
-	// 	redirect_for_cmd(shell, cmd);
-	// 	reset_std(shell, piped);
-	// }
+		exit_code = cmd->exit_code;
 	else if (is_builtin(cmd))
-		return (exec_with_main(shell, cmd, piped));
-	return (exec_with_fork(shell, cmd));
+		exit_code = exec_with_main(shell, cmd, piped);
+	else
+		exit_code = exec_with_fork(shell, cmd);
+	free_cmd(cmd);
+	return (exit_code);
 }
 
 int	exec_pipe(t_shell *shell, t_tree *tree)
@@ -75,15 +73,15 @@ int	exec_pipe(t_shell *shell, t_tree *tree)
 	int	exit_code;
 
 	if (create_pipe(shell, pipe_fd) != SUCCESS)
-		return (PIPE_ERROR);
+		return (set_error(PIPE_ERROR, shell), PIPE_ERROR);
 	if (create_fork(shell, &fork_pid[0]) != SUCCESS)
-		return (FORK_ERROR);
+		return (set_error(FORK_ERROR, shell), FORK_ERROR);
 	if (fork_pid[0] == 0)
 		connect_pipes_and_exec(shell, tree->left, pipe_fd, WRITE);
 	else
 	{
 		if (create_fork(shell, &fork_pid[1]) != SUCCESS)
-			return (FORK_ERROR);
+			return (set_error(FORK_ERROR, shell), FORK_ERROR);
 		if (fork_pid[1] == 0)
 			connect_pipes_and_exec(shell, tree->right, pipe_fd, READ);
 		else

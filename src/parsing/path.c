@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/03 12:01:15 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 17:01:18 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,11 @@ void	check_environ_paths(t_shell *shell, t_cmd *cmd)
 		set_error(MALLOC_FAIL, shell);
 	check_each_path(cmd, shell->paths);
 	if (cmd->exit_code)
+	{
+		ft_free_tab(shell->paths);
+		shell->paths = NULL;
 		return ;
+	}
 	if (access(cmd->cmd_path, X_OK) != 0)
 		set_cmd_error(PERM_ERROR, cmd, cmd->cmd_path);
 }
@@ -85,11 +89,13 @@ void	check_environ_paths(t_shell *shell, t_cmd *cmd)
 Throws error if path is directory or not dir but trailed by /
 Tries absolute and relative path for command
 If non existent, tries paths from $PATH */
-void	get_cmd_path(t_shell *shell, t_cmd *cmd)
+void	find_cmd_path(t_shell *shell, t_cmd *cmd)
 {
+	if (cmd->exit_code)
+		return ;
 	if (!cmd || !cmd->arg_list || !((char *)cmd->arg_list->content)[0])
 		return (set_cmd_error(NO_CMD, cmd, NULL));
-	cmd->cmd_path = (char *)cmd->arg_list->content;
+	cmd->cmd_path = ft_strdup((char *)cmd->arg_list->content);
 	check_if_directory(cmd, cmd->cmd_path);
 	if (!cmd->exit_code)
 		check_absolute_or_relative_path(cmd);

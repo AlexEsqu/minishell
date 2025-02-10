@@ -6,64 +6,11 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/02/03 11:27:31 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:13:50 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	token_is_redirection(t_list *token_node)
-{
-	return (token_is(OUTFILE, token_node) || token_is(APPEND, token_node)
-		|| token_is(INFILE, token_node) || token_is(HEREDOC, token_node));
-}
-
-int	token_is_operator(t_list *token_node)
-{
-	return (token_is(PIPE, token_node) || token_is(END, token_node)
-		|| token_is(OR, token_node) || token_is(AND, token_node));
-}
-
-void	parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current)
-{
-	if (shell->critical_er || cmd->exit_code)
-		return ;
-	if (!token_is(WORD, (*current)->next))
-		return (set_error(SYNTAX_ERROR, shell));
-	*current = (*current)->next;
-	((t_token *)(*current)->content)->lexem
-		= ((t_token *)(*current)->prev->content)->lexem;
-	open_file_and_store_fd_in_cmd(shell, cmd, *current);
-}
-
-t_tree	*parse_command(t_shell *shell, t_list **node)
-{
-	t_cmd	*cmd;
-	char	*word;
-
-	if (!(*node))
-		return (set_error(E_NO_CMD, shell), NULL);
-	cmd = create_cmd();
-	while ((*node)->next && !token_is_operator(*node))
-	{
-		if (token_is_redirection((*node)))
-		{
-			parse_in_out_files(shell, cmd, node);
-			if (cmd->exit_code)
-				return (NULL);
-		}
-		else if (token_is(WORD, (*node)) || token_is(STRING, (*node))
-			|| token_is(VARIABLE, (*node)))
-		{
-			word = ft_strdup(((t_token *)(*node)->content)->content);
-			if (!word)
-				return (set_error(MALLOC_FAIL, shell), NULL);
-			ft_lstadd_back(&cmd->arg_list, ft_lstnew(word));
-		}
-		*node = (*node)->next;
-	}
-	return (create_branch(shell, AST_CMD, cmd));
-}
 
 t_tree	*parse_pipe(t_shell *shell, t_list **token)
 {

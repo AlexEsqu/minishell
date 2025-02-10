@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:04:03 by alex              #+#    #+#             */
-/*   Updated: 2024/12/30 13:24:33 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/10 16:28:05 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,16 @@ int	token_is(int lexem, t_list *node)
 	return (((t_token *)node->content)->lexem == lexem);
 }
 
-t_token	*create_token(t_shell *shell, int lexem, char letter, char *content)
+int	token_is_redirection(t_list *token_node)
 {
-	t_token	*token;
+	return (token_is(OUTFILE, token_node) || token_is(APPEND, token_node)
+		|| token_is(INFILE, token_node) || token_is(HEREDOC, token_node));
+}
 
-	token = (t_token *)ft_calloc(sizeof(t_token), 1);
-	if (!token)
-		return (set_error(MALLOC_FAIL, shell), NULL);
-	token->letter = letter;
-	token->lexem = lexem;
-	if (content)
-		token->content = content;
-	return (token);
+int	token_is_operator(t_list *token_node)
+{
+	return (token_is(PIPE, token_node) || token_is(END, token_node)
+		|| token_is(OR, token_node) || token_is(AND, token_node));
 }
 
 void	add_token(t_shell *shell, t_list **dest, char letter, char *content)
@@ -54,12 +52,4 @@ void	merge_token(t_shell *shell, t_list *start)
 	ft_lstpop(&shell->token_list, start->next, free_token);
 }
 
-void	apply_to_list(t_shell *shell, t_list *node,
-			void function(t_shell *, t_list *))
-{
-	while (node != NULL)
-	{
-		function(shell, node);
-		node = node->next;
-	}
-}
+

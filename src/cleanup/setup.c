@@ -6,11 +6,25 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/02/02 19:34:24 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:27:47 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_token	*create_token(t_shell *shell, int lexem, char letter, char *content)
+{
+	t_token	*token;
+
+	token = (t_token *)ft_calloc(sizeof(t_token), 1);
+	if (!token)
+		return (set_error(MALLOC_FAIL, shell), NULL);
+	token->letter = letter;
+	token->lexem = lexem;
+	if (content)
+		token->content = content;
+	return (token);
+}
 
 t_cmd	*create_cmd(void)
 {
@@ -37,4 +51,14 @@ t_shell	*create_minishell(char **env)
 	dup2(STDIN_FILENO, shell->std_in);
 	extract_env_as_linked_list(shell);
 	return (shell);
+}
+
+void	apply_to_list(t_shell *shell, t_list *node,
+			void function(t_shell *, t_list *))
+{
+	while (node != NULL)
+	{
+		function(shell, node);
+		node = node->next;
+	}
 }

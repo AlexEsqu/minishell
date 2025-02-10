@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/03 18:23:14 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:30:30 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	free_cmd(void *to_be_del)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)to_be_del;
+	if (!cmd)
+		return ;
 	if (cmd->argv)
 		free(cmd->argv);
 	if (cmd->cmd_path)
@@ -46,9 +48,7 @@ void	free_tree(t_tree **tree)
 {
 	if (!(*tree))
 		return ;
-	if ((*tree)->type == AST_CMD)
-		free_cmd((*tree)->content);
-	else
+	if ((*tree)->type != AST_CMD)
 	{
 		free_tree(&(*tree)->left);
 		if ((*tree)->right)
@@ -64,7 +64,7 @@ void	unlink_heredoc(void *heredoc)
 
 	heredoc_filepath = (char *)heredoc;
 	if (heredoc_filepath == NULL)
-		return;
+		return ;
 	unlink(heredoc_filepath);
 	free(heredoc);
 }

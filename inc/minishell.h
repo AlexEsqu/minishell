@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/03 18:24:46 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 18:01:48 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ t_shell		*create_minishell(char **env);
 t_tree		*create_branch(t_shell *shell, int type, void *content);
 t_cmd		*create_cmd(void);
 void		parser(t_shell *shell);
+t_tree		*parse_command(t_shell *shell, t_list **node);
 
 /* EXECUTION */
 
@@ -113,7 +114,7 @@ int			exec_tree(t_shell *shell, t_tree *tree, bool piped);
 int			exec_pipe(t_shell *shell, t_tree *tree);
 int			exec_single_cmd(t_shell *shell, t_tree *tree, bool piped);
 int			create_fork(t_shell *shell, int	*fork_pid);
-void		get_cmd_path(t_shell *shell, t_cmd *cmd);
+void		find_cmd_path(t_shell *shell, t_cmd *cmd);
 void		put_arg_in_array(t_cmd *cmd);
 
 /* BUILT IN */
@@ -164,6 +165,12 @@ void		free_minishell(t_shell *shell);
 /* DEBUG */
 
 void		print_tokens(t_list *first);
+
+
+/* READABILITY */
+
+int			token_is_redirection(t_list *token_node);
+int			token_is_operator(t_list *token_node);
 
 # define TRUE			1
 # define FALSE			0

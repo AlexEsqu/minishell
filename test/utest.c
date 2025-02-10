@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/03 11:52:45 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:18:30 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -850,7 +850,7 @@ Test(Path, get_valid_cmd_path)
 	extract_env_as_linked_list(shell);
 	cmd = create_cmd();
 	cmd->arg_list = ft_lstnew("ls");
-	get_cmd_path(shell, cmd);
+	find_cmd_path(shell, cmd);
 	cr_assert(cmd->cmd_path != NULL);
 	cr_assert(eq(str, cmd->cmd_path, "/usr/bin/ls"));
 }
@@ -863,7 +863,7 @@ Test(Path, get_path_relative_command_with_dot)
 	shell = create_minishell(environ);
 	cmd = create_cmd();
 	cmd->arg_list = ft_lstnew("./test/allowed");
-	get_cmd_path(shell, cmd);
+	find_cmd_path(shell, cmd);
 	cr_assert(cmd->exit_code == 0);
 	cr_assert_str_eq(cmd->cmd_path, "./test/allowed");
 }
@@ -876,7 +876,7 @@ Test(Path, get_path_relative_command)
 	shell = create_minishell(environ);
 	cmd = create_cmd();
 	cmd->arg_list = ft_lstnew("test/allowed");
-	get_cmd_path(shell, cmd);
+	find_cmd_path(shell, cmd);
 	cr_assert(cmd->exit_code == 0);
 	cr_assert_str_eq(cmd->cmd_path, "test/allowed");
 }
@@ -889,7 +889,7 @@ Test(Path, get_path_unknown_command, .init=redirect_all_std)
 	shell = create_minishell(environ);
 	cmd = create_cmd();
 	cmd->arg_list = ft_lstnew("eccho");
-	get_cmd_path(shell, cmd);
+	find_cmd_path(shell, cmd);
 	cr_assert(cmd->exit_code == E_NO_CMD);
 	cr_assert_stderr_eq_str("shell: eccho: Command not found\n");
 	free_minishell(shell);
@@ -907,7 +907,7 @@ Test(Path, get_path_forbidden_command, .init=redirect_all_std)
 	close(fd);
 	chmod("test/forbidden", 0004);
 	cmd->arg_list = ft_lstnew("./test/forbidden");
-	get_cmd_path(shell, cmd);
+	find_cmd_path(shell, cmd);
 	cr_assert(cmd->exit_code == 126);
 	cr_assert_stderr_eq_str("shell: ./test/forbidden: Permission denied\n");
 	chmod("test/forbidden", 777);
@@ -922,7 +922,7 @@ Test(Path, get_path_directory_cmd, .init=redirect_all_std)
 	shell = create_minishell(environ);
 	cmd = create_cmd();
 	cmd->arg_list = ft_lstnew("test/");
-	get_cmd_path(shell, cmd);
+	find_cmd_path(shell, cmd);
 	cr_assert(cmd->exit_code == 126);
 	cr_assert_stderr_eq_str("shell: test/: Is a directory\n");
 }
@@ -935,7 +935,7 @@ Test(Path, get_path_wrong_directory_cmd, .init=redirect_all_std)
 	shell = create_minishell(environ);
 	cmd = create_cmd();
 	cmd->arg_list = ft_lstnew("test/utest.c/");
-	get_cmd_path(shell, cmd);
+	find_cmd_path(shell, cmd);
 	cr_assert(cmd->exit_code == 126);
 	cr_assert_stderr_eq_str("shell: test/utest.c/: Is not a directory\n");
 }

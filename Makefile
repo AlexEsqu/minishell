@@ -6,7 +6,7 @@
 #    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/10 11:39:13 by mkling           ###   ########.fr        #
+#    Updated: 2025/02/10 16:46:29 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,34 +21,22 @@ DIR_EXEC	= execution
 DIR_PARS	= parsing
 DIR_BUTI	= builtins
 DIR_REDI	= redirection
+DIR_CLEA	= cleanup
+DIR_EXPA	= expand
+DIR_INPU	= input
+DIR_LEXR	= lexer
 
 DIR_OBJ		= obj
 DIR_OBJS	= $(DIR_OBJ) $(DIR_OBJ)/$(DIR_EXEC) $(DIR_OBJ)/$(DIR_PARS) \
-				$(DIR_OBJ)/$(DIR_BUTI) $(DIR_OBJ)/$(DIR_REDI)
+				$(DIR_OBJ)/$(DIR_BUTI) $(DIR_OBJ)/$(DIR_REDI) \
+				$(DIR_OBJ)/$(DIR_CLEA) $(DIR_OBJ)/$(DIR_EXPA) \
+				$(DIR_OBJ)/$(DIR_INPU) $(DIR_OBJ)/$(DIR_LEXR)
 
 DIR_INC		= inc
 
 DIR_LIB		= $(DIR_INC)/libft
 
 HEADER		= $(DIR_INC)/minishell.h
-
-FUNC_EXEC	= 	execution.c \
-				readability.c \
-				path.c \
-				setup.c \
-				errors.c \
-				ast.c
-
-FUNC_PARS	=	readline.c \
-				token.c \
-				scanner.c \
-				lexer.c \
-				parser.c \
-				signals.c \
-				syntax.c \
-				expand.c \
-				variable.c \
-				cleanup.c
 
 FUNC_BUTI	=	cd.c \
 				echo.c \
@@ -59,12 +47,39 @@ FUNC_BUTI	=	cd.c \
 				unset.c \
 				builtins.c
 
+FUNC_CLEA	=	cleanup.c \
+				errors.c \
+				setup.c
+
+FUNC_EXEC	=	execution.c \
+				readability.c \
+				ast.c
+
+FUNC_EXPA	=	expand.c \
+				variable.c
+
+FUNC_INPU	=	readline.c \
+				signals.c
+
+FUNC_LEXR	=	lexer.c \
+				scanner.c \
+				syntax.c \
+				token.c
+
+FUNC_PARS	=	command.c \
+				parser.c \
+				path.c \
+
 FUNC_REDI	=	heredoc.c \
 				redirection.c
 
-FUNC		= 	$(addprefix $(DIR_EXEC)/, $(FUNC_EXEC)) \
+FUNC		=	$(addprefix $(DIR_BUTI)/, $(FUNC_BUTI)) \
+				$(addprefix $(DIR_CLEA)/, $(FUNC_CLEA)) \
+				$(addprefix $(DIR_EXEC)/, $(FUNC_EXEC)) \
+				$(addprefix $(DIR_EXPA)/, $(FUNC_EXPA)) \
+				$(addprefix $(DIR_INPU)/, $(FUNC_INPU)) \
+				$(addprefix $(DIR_LEXR)/, $(FUNC_LEXR)) \
 				$(addprefix $(DIR_PARS)/, $(FUNC_PARS)) \
-				$(addprefix $(DIR_BUTI)/, $(FUNC_BUTI)) \
 				$(addprefix $(DIR_REDI)/, $(FUNC_REDI)) \
 
 MAIN		= main.c
@@ -96,7 +111,8 @@ T_SRC		= utest.c
 
 T_OBJ		= $(filter-out $(T_EXCL), $(OBJ)) $(addprefix $(T_DIR)/, $(T_SRC))
 
-T_INC		= -I$(HOME)/Criterion/include/ -I$(HOME)/Criterion/ $(INC)
+T_INC		= -I$(HOME)/Criterion/include/ \
+				-I$(HOME)/Criterion/ $(INC)
 
 T_LIB		= -Wl,-rpath=$(HOME)/Criterion/build/src \
 				-L$(HOME)/Criterion/build/src \

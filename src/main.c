@@ -3,32 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:09:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 01:00:00 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/10 16:23:27 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_shell	*shell;
-// 	char	*false_argv[2] = {"export", NULL};
 
-// 	shell = create_minishell(envp);
-// 	if (argc > 1)
-// 	{
-// 		export(shell, &argv[1], STDOUT_FILENO);
-// 		fprintf(stderr, "export done\n\n");
-// 		export(shell, false_argv, STDOUT_FILENO);
-// 		unset(shell, &argv[1]);
-// 		fprintf(stderr, "unset done\n\n");
-// 		export(shell, false_argv, STDOUT_FILENO);
-// 	}
-// 	return (0);
-// }
 
 int	main(int argc, char **argv, char **envp)
 {
