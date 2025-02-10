@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 17:01:18 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 20:59:58 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ void	check_each_path(t_cmd *cmd, char **paths)
 	size_t	i;
 
 	cmd_stem = ft_strjoin("/", cmd->cmd_path);
+	free(cmd->cmd_path);
+	cmd->cmd_path = NULL;
 	i = 0;
 	while (paths[i])
 	{
-		tested_path = ft_strjoin(paths[i++], cmd_stem);
+		tested_path = ft_strjoin(paths[i], cmd_stem);
 		if (!tested_path)
 			return (set_cmd_error(MALLOC_FAIL, cmd, cmd->cmd_path));
 		if (access(tested_path, F_OK | R_OK) == 0)
@@ -48,6 +50,7 @@ void	check_each_path(t_cmd *cmd, char **paths)
 			return ;
 		}
 		free(tested_path);
+		i++;
 	}
 	free(cmd_stem);
 	return (set_cmd_error(NO_CMD, cmd, cmd->cmd_path));
@@ -75,14 +78,10 @@ void	check_environ_paths(t_shell *shell, t_cmd *cmd)
 	if (!shell->paths)
 		set_error(MALLOC_FAIL, shell);
 	check_each_path(cmd, shell->paths);
-	if (cmd->exit_code)
-	{
-		ft_free_tab(shell->paths);
-		shell->paths = NULL;
-		return ;
-	}
-	if (access(cmd->cmd_path, X_OK) != 0)
+	if (!cmd->exit_code && access(cmd->cmd_path, X_OK) != 0)
 		set_cmd_error(PERM_ERROR, cmd, cmd->cmd_path);
+	ft_free_tab(shell->paths);
+	shell->paths = NULL;
 }
 
 /* Checks first if a command path exist
@@ -91,7 +90,7 @@ Tries absolute and relative path for command
 If non existent, tries paths from $PATH */
 void	find_cmd_path(t_shell *shell, t_cmd *cmd)
 {
-	if (cmd->exit_code)
+	if (cmd->exit_code || is_builtin(cmd))
 		return ;
 	if (!cmd || !cmd->arg_list || !((char *)cmd->arg_list->content)[0])
 		return (set_cmd_error(NO_CMD, cmd, NULL));

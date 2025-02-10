@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 18:01:48 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 18:43:27 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ void		reset_std(t_shell *shell, bool piped);
 void		open_file_and_store_fd_in_cmd(t_shell *shell, t_cmd *cmd, t_list *node);
 int			assemble_heredoc(t_shell *shell, t_cmd *cmd, char *end_of_file);
 void		unlink_heredoc(void *heredoc);
+void		close_cmd_fd(t_cmd *cmd);
 
 /* ERROR HANDLING */
 

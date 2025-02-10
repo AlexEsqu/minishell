@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/03 18:00:55 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 19:13:38 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static void	open_file(t_cmd *cmd, int mode, char *filepath)
 {
 	if (mode == OUTFILE || mode == APPEND)
 	{
-		if (access(filepath, F_OK) == SUCCESS && access(filepath, W_OK) != SUCCESS)
+		if (access(filepath, F_OK) == SUCCESS
+			&& access(filepath, W_OK) != SUCCESS)
 			return (set_cmd_error(PERM_ERROR, cmd, filepath));
 		if (mode == APPEND)
 			cmd->fd_out = open(filepath, O_RDWR | O_APPEND | O_CREAT, 0666);
@@ -71,6 +72,14 @@ void	open_file_and_store_fd_in_cmd(t_shell *shell, t_cmd *cmd, t_list *node)
 		else
 			open_file(cmd, INFILE, token->content);
 	}
+}
+
+void	close_cmd_fd(t_cmd *cmd)
+{
+	if (cmd->fd_in != STDIN_FILENO && cmd->fd_in > 0)
+		close(cmd->fd_in);
+	if (cmd->fd_out != STDOUT_FILENO && cmd->fd_out > 0)
+		close(cmd->fd_out);
 }
 
 

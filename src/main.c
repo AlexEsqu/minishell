@@ -6,13 +6,11 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:09:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 16:23:27 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 18:07:04 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 int	main(int argc, char **argv, char **envp)
 {

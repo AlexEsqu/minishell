@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:13:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 17:59:25 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 22:31:19 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	parse_command_arg(t_shell *shell, t_cmd *cmd, t_list **current)
 	if (!arg)
 		return (set_error(MALLOC_FAIL, shell));
 	ft_lstadd_back(&cmd->arg_list, ft_lstnew(arg));
-	if (!cmd->arg_list->next)
+	if (cmd->arg_list->next == NULL)
 		find_cmd_path(shell, cmd);
 }
 
@@ -53,6 +53,9 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 		*node = (*node)->next;
 	}
 	if (cmd->exit_code)
-		return (create_branch(shell, AST_CMD, cmd));
+	{
+		free_cmd(cmd);
+		return (create_branch(shell, AST_CMD, create_cmd()));
+	}
 	return (create_branch(shell, AST_CMD, cmd));
 }

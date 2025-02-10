@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 15:30:30 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/10 22:40:44 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	free_cmd(void *to_be_del)
 		cmd->arg_list = NULL;
 	}
 	free(cmd);
+	to_be_del = NULL;
 }
 
 void	free_tree(t_tree **tree)
@@ -54,6 +55,8 @@ void	free_tree(t_tree **tree)
 		if ((*tree)->right)
 			free_tree(&(*tree)->right);
 	}
+	else if ((*tree)->content)
+		free_cmd((*tree)->content);
 	free(*tree);
 	(*tree) = NULL;
 }
@@ -72,8 +75,6 @@ void	unlink_heredoc(void *heredoc)
 void	free_minishell(t_shell *shell)
 {
 	shell->index = 0;
-	if (shell->paths)
-		ft_free_tab(shell->paths);
 	if (shell->token_list)
 		ft_lstclear(&shell->token_list, free_token);
 	if (shell->env_list)
