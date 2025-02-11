@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:13:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 00:17:14 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 23:36:45 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,6 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 			|| token_is(VARIABLE, *node))
 			parse_command_arg(shell, cmd, node);
 		*node = (*node)->next;
-	}
-	if (cmd->exit_code)
-	{
-		free_cmd(cmd);
-		return (create_branch(shell, AST_CMD, create_cmd()));
 	}
 	return (create_branch(shell, AST_CMD, cmd));
 }

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 14:18:04 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 23:35:44 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)tree->content;
+	if (cmd->exit_code)
+		return (cmd->exit_code);
 	if (!cmd->arg_list && cmd->files)
 	{
 		redirect_for_cmd(shell, cmd);
