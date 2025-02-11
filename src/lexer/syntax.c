@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:42:40 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/03 11:48:16 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 23:23:09 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ void	is_missing_redirection(t_shell *shell, t_list *node)
 	return ;
 }
 
-void	is_missing_cmd_before_pipe(t_shell *shell, t_list *node)
+void	is_missing_cmd_before_pipe_or_amp(t_shell *shell, t_list *node)
 {
 	t_list	*current;
 
 	if (shell->critical_er || !token_is(OPERATOR, node)
-		|| ((t_token *)node->content)->letter != '|')
+		|| (((t_token *)node->content)->letter != '|'
+			&& ((t_token *)node->content)->letter != '&'))
 		return ;
 	current = node->prev;
 	while (!token_is(START, current) && !token_is(PIPE, current))
@@ -79,12 +80,13 @@ void	is_missing_cmd_before_pipe(t_shell *shell, t_list *node)
 	shell->critical_er = SYNTAX_ERROR;
 }
 
-void	is_missing_cmd_after_pipe(t_shell *shell, t_list *node)
+void	is_missing_cmd_after_pipe_or_amp(t_shell *shell, t_list *node)
 {
 	t_list	*current;
 
 	if (shell->critical_er || !token_is(OPERATOR, node)
-		|| ((t_token *)node->content)->letter != '|')
+		|| (((t_token *)node->content)->letter != '|'
+			&& ((t_token *)node->content)->letter != '&'))
 		return ;
 	current = node->next;
 	while (!token_is(END, current) && !token_is(PIPE, current))
@@ -99,8 +101,8 @@ void	is_missing_cmd_after_pipe(t_shell *shell, t_list *node)
 
 int	check_syntax(t_shell *shell, t_list *node)
 {
-	apply_to_list(shell, node, is_missing_cmd_before_pipe);
-	apply_to_list(shell, node, is_missing_cmd_after_pipe);
+	apply_to_list(shell, node, is_missing_cmd_before_pipe_or_amp);
+	apply_to_list(shell, node, is_missing_cmd_after_pipe_or_amp);
 	apply_to_list(shell, node, is_missing_redirection);
 	apply_to_list(shell, node, is_missing_delimiter);
 	if (shell->critical_er)
