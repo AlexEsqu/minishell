@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 23:08:03 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:18:04 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,18 @@ int	exec_with_main(t_shell *shell, t_cmd *cmd, bool piped)
 int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 {
 	t_cmd	*cmd;
-	int		exit_code;
 
 	cmd = (t_cmd *)tree->content;
-	if (!cmd->arg_list || cmd->exit_code)
-		exit_code = cmd->exit_code;
+	if (!cmd->arg_list && cmd->files)
+	{
+		redirect_for_cmd(shell, cmd);
+		reset_std(shell, piped);
+	}
 	else if (is_builtin(cmd))
-		exit_code = exec_with_main(shell, cmd, piped);
+		exec_with_main(shell, cmd, piped);
 	else
-		exit_code = exec_with_fork(shell, cmd);
-	return (exit_code);
+		exec_with_fork(shell, cmd);
+	return (cmd->exit_code);
 }
 
 int	exec_pipe(t_shell *shell, t_tree *tree)

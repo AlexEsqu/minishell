@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 00:23:40 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 20:43:26 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void		init_readline(t_shell *shell);
 /* TOKENIZER */
 
 void		scan(t_shell *shell, t_list **token_list, char *input);
-t_token		*create_token(t_shell *shell, int lexem, char letter, char *content);
+t_token		*create_token(t_shell *s, int lexem, char letter, char *content);
 void		add_token(t_shell *shell, t_list **dest, char let, char *content);
 void		merge_token(t_shell *shell, t_list *start);
 void		lexer(t_shell *shell, t_list **token_list);
@@ -148,6 +148,8 @@ int			replace_env(t_shell *shell, char *env_value);
 
 /* REDIRECTION */
 
+void		parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current);
+void		open_file(t_cmd *cmd, int mode, char *path);
 void		redirect_for_cmd(t_shell *shell, t_cmd *cmd);
 int			create_pipe(t_shell *shell, int *pipe_fd);
 int			connect_pipes_and_exec(t_shell *shell, t_tree *tree,
@@ -175,7 +177,6 @@ void		free_minishell(t_shell *shell);
 /* DEBUG */
 
 void		print_tokens(t_list *first);
-
 
 /* READABILITY */
 

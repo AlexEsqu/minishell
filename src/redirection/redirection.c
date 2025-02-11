@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 00:19:41 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/11 20:56:58 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,13 @@ void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
 	}
 	if (cmd->fd_in == -2)
 		cmd->fd_in = STDIN_FILENO;
-	else if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
+	else if (dup2(cmd->fd_in, STDIN_FILENO) == -1
+		|| close(cmd->fd_in) != SUCCESS)
 		return (set_cmd_error(DUP_ERROR, cmd, NULL));
 	if (cmd->fd_out == -2)
 		cmd->fd_out = STDOUT_FILENO;
-	else if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
+	else if (dup2(cmd->fd_out, STDOUT_FILENO) == -1
+		|| close(cmd->fd_out) != SUCCESS)
 		return (set_cmd_error(DUP_ERROR, cmd, NULL));
 }
 
