@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:58:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 14:29:06 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 13:58:37 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -519,7 +519,7 @@ Test(Expand, valid_variable)
 		.env_list = &env_node,
 	};
 
-	expand(&shell, &arg_node);
+	expand_node(&shell, &arg_node);
 	cr_assert_str_eq(arg_node.content, "alex");
 }
 
@@ -540,7 +540,7 @@ Test(Expand, absent_variable)
 		.env_list = &env_node,
 	};
 
-	expand(&shell, &arg_node);
+	expand_node(&shell, &arg_node);
 	cr_assert(arg_node.content == NULL);
 }
 
@@ -561,7 +561,7 @@ Test(Expand, invalid_variable)
 		.env_list = &env_node,
 	};
 
-	expand(&shell, &arg_node);
+	expand_node(&shell, &arg_node);
 	cr_assert_str_eq(arg_node.content, "$");
 }
 
@@ -582,7 +582,7 @@ Test(Expand, exit_code_variable)
 		.env_list = &env_node,
 	};
 
-	expand(&shell, &arg_node);
+	expand_node(&shell, &arg_node);
 	cr_assert_str_eq(arg_node.content, "42");
 }
 
@@ -603,7 +603,7 @@ Test(Expand, string_with_variable)
 		.env_list = &env_node,
 	};
 
-	expand(&shell, &arg_node);
+	expand_node(&shell, &arg_node);
 	cr_assert_str_eq(arg_node.content, "hello alex");
 }
 
@@ -624,7 +624,7 @@ Test(Expand, string_without_variable)
 		.env_list = &env_node,
 	};
 
-	expand(&shell, &arg_node);
+	expand_node(&shell, &arg_node);
 	cr_assert_str_eq(arg_node.content, "hello and goodbye");
 }
 
@@ -645,7 +645,7 @@ Test(Expand, string_with_invalid_variable)
 		.env_list = &env_node,
 	};
 
-	expand(&shell, &arg_node);
+	expand_node(&shell, &arg_node);
 	cr_assert_str_eq(arg_node.content, "hello and $ goodbye");
 }
 

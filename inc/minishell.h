@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 20:43:26 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 14:05:34 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void		apply_to_list(t_shell *s, t_list *n, void f(t_shell *, t_list *));
 int			letter_is(int lexem, char *string);
 int			token_is(int lexem, t_list *node);
 void		group_strings(t_shell *shell, t_list *node);
-void		remove_delimiter(t_shell *shell, void **ptr_to_string);
+void		remove_delimiter(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
 
 /* EXPANSION */
@@ -141,7 +141,7 @@ int			is_builtin(t_cmd *cmd);
 
 /* ENVIRON */
 
-void		expand(t_shell *shell, t_list *node);
+void		expand_node(t_shell *shell, t_list *node);
 t_list		*find_env(t_list *env_list, char *env_name);
 char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
@@ -190,6 +190,7 @@ int			token_is_operator(t_list *token_node);
 # define DOLLAR			"$"
 # define BLANKS			" \n\t"
 # define HEREDOC_LOC	"/home/alex/minishell/heredoc"
+# define BACKUP_PATH	""
 # define SHELL_NAME		"shell"
 # define PATH_MAX		4096
 

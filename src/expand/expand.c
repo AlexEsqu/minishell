@@ -6,11 +6,13 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 10:48:20 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 14:51:21 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	expand_string(t_shell *shell, char **ptr_to_str);
 
 void	expand_variable(t_shell *shell, char **ptr_to_variable)
 {
@@ -25,7 +27,8 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	{
 		relevant_env = find_env(shell->env_list, &var_name[1]);
 		if (relevant_env)
-			expanded_var = ft_strdup(relevant_env->content + ft_strlen(var_name));
+			expanded_var = ft_strdup(relevant_env->content
+					+ ft_strlen(var_name));
 		else
 			expanded_var = NULL;
 	}
@@ -34,7 +37,7 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 }
 
 /* For use on char, not on tokens */
-void	remove_delimiter(t_shell *shell, void **ptr_to_string)
+void	remove_delimiter(t_shell *shell, char **ptr_to_string)
 {
 	char	*original_string;
 	char	*quotefree_string;
@@ -51,6 +54,29 @@ void	remove_delimiter(t_shell *shell, void **ptr_to_string)
 	ft_strlcat(quotefree_string, &original_string[1], len - 1);
 	free(original_string);
 	*ptr_to_string = quotefree_string;
+}
+
+t_list	*tokenize_and_expand_string(t_shell *shell, char *string)
+{
+	t_list	*token_list;
+	t_list	*current;
+	t_token	*token;
+
+	token_list = NULL;
+	scan(shell, &token_list, string);
+	apply_to_list(shell, token_list, id_variables);
+	apply_to_list(shell, token_list, group_strings);
+	current = token_list;
+	while (current->next)
+	{
+		token = (t_token *)current->content;
+		if (token->lexem == VARIABLE)
+			expand_variable(shell, &token->content);
+		if (token->lexem == STRING && token->letter != '\'')
+			expand_string(shell, &token->content);
+		current = current->next;
+	}
+	return (token_list);
 }
 
 char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
@@ -82,46 +108,36 @@ char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
 	return (result);
 }
 
-void	expand_in_string(t_shell *shell, t_list *node)
+void	expand_string(t_shell *shell, char **ptr_to_str)
 {
 	t_list	*token_list;
-	t_list	*current;
-	t_token	*token;
+	char	*original_string;
 	char	*expanded_string;
 
-	if (!node || !node->content)
+	if (!ptr_to_str || !(*ptr_to_str))
 		return ;
-	token_list = NULL;
-	scan(shell, &token_list, (char *)node->content);
-	apply_to_list(shell, token_list, id_variables);
-	apply_to_list(shell, token_list, group_strings);
-	current = token_list;
-	while (current->next)
-	{
-		token = (t_token *)current->content;
-		if (token->lexem == VARIABLE)
-			expand_variable(shell, &token->content);
-		if (token->lexem == STRING && token->letter != '\'')
-			expand_in_string(shell, current);
-		current = current->next;
-	}
+	original_string = (*ptr_to_str);
+	token_list = tokenize_and_expand_string(shell, original_string);
 	expanded_string = flatten_token_list_into_string(shell, token_list);
-	free(node->content);
-	node->content = expanded_string;
+	ft_lstclear(&token_list, free_token);
+	free(original_string);
+	*ptr_to_str = expanded_string;
 }
 
-/* A peaufiner pour expander plusieurs variables sans  boucle infinie */
-void	expand(t_shell *shell, t_list *node)
+void	expand_node(t_shell *shell, t_list *node)
 {
+	char	**ptr_to_str;
+
 	if (!node || !node->content)
 		return ;
-	if (is_valid_variable((char *)node->content))
-		expand_variable(shell, (char **)&node->content);
-	if (has_valid_var((char *)node->content) && can_expand(node))
+	ptr_to_str = (char **)&node->content;
+	if (is_valid_variable(node->content))
+		expand_variable(shell, ptr_to_str);
+	if (has_valid_var(node->content) && can_expand(node))
 	{
-		remove_delimiter(shell, &node->content);
-		expand_in_string(shell, node);
+		remove_delimiter(shell, ptr_to_str);
+		expand_string(shell, ptr_to_str);
 	}
 	else
-		remove_delimiter(shell, &node->content);
+		remove_delimiter(shell, ptr_to_str);
 }

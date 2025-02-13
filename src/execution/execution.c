@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 23:35:44 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 13:58:37 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_with_fork(t_shell *shell, t_cmd *cmd)
 		redirect_for_cmd(shell, cmd);
 		if (cmd->exit_code)
 			exit(cmd->exit_code);
-		apply_to_list(shell, cmd->arg_list, expand);
+		apply_to_list(shell, cmd->arg_list, expand_node);
 		put_arg_in_array(cmd);
 		if (!cmd->argv || cmd->exit_code)
 			exit(cmd->exit_code);
@@ -43,7 +43,7 @@ int	exec_with_main(t_shell *shell, t_cmd *cmd, bool piped)
 {
 	int	exit_code;
 
-	apply_to_list(shell, cmd->arg_list, expand);
+	apply_to_list(shell, cmd->arg_list, expand_node);
 	put_arg_in_array(cmd);
 	if (!cmd->argv)
 		return (cmd->exit_code);
