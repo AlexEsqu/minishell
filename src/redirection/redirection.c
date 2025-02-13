@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 16:19:57 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 18:43:55 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	open_file(t_cmd *cmd, int mode, char *path)
 		if (cmd->fd_out < 0)
 			return (set_cmd_error(OPEN_ERROR, cmd, path));
 	}
-	if (mode == INFILE || mode == HEREDOC)
+	else
 	{
 		if (cmd->fd_in != -2)
 			close(cmd->fd_in);

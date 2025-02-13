@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 14:58:26 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 17:20:08 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int			connect_pipes_and_exec(t_shell *shell, t_tree *tree,
 void		close_pipe(int *pipe_fd);
 void		reset_std(t_shell *shell, bool piped);
 void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
-void		assemble_heredoc(t_shell *s, t_cmd *cmd, t_file *file, char *eof);
+void		assemble_heredoc(t_shell *s, t_cmd *cmd, t_file *file);
 void		close_cmd_fd(t_cmd *cmd);
 
 /* ERROR HANDLING */
@@ -190,7 +190,7 @@ int			token_is_operator(t_list *token_node);
 # define OPERATORS		"|><&$"
 # define DOLLAR			"$"
 # define BLANKS			" \n\t"
-# define HEREDOC_LOC	"/home/alex/minishell/heredoc"
+# define HEREDOC_LOC	"heredoc"
 # define BACKUP_PATH	""
 # define SHELL_NAME		"shell"
 # define PATH_MAX		4096

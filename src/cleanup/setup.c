@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/02/13 16:29:21 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 18:31:42 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,8 @@ void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
 			return (set_cmd_error(PERM_ERROR, cmd, file->path));
 	}
 	else if (file->mode == HEREDOC)
-		assemble_heredoc(shell, cmd, file, file->path);
-	else if (access(file->path, F_OK) == SUCCESS
-		&& access(file->path, W_OK) != SUCCESS)
+		assemble_heredoc(shell, cmd, file);
+	else if (access(file->path, F_OK) == 0 && access(file->path, W_OK) != 0)
 		return (set_cmd_error(PERM_ERROR, cmd, file->path));
 	node = ft_lstnew(file);
 	if (!node)

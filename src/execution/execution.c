@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 13:58:37 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 18:35:51 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	exec_with_main(t_shell *shell, t_cmd *cmd, bool piped)
 {
 	int	exit_code;
 
+	printf("exec with main\n");
 	apply_to_list(shell, cmd->arg_list, expand_node);
 	put_arg_in_array(cmd);
 	if (!cmd->argv)
