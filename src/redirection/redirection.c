@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 20:56:58 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:19:57 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	open_file(t_cmd *cmd, int mode, char *path)
 	{
 		if (cmd->fd_out != -2)
 			close(cmd->fd_out);
-		if (access(path, F_OK) == SUCCESS && access(path, W_OK))
-			return (set_cmd_error(PERM_ERROR, cmd, path));
 		if (mode == APPEND)
 			cmd->fd_out = open(path, O_RDWR | O_APPEND | O_CREAT, 0666);
 		else
@@ -31,10 +29,6 @@ void	open_file(t_cmd *cmd, int mode, char *path)
 	{
 		if (cmd->fd_in != -2)
 			close(cmd->fd_in);
-		if (access(path, F_OK) == -1)
-			return (set_cmd_error(NO_FILE, cmd, path));
-		if (access(path, R_OK) == -1)
-			return (set_cmd_error(PERM_ERROR, cmd, path));
 		cmd->fd_in = open(path, O_RDONLY);
 		if (cmd->fd_in < 0)
 			return (set_cmd_error(OPEN_ERROR, cmd, path));

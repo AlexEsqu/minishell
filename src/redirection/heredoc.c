@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 14:07:45 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:19:16 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,24 +69,21 @@ static char	*generate_heredoc_filepath(t_shell *shell)
 	return (heredoc_path);
 }
 
-static int	accumulate_heredoc_content(t_file *file, char *end_of_file)
+static int	accumulate_heredoc_content(t_shell *shell, t_file *file, char *eof)
 {
 	char	*line;
-	// char	*tmp;
 
 	while (1)
 	{
 		write(STDIN_FILENO, "> ", 3);
 		line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(end_of_file, line, ft_strlen(end_of_file)) == 0)
+		if (ft_strncmp(eof, line, ft_strlen(eof)) == 0)
 		{
 			free(line);
 			break ;
 		}
-		// if (file->is_quoted)
-		// {
-		// 	line = expand_node(shell, )
-		// }
+		if (file->is_quoted)
+			expand_string(shell, &line);
 		write(file->fd, line, ft_strlen(line));
 		free(line);
 	}
@@ -104,6 +101,6 @@ void	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_file *file, char *eof)
 	fd = open(file->path, O_RDWR | O_TRUNC | O_CREAT, 777);
 	if (fd < 0)
 		return (set_cmd_error(OPEN_ERROR, cmd, "Heredoc"));
-	accumulate_heredoc_content(file, eof);
+	accumulate_heredoc_content(shell, file, eof);
 	close(fd);
 }

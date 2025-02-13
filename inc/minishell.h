@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 14:05:34 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/13 14:58:26 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int			can_expand(t_list *node);
 int			has_valid_var(char *string);
 int			is_valid_variable(char *input);
 void		id_variables(t_shell *shell, t_list *current);
+void		expand_string(t_shell *shell, char **ptr_to_str);
 
 /* PARSER */
 
