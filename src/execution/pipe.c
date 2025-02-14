@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/14 09:10:40 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 10:50:43 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	exec_pipe_forks(t_shell *shell, t_tree *tree)
 		if (dup2(pipe_fd[WRITE], STDOUT_FILENO) == -1)
 			return (set_error(DUP_ERROR, shell), DUP_ERROR);
 		close(pipe_fd[WRITE]);
-		exec_tree(shell, tree->left, true);
+		exit_code = exec_tree(shell, tree->left, true);
 		clean_fork_exit(shell);
 	}
 	else
@@ -51,7 +51,7 @@ static int	exec_pipe_forks(t_shell *shell, t_tree *tree)
 		if (dup2(pipe_fd[READ], STDIN_FILENO) == -1)
 			return (set_error(DUP_ERROR, shell), DUP_ERROR);
 		close(pipe_fd[READ]);
-		exec_tree(shell, tree->right, true);
+		exit_code = exec_tree(shell, tree->right, true);
 		clean_fork_exit(shell);
 	}
 	return (WEXITSTATUS(exit_code));
