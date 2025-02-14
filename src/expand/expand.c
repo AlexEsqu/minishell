@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 11:30:01 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ void	expand_node(t_shell *shell, t_list *node)
 		expand_variable(shell, ptr_to_str);
 	else if (has_valid_var(node->content) && can_expand(node))
 	{
-		remove_delimiter(shell, ptr_to_str);
+		remove_quotes_from_string(shell, ptr_to_str);
 		expand_string(shell, ptr_to_str);
 	}
 	else
-		remove_delimiter(shell, ptr_to_str);
+		remove_quotes_from_string(shell, ptr_to_str);
 }

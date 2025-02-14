@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 11:58:18 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_file *file)
 	file->delim = file->path;
 	if (ft_strchr(file->delim, '\'') || ft_strchr(file->delim, '\"'))
 		file->is_quoted = true;
-	remove_delimiter(shell, &file->delim);
+	remove_quotes_from_string(shell, &file->delim);
 	file->path = generate_heredoc_filepath(shell);
 	if (!file->path)
 		return (set_cmd_error(MALLOC_FAIL, cmd, "Heredoc"));

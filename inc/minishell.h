@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 11:18:01 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void		apply_to_list(t_shell *s, t_list *n, void f(t_shell *, t_list *));
 int			letter_is(int lexem, char *string);
 int			token_is(int lexem, t_list *node);
 void		group_strings(t_shell *shell, t_list *node);
-void		remove_delimiter(t_shell *shell, char **ptr_to_string);
+void		remove_quotes_from_string(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
 
 /* EXPANSION */
