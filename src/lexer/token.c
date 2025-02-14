@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:04:03 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 16:28:05 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 12:02:16 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,3 @@ void	merge_token(t_shell *shell, t_list *start)
 		return (set_error(MALLOC_FAIL, shell));
 	ft_lstpop(&shell->token_list, start->next, free_token);
 }
-
-

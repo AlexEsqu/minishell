@@ -6,13 +6,13 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:30:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 13:10:48 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 12:02:47 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int update_cwd(t_shell *shell, t_cmd *cmd)
+int	update_cwd(t_shell *shell, t_cmd *cmd)
 {
 	t_list	*env_pwd;
 	char	cwd_buffer[PATH_MAX];
