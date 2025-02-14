@@ -6,26 +6,23 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:13:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 15:15:01 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 11:02:09 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current)
+static void	parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current)
 {
 	if (shell->critical_er || cmd->exit_code)
 		return ;
-	// if (!token_is(WORD, (*current)->next)
-	// 	&& !token_is(VARIABLE, (*current)->next))
-	// 	return (set_error(SYNTAX_ERROR, shell));
 	*current = (*current)->next;
 	((t_token *)(*current)->content)->lexem
 		= ((t_token *)(*current)->prev->content)->lexem;
 	create_file(shell, cmd, (t_token *)(*current)->content);
 }
 
-void	parse_command_arg(t_shell *shell, t_cmd *cmd, t_list **current)
+static void	parse_command_arg(t_shell *shell, t_cmd *cmd, t_list **current)
 {
 	char	*arg;
 

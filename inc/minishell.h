@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 09:20:26 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 11:18:01 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ t_tree		*parse_command(t_shell *shell, t_list **node);
 /* EXECUTION */
 
 int			exec_tree(t_shell *shell, t_tree *tree, bool piped);
+int			exec_single_cmd(t_shell *shell, t_tree *tree, bool piped);
 int			create_fork(t_shell *shell, int	*fork_pid);
 void		find_cmd_path(t_shell *shell, t_cmd *cmd);
 void		put_arg_in_array(t_cmd *cmd);
@@ -149,7 +150,7 @@ int			replace_env(t_shell *shell, char *env_value);
 
 /* REDIRECTION */
 
-void		parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current);
+// void		parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current);
 void		open_file(t_cmd *cmd, int mode, char *path);
 void		redirect_for_cmd(t_shell *shell, t_cmd *cmd);
 int			exec_pipe_monitor(t_shell *shell, t_tree *tree);

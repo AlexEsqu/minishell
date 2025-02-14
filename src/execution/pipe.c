@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/14 10:50:43 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 11:00:40 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,14 @@ static void	clean_fork_exit(t_shell *shell)
 	exit(E_CMD_FAIL);
 }
 
-static int	exec_pipe_forks(t_shell *shell, t_tree *tree)
+static int	exec_pipe_forks(t_shell *shell, t_tree *tree, int *fork_pid)
 {
 	int	pipe_fd[2];
-	int	second_fork_pid;
 	int	exit_code;
 
-	if (create_pipe_and_fork(shell, pipe_fd, &second_fork_pid) != 0)
+	if (create_pipe_and_fork(shell, pipe_fd, &fork_pid[1]) != 0)
 		return (shell->critical_er);
-	if (second_fork_pid == 0)
+	if (fork_pid[1] == 0)
 	{
 		close(pipe_fd[READ]);
 		if (dup2(pipe_fd[WRITE], STDOUT_FILENO) == -1)
@@ -63,15 +62,15 @@ int	exec_pipe_monitor(t_shell *shell, t_tree *tree)
 	int	exit_code;
 
 	if (create_fork(shell, &fork_pid[0]))
-		return (set_error(FORK_ERROR, shell), FORK_ERROR);
+		return (FORK_ERROR);
 	fork_pid[1] = -1;
 	if (fork_pid[0] == 0)
-		exec_pipe_forks(shell, tree);
+		exec_pipe_forks(shell, tree, fork_pid);
 	else
 	{
 		waitpid(fork_pid[1], &exit_code, 0);
 		waitpid(fork_pid[0], &exit_code, 0);
 		return (WEXITSTATUS(exit_code));
 	}
-	return (set_error(FORK_ERROR, shell), FORK_ERROR);
+	return (FORK_ERROR);
 }

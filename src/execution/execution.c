@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 00:37:40 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 11:17:38 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,23 @@ static int	exec_for_builtin(t_shell *shell, t_cmd *cmd, bool piped)
 	return (WEXITSTATUS(exit_code));
 }
 
-static int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
+static int	create_fork_to_exec_binary(t_shell *shell, t_cmd *cmd)
+{
+	int	fork_pid;
+	int	exit_code;
+
+	exit_code = 0;
+	if (create_fork(shell, &fork_pid))
+		return (FORK_ERROR);
+	if (fork_pid == 0)
+		exec_binary(shell, cmd);
+	else
+		waitpid(fork_pid, &exit_code, 0);
+	cmd->exit_code = WEXITSTATUS(exit_code);
+	return (cmd->exit_code);
+}
+
+int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 {
 	t_cmd	*cmd;
 
@@ -65,32 +81,9 @@ static int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 	}
 	else if (is_builtin(cmd))
 		cmd->exit_code = exec_for_builtin(shell, cmd, piped);
+	else if (!piped)
+		cmd->exit_code = create_fork_to_exec_binary(shell, cmd);
 	else
 		cmd->exit_code = exec_binary(shell, cmd);
 	return (cmd->exit_code);
-}
-
-int	exec_tree(t_shell *shell, t_tree *tree, bool piped)
-{
-	int	exit_code;
-
-	if (!tree)
-		return (set_error(AST_ERROR, shell), AST_ERROR);
-	if (tree->type == AST_PIPE)
-		return (exec_pipe_monitor(shell, tree));
-	if (tree->type == AST_AND)
-	{
-		exit_code = exec_tree(shell, tree->left, NO_PIPE);
-		if (exit_code == SUCCESS)
-			return (exec_tree(shell, tree->right, NO_PIPE));
-		return (exit_code);
-	}
-	if (tree->type == AST_OR)
-	{
-		exit_code = exec_tree(shell, tree->left, NO_PIPE);
-		if (exit_code != SUCCESS)
-			return (exec_tree(shell, tree->right, NO_PIPE));
-		return (exit_code);
-	}
-	return (exec_single_cmd(shell, tree, piped));
 }

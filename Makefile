@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/14 00:39:15 by alex             ###   ########.fr        #
+#    Updated: 2025/02/14 11:18:48 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ FUNC_CLEA	=	cleanup.c \
 FUNC_EXEC	=	execution.c \
 				pipe.c \
 				forks.c \
+				ast.c \
 				arguments.c
 
 FUNC_EXPA	=	expand.c \
