@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readability.c                                      :+:      :+:    :+:   */
+/*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:37:37 by mkling            #+#    #+#             */
-/*   Updated: 2025/01/12 01:00:28 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 00:37:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,6 @@ int	create_fork(t_shell *shell, int	*fork_pid)
 	if (*fork_pid == -1)
 		return (set_error(FORK_ERROR, shell), FORK_ERROR);
 	return (0);
-}
-
-int	create_pipe(t_shell *shell, int *pipe_fd)
-{
-	if (pipe(pipe_fd) != 0)
-		return (set_error(PIPE_ERROR, shell), PIPE_ERROR);
-	return (0);
-}
-
-void	close_pipe(int *pipe_fd)
-{
-	close(pipe_fd[READ]);
-	close(pipe_fd[WRITE]);
-}
-
-void	reset_std(t_shell *shell, bool piped)
-{
-	if (piped)
-		return ;
-	dup2(shell->std_in, 0);
-	dup2(shell->std_out, 1);
 }
 
 int	get_exit_code(int status)

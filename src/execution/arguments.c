@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast.c                                              :+:      :+:    :+:   */
+/*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 22:33:17 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 00:47:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,42 +50,19 @@ char	**extract_list_as_array(t_shell *shell, t_list *head)
 
 void	put_arg_in_array(t_cmd *cmd)
 {
-	int		argc;
 	int		index;
 	t_list	*current;
 
-	argc = ft_lstsize(cmd->arg_list);
-	cmd->argv = ft_calloc(sizeof(char *), argc + 1);
+	cmd->argc = ft_lstsize(cmd->arg_list);
+	cmd->argv = ft_calloc(sizeof(char *), cmd->argc + 1);
 	if (!cmd->argv)
 		return (set_cmd_error(MALLOC_FAIL, cmd, NULL));
 	index = 0;
 	current = cmd->arg_list;
-	while (index < argc)
+	while (index < cmd->argc)
 	{
 		cmd->argv[index] = current->content;
 		current = current->next;
 		index++;
 	}
-}
-
-int	connect_pipes_and_exec(t_shell *shell, t_tree *tree, int pipe_fd[2],
-	int mode)
-{
-	int	exit_code;
-
-	if (mode == WRITE)
-	{
-		close(pipe_fd[READ]);
-		dup2(pipe_fd[WRITE], STDOUT_FILENO);
-		close(pipe_fd[WRITE]);
-	}
-	if (mode == READ)
-	{
-		close(pipe_fd[WRITE]);
-		dup2(pipe_fd[READ], STDIN_FILENO);
-		close(pipe_fd[READ]);
-	}
-	exit_code = exec_tree(shell, tree, true);
-	free_minishell(shell);
-	exit(exit_code);
 }

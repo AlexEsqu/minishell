@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 17:20:08 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 00:46:13 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/inc/libft.h"
+# include <errno.h>
 
 typedef struct s_token
 {
@@ -45,6 +46,7 @@ typedef struct s_files
 typedef struct s_cmd
 {
 	char			**argv;		// array created with cmd_path, then arguments
+	int				argc;		// argument count to iterate over argv with
 	char			*cmd_path;	// binary filepath, absolute/through PATH
 	t_list			*arg_list;	// linked list of command arguments
 	t_list			*files;		// linked list of input and / or output files
@@ -122,8 +124,6 @@ t_tree		*parse_command(t_shell *shell, t_list **node);
 /* EXECUTION */
 
 int			exec_tree(t_shell *shell, t_tree *tree, bool piped);
-int			exec_pipe(t_shell *shell, t_tree *tree);
-int			exec_single_cmd(t_shell *shell, t_tree *tree, bool piped);
 int			create_fork(t_shell *shell, int	*fork_pid);
 void		find_cmd_path(t_shell *shell, t_cmd *cmd);
 void		put_arg_in_array(t_cmd *cmd);
@@ -152,11 +152,7 @@ int			replace_env(t_shell *shell, char *env_value);
 void		parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current);
 void		open_file(t_cmd *cmd, int mode, char *path);
 void		redirect_for_cmd(t_shell *shell, t_cmd *cmd);
-int			create_pipe(t_shell *shell, int *pipe_fd);
-int			connect_pipes_and_exec(t_shell *shell, t_tree *tree,
-				int pipe_fd[2], int mode);
-void		close_pipe(int *pipe_fd);
-void		reset_std(t_shell *shell, bool piped);
+int			exec_pipe_monitor(t_shell *shell, t_tree *tree);
 void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
 void		assemble_heredoc(t_shell *s, t_cmd *cmd, t_file *file);
 void		close_cmd_fd(t_cmd *cmd);

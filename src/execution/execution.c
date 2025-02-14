@@ -3,47 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 18:35:51 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 00:37:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_with_fork(t_shell *shell, t_cmd *cmd)
+static void	reset_std(t_shell *shell, bool piped)
 {
-	int	exit_code;
-
-	if (cmd->exit_code)
-		return (cmd->exit_code);
-	if (create_fork(shell, &cmd->fork_pid) != SUCCESS)
-		return (set_cmd_error(FORK_ERROR, cmd, NULL), FORK_ERROR);
-	if (cmd->fork_pid == 0)
-	{
-		redirect_for_cmd(shell, cmd);
-		if (cmd->exit_code)
-			exit(cmd->exit_code);
-		apply_to_list(shell, cmd->arg_list, expand_node);
-		put_arg_in_array(cmd);
-		if (!cmd->argv || cmd->exit_code)
-			exit(cmd->exit_code);
-		execve(cmd->cmd_path, cmd->argv, shell->env);
-		free_cmd(cmd);
-		free_minishell(shell);
-		exit(E_CMD_FAIL);
-	}
-	close_cmd_fd(cmd);
-	waitpid(cmd->fork_pid, &exit_code, 0);
-	return (WEXITSTATUS(exit_code));
+	if (piped)
+		return ;
+	dup2(shell->std_in, 0);
+	dup2(shell->std_out, 1);
 }
 
-int	exec_with_main(t_shell *shell, t_cmd *cmd, bool piped)
+static int	exec_binary(t_shell *shell, t_cmd *cmd)
+{
+	redirect_for_cmd(shell, cmd);
+	if (cmd->exit_code)
+		exit(cmd->exit_code);
+	apply_to_list(shell, cmd->arg_list, expand_node);
+	put_arg_in_array(cmd);
+	if (!cmd->argv || cmd->exit_code)
+		exit(cmd->exit_code);
+	execve(cmd->cmd_path, cmd->argv, shell->env);
+	free_cmd(cmd);
+	free_minishell(shell);
+	exit(E_CMD_FAIL);
+}
+
+static int	exec_for_builtin(t_shell *shell, t_cmd *cmd, bool piped)
 {
 	int	exit_code;
 
-	printf("exec with main\n");
 	apply_to_list(shell, cmd->arg_list, expand_node);
 	put_arg_in_array(cmd);
 	if (!cmd->argv)
@@ -56,7 +51,7 @@ int	exec_with_main(t_shell *shell, t_cmd *cmd, bool piped)
 	return (WEXITSTATUS(exit_code));
 }
 
-int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
+static int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 {
 	t_cmd	*cmd;
 
@@ -69,39 +64,10 @@ int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 		reset_std(shell, piped);
 	}
 	else if (is_builtin(cmd))
-		exec_with_main(shell, cmd, piped);
+		cmd->exit_code = exec_for_builtin(shell, cmd, piped);
 	else
-		exec_with_fork(shell, cmd);
+		cmd->exit_code = exec_binary(shell, cmd);
 	return (cmd->exit_code);
-}
-
-int	exec_pipe(t_shell *shell, t_tree *tree)
-{
-	int	pipe_fd[2];
-	int	forkpid[2];
-	int	exit_code;
-
-	if (create_pipe(shell, pipe_fd) || create_fork(shell, &forkpid[0]))
-		return (shell->critical_er);
-	if (forkpid[0] == 0)
-		connect_pipes_and_exec(shell, tree->left, pipe_fd, WRITE);
-	else
-	{
-		if (create_fork(shell, &forkpid[1]))
-			return (shell->critical_er);
-		if (forkpid[1] == 0)
-			connect_pipes_and_exec(shell, tree->right, pipe_fd, READ);
-		else
-		{
-			close_pipe(pipe_fd);
-			free_tree(&tree->left);
-			free_tree(&tree->right);
-			waitpid(forkpid[0], &exit_code, 0);
-			waitpid(forkpid[1], &exit_code, 0);
-			return (WEXITSTATUS(exit_code));
-		}
-	}
-	return (PIPE_ERROR);
 }
 
 int	exec_tree(t_shell *shell, t_tree *tree, bool piped)
@@ -111,7 +77,7 @@ int	exec_tree(t_shell *shell, t_tree *tree, bool piped)
 	if (!tree)
 		return (set_error(AST_ERROR, shell), AST_ERROR);
 	if (tree->type == AST_PIPE)
-		return (exec_pipe(shell, tree));
+		return (exec_pipe_monitor(shell, tree));
 	if (tree->type == AST_AND)
 	{
 		exit_code = exec_tree(shell, tree->left, NO_PIPE);
