@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 22:48:01 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 09:08:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ void	open_file(t_cmd *cmd, int mode, char *path)
 	{
 		if (cmd->fd_in != -2)
 			close(cmd->fd_in);
-		fprintf(stderr, "path is %s\n", path);
 		cmd->fd_in = open(path, O_RDONLY);
-		fprintf(stderr, "errno is %d and fd is %d", errno, cmd->fd_in);
 		if (cmd->fd_in < 0)
 			return (set_cmd_error(OPEN_ERROR, cmd, path));
 	}

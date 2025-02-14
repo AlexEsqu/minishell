@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 00:46:13 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 09:20:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,8 +186,7 @@ int			token_is_operator(t_list *token_node);
 # define OPERATORS		"|><&$"
 # define DOLLAR			"$"
 # define BLANKS			" \n\t"
-# define HEREDOC_LOC	"heredoc"
-# define BACKUP_PATH	""
+# define HEREDOC_LOC	"/tmp/.heredoc_"
 # define SHELL_NAME		"shell"
 # define PATH_MAX		4096
 

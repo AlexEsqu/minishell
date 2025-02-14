@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/14 01:08:48 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 09:10:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	exec_pipe_monitor(t_shell *shell, t_tree *tree)
 
 	if (create_fork(shell, &fork_pid[0]))
 		return (set_error(FORK_ERROR, shell), FORK_ERROR);
+	fork_pid[1] = -1;
 	if (fork_pid[0] == 0)
 		exec_pipe_forks(shell, tree);
 	else
