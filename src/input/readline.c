@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 00:24:12 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:30:16 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,35 @@ void	parse_and_exec_cmd(t_shell *shell, char *input)
 	shell->last_exit_code = exec_tree(shell, shell->tree_root, false);
 	free_tree(&shell->tree_root);
 }
-
 void	init_readline(t_shell *shell)
 {
 	char		*input;
 
-	signals();
-	while (1)
+	if (!signals(shell))
+		printf("oulala\n");//---------------------
+	else
 	{
-		input = readline("shell$ ");
-		if (!input)
-			break ;
-		if (input && countword(input, ' ') > 0)
+		while (1)
 		{
-			parse_and_exec_cmd(shell, input);
-			add_history(input);
-			free(input);
+			my_sig_nal = BASE;
+			input = readline("shell$ ");
+			if (my_sig_nal == CONTROL_C)
+			{
+				shell->last_exit_code = E_SIG_INT;
+				my_sig_nal = BASE;
+			}
+			if (!input)
+				break ;
+			if (input && countword(input, ' ') > 0)
+			{
+				my_sig_nal = TYPING;
+				parse_and_exec_cmd(shell, input);
+				if (my_sig_nal == CONTROL_C)
+					shell->last_exit_code = E_SIG_INT;
+				my_sig_nal = BASE;
+				add_history(input);
+				free(input);
+			}
 		}
 	}
 	ft_putstr_fd("exit\n", 1);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
+#    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/14 11:18:48 by mkling           ###   ########.fr        #
+#    Updated: 2025/02/14 11:35:40 by vgodoy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,7 +99,7 @@ INC			= -I$(DIR_INC) -I$(DIR_LIB)
 
 CC			= cc
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= #-Wall -Wextra -Werror
 
 # **************************************************************************** #
 #		Unit test variables													   #

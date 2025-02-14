@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 17:51:14 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:47:31 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,28 @@ static char	*generate_heredoc_filepath(t_shell *shell)
 	return (heredoc_path);
 }
 
-static int	accumulate_heredoc_content(t_shell *shell, t_file *file)
+static void	accumulate_heredoc_content(t_shell *shell, t_file *file)
 {
 	char	*line;
 
 	while (1)
 	{
-		write(STDIN_FILENO, "> ", 3);
-		line = get_next_line(STDIN_FILENO);
+		//my_sig_nal = IN_HEREDOC;//-----------------
+		if (my_sig_nal == CONTROL_C)
+		{
+			free_minishell(shell);
+			set_error(INTERUPT, shell);
+			return ;
+		}
+		line = readline("= ");
+	 	if (my_sig_nal == CONTROL_C)
+		{
+		//	if (line)
+		//		free(line);
+			set_error(INTERUPT, shell);
+			//my_sig_nal = BASE;
+			return ;
+		}//-----------------------------------------
 		if (ft_strncmp(file->delim, line, ft_strlen(file->delim)) == 0)
 		{
 			free(line);
@@ -85,9 +99,9 @@ static int	accumulate_heredoc_content(t_shell *shell, t_file *file)
 		if (file->is_quoted)
 			expand_string(shell, &line);
 		write(file->fd, line, ft_strlen(line));
+		write(file->fd, "\n", 1);
 		free(line);
 	}
-	return (SUCCESS);
 }
 
 void	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_file *file)
@@ -100,5 +114,11 @@ void	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_file *file)
 	if (file->fd < 0)
 		return (set_cmd_error(OPEN_ERROR, cmd, "Heredoc"));
 	accumulate_heredoc_content(shell, file);
+	if (shell->critical_er)
+	{
+		close(file->fd);
+		unlink(file->path);
+		return ;
+	}
 	close(file->fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 11:18:01 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:30:08 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <readline/history.h>
 # include "libft/inc/libft.h"
 # include <errno.h>
+
+extern int	my_sig_nal;
 
 typedef struct s_token
 {
@@ -82,7 +84,7 @@ typedef struct s_shell
 
 /* SIGNAL */
 
-void		signals(void);
+int		signals(t_shell *shell);
 
 /* INPUT */
 
@@ -238,6 +240,8 @@ enum e_err_code
 	IS_NOT_DIR,
 	TOO_MANY_ARGS,
 	TOO_FEW_ARGS,
+	SIGNALS,
+	INTERUPT,
 };
 
 /* Actual return values expected from minishell program */
@@ -273,6 +277,14 @@ enum e_tree_mode
 	IS_PIPE,
 	AST_LEFT,
 	AST_RIGHT,
+};
+
+enum e_my_signal
+{
+	BASE = 0,
+	TYPING = 1,
+	IN_HEREDOC = 2,
+	CONTROL_C = 3,
 };
 
 
