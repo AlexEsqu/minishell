@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 00:47:27 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 11:36:36 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_tree	*create_branch(t_shell *shell, int type, void *content)
-{
-	t_tree	*node;
-
-	node = ft_calloc(1, sizeof(t_tree));
-	if (!node)
-		return (set_error(MALLOC_FAIL, shell), NULL);
-	node->type = type;
-	node->content = content;
-	node->left = NULL;
-	node->left = NULL;
-	return (node);
-}
 
 char	**extract_list_as_array(t_shell *shell, t_list *head)
 {

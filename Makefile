@@ -6,7 +6,7 @@
 #    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/14 11:18:48 by mkling           ###   ########.fr        #
+#    Updated: 2025/02/14 11:31:12 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ FUNC_EXEC	=	execution.c \
 				arguments.c
 
 FUNC_EXPA	=	expand.c \
-				variable.c
+				variable.c \
+				delimiters.c
 
 FUNC_INPU	=	readline.c \
 				signals.c
