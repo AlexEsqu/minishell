@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:30:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 09:12:03 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/16 09:15:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ int	cd(t_shell *shell, t_cmd *cmd)
 		env_home = find_env(shell->env_list, "HOME");
 		if (env_home && env_home->content && ft_strlen(env_home->content) > 5)
 			path = env_home->content + 5;
+		else
+			path = NULL;
 	}
 	else
 		path = (char *)cmd->argv[1];
 	if (path == NULL)
-		return (set_cmd_error(E_SYNTAX, cmd, path), E_SYNTAX);
+		return (set_cmd_error(NO_FILE, cmd, path), NO_FILE);
 	cmd->exit_code = chdir(path);
 	if (cmd->exit_code)
 		return (set_cmd_error(NO_FILE, cmd, path), NO_FILE);
