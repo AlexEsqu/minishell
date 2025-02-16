@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:30:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 12:02:47 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/16 09:12:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,20 @@ int	update_cwd(t_shell *shell, t_cmd *cmd)
 int	cd(t_shell *shell, t_cmd *cmd)
 {
 	char	*path;
+	t_list	*env_home;
 
 	if (cmd->argv[1] && cmd->argv[2])
 		return (set_cmd_error(TOO_MANY_ARGS, cmd, NULL), TOO_MANY_ARGS);
 	if (cmd->argv[1] == NULL)
-		path = (char *)(find_env(shell->env_list, "HOME")->content + 5);
+	{
+		env_home = find_env(shell->env_list, "HOME");
+		if (env_home && env_home->content && ft_strlen(env_home->content) > 5)
+			path = env_home->content + 5;
+	}
 	else
 		path = (char *)cmd->argv[1];
+	if (path == NULL)
+		return (set_cmd_error(E_SYNTAX, cmd, path), E_SYNTAX);
 	cmd->exit_code = chdir(path);
 	if (cmd->exit_code)
 		return (set_cmd_error(NO_FILE, cmd, path), NO_FILE);
