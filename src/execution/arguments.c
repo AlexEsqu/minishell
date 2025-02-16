@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 08:42:30 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/16 08:42:58 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	put_arg_in_array(t_cmd *cmd)
 	current = cmd->arg_list;
 	while (current)
 	{
-		fprintf(stderr, "arg list %d is %s\n", index, (char *)current->content);
 		if (current->content)
 			cmd->argv[index++] = current->content;
 		current = current->next;
