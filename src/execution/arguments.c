@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 11:36:36 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/16 08:42:30 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ void	put_arg_in_array(t_cmd *cmd)
 		return (set_cmd_error(MALLOC_FAIL, cmd, NULL));
 	index = 0;
 	current = cmd->arg_list;
-	while (index < cmd->argc)
+	while (current)
 	{
-		cmd->argv[index] = current->content;
+		fprintf(stderr, "arg list %d is %s\n", index, (char *)current->content);
+		if (current->content)
+			cmd->argv[index++] = current->content;
 		current = current->next;
-		index++;
 	}
+	cmd->argc = index;
 }
