@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 10:58:40 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 13:16:50 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	check_file(t_shell *shell, t_cmd *cmd, t_file *file)
 {
 	char	*expanded_filepath;
 
+	if (file->mode == HEREDOC || !cmd->exit_code)
+		return ;
 	expanded_filepath = ft_strdup(file->path);
 	expand_string(shell, &expanded_filepath);
 	if (file->mode == INFILE)
@@ -54,6 +56,7 @@ void	check_file(t_shell *shell, t_cmd *cmd, t_file *file)
 			&& access(expanded_filepath, W_OK) != 0)
 			set_cmd_error(PERM_ERROR, cmd, file->path);
 	}
+	free(expanded_filepath);
 }
 
 void	expand_check_and_open(t_shell *shell, t_cmd *cmd, t_file *file)
