@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/13 17:51:14 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 14:02:12 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	accumulate_heredoc_content(t_shell *shell, t_file *file)
 	{
 		write(STDIN_FILENO, "> ", 3);
 		line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(file->delim, line, ft_strlen(file->delim)) == 0)
+		if (ft_strncmp(file->delim, line, ft_strlen(line) - 1) == 0)
 		{
 			free(line);
 			break ;
