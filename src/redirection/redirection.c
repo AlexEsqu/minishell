@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 13:16:50 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:09:35 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
 			return ;
 		current = current->next;
 	}
+	if (!cmd->arg_list)
+		return ;
 	if (cmd->fd_in == -2)
 		cmd->fd_in = STDIN_FILENO;
 	else if (dup2(cmd->fd_in, STDIN_FILENO) == -1

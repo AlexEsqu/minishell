@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 18:41:08 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:01:50 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	init_readline(t_shell *shell)
 		my_sig_nal = BASE;
 		signals(shell, INTERACTIVE_MODE);
 		input = readline(SHELL_PROMPT);
+		fprintf(stderr, "input is %s\n", input);
 		signals(shell, NORMAL_MODE);
 		if (my_sig_nal == CONTROL_C)
 		{
