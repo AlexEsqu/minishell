@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:20:16 by skassimi          #+#    #+#             */
-/*   Updated: 2025/02/18 10:36:38 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 11:08:49 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 	int	exit_code;
 
 	if (cmd->argc > 2 && string_is_only_digit(cmd->argv[1]))
-		return (set_cmd_error(TOO_MANY_ARGS, cmd, cmd->argv[0]), TOO_MANY_ARGS);
+		return (set_cmd_error(TOO_MANY_ARGS, cmd, cmd->argv[0]), E_CMD_FAIL);
 	else if (cmd->argc > 1)
 	{
 		if (!string_is_only_digit(cmd->argv[1])
