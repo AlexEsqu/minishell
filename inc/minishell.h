@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/16 10:08:23 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int			token_is(int lexem, t_list *node);
 void		group_strings(t_shell *shell, t_list *node);
 void		remove_quotes_from_string(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
+int			count_char_in_string(char *string, int c);
+void		remove_parenthesis_from_string(t_shell *shell, char **ptr_to_string);
 
 /* EXPANSION */
 
@@ -214,6 +216,7 @@ enum e_lexem
 	LESSER,
 	AND,
 	OR			= 20,
+	SUBSHELL,
 };
 
 /* Internal values used inside minishell to print correct error

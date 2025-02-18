@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:13:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 11:02:09 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/16 16:19:22 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 		if (token_is_redirection((*node)))
 			parse_in_out_files(shell, cmd, node);
 		if (token_is(WORD, *node) || token_is(STRING, *node)
-			|| token_is(VARIABLE, *node))
+			|| token_is(VARIABLE, *node) || token_is(SUBSHELL, *node))
 			parse_command_arg(shell, cmd, node);
+		// if (token_is(SUBSHELL, *node))
+		// 	parse_subshell(shell, cmd, node);
 		*node = (*node)->next;
 	}
 	return (create_branch(shell, AST_CMD, cmd));
