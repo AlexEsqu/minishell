@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/02/13 18:31:42 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:58:23 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,9 @@ void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
 	file->path = ft_strdup(token->content);
 	if (!file->path)
 		return (set_error(MALLOC_FAIL, shell));
-	if (file->mode == INFILE)
-	{
-		if (access(file->path, F_OK) != SUCCESS)
-			return (set_cmd_error(NO_FILE, cmd, file->path));
-		if (access(file->path, R_OK) != SUCCESS)
-			return (set_cmd_error(PERM_ERROR, cmd, file->path));
-	}
-	else if (file->mode == HEREDOC)
+	check_file(shell, cmd, file);
+	if (file->mode == HEREDOC)
 		assemble_heredoc(shell, cmd, file);
-	else if (access(file->path, F_OK) == 0 && access(file->path, W_OK) != 0)
-		return (set_cmd_error(PERM_ERROR, cmd, file->path));
 	node = ft_lstnew(file);
 	if (!node)
 		return (set_error(MALLOC_FAIL, shell));

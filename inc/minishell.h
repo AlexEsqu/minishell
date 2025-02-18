@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:50:27 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int			exec_pipe_monitor(t_shell *shell, t_tree *tree);
 void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
 void		assemble_heredoc(t_shell *s, t_cmd *cmd, t_file *file);
 void		close_cmd_fd(t_cmd *cmd);
+void		check_file(t_shell *shell, t_cmd *cmd, t_file *file);
 
 /* ERROR HANDLING */
 
@@ -238,6 +239,10 @@ enum e_err_code
 	IS_NOT_DIR,
 	TOO_MANY_ARGS,
 	TOO_FEW_ARGS,
+	SIGNL1,
+	SIGNL2,
+	AMBIG_REDIR,
+	NON_NUM,
 };
 
 /* Actual return values expected from minishell program */
