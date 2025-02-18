@@ -6,11 +6,25 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 16:13:50 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 11:36:45 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_tree	*create_branch(t_shell *shell, int type, void *content)
+{
+	t_tree	*node;
+
+	node = ft_calloc(1, sizeof(t_tree));
+	if (!node)
+		return (set_error(MALLOC_FAIL, shell), NULL);
+	node->type = type;
+	node->content = content;
+	node->left = NULL;
+	node->left = NULL;
+	return (node);
+}
 
 t_tree	*parse_pipe(t_shell *shell, t_list **token)
 {

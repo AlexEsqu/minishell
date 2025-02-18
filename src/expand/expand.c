@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 00:45:10 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,6 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	}
 	free(var_name);
 	*ptr_to_variable = expanded_var;
-}
-
-/* For use on char, not on tokens */
-void	remove_delimiter(t_shell *shell, char **ptr_to_string)
-{
-	char	*original_string;
-	char	*quotefree_string;
-	size_t	len;
-
-	if (shell->critical_er || !ptr_to_string || !*ptr_to_string)
-		return ;
-	original_string = *ptr_to_string;
-	len = ft_strlen(original_string);
-	if (ft_strchr(DELIMITERS, original_string[0]) == NULL
-		|| ft_strchr(DELIMITERS, original_string[len]) == NULL)
-		return ;
-	quotefree_string = ft_calloc(sizeof(char), len - 1);
-	ft_strlcat(quotefree_string, &original_string[1], len - 1);
-	free(original_string);
-	*ptr_to_string = quotefree_string;
 }
 
 t_list	*tokenize_and_expand_string(t_shell *shell, char *string)
@@ -135,9 +115,9 @@ void	expand_node(t_shell *shell, t_list *node)
 		expand_variable(shell, ptr_to_str);
 	else if (has_valid_var(node->content) && can_expand(node))
 	{
-		remove_delimiter(shell, ptr_to_str);
+		remove_quotes_from_string(shell, ptr_to_str);
 		expand_string(shell, ptr_to_str);
 	}
 	else
-		remove_delimiter(shell, ptr_to_str);
+		remove_quotes_from_string(shell, ptr_to_str);
 }

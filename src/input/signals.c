@@ -6,40 +6,61 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:36:09 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/18 10:51:46 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:27:54 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//#include <signal.h>
 
 int my_sig_nal = 0;
 
-// struct sigaction sa_ignore;
-// sa_ignore.sa_handler = SIG_IGN;  // Ignorer le signal
-// sigemptyset(&sa_ignore.sa_mask);
-// sa_ignore.sa_flags = 0;
+void	default_sig_nal(void)
+{
+	struct sigaction	sa_default;
 
-// sigaction(SIGINT, &sa_ignore, NULL);
+	sa_default.sa_handler = SIG_DFL;
+	sigemptyset(&sa_default.sa_mask);
+	sa_default.sa_flags = 0;
+	sigaction(SIGINT, &sa_default, NULL);
+	sigaction(SIGQUIT, &sa_default, NULL);
+}
+void	deaf_mode(void)
+{
+	struct sigaction	sa_ignore;
 
+	sa_ignore.sa_handler = SIG_IGN;
+	sigemptyset(&sa_ignore.sa_mask);
+	sa_ignore.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_ignore, NULL);
+	sigaction(SIGINT, &sa_ignore, NULL);
+}
 
-// struct sigaction sa_default;
-// sa_default.sa_handler = SIG_DFL; // Rétablir le comportement par défaut
-// sigemptyset(&sa_default.sa_mask);
-// sa_default.sa_flags = 0;
-
-// sigaction(SIGINT, &sa_default, NULL);
-// sigaction(SIGQUIT, &sa_default, NULL);
-
-
-void	handle_signal(int signal, siginfo_t *info, void *context)
+void	heredoc_mode(int signal, siginfo_t *info, void *context)
 {
 	(void)context;
-	if (signal == SIGQUIT)
-		return ;
-	else if (signal == SIGINT)
+	if (signal == SIGINT)
 	{
-		printf("SIGINT received, pid=[%d]\n", info->si_pid);
+		//write(1, "\n", 1);
+		//rl_on_new_line();
+		//rl_replace_line("", 0);
+		//printf(SHELL_PROMPT);
+		//if (my_sig_nal != TYPING)
+		//rl_redisplay();
+
+		deaf_mode();
+		my_sig_nal = CONTROL_C;
+		//write(STDIN_FILENO, 0, 0);
+		// int dev_null = open("/dev/null", O_RDONLY);
+		// dup2(dev_null, STDIN_FILENO);
+   		// close(dev_null);
+	}
+}
+
+void	interactive_mode(int signal, siginfo_t *info, void *context)
+{
+	(void)context;
+	if (signal == SIGINT)
+	{
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -49,17 +70,62 @@ void	handle_signal(int signal, siginfo_t *info, void *context)
 	}
 }
 
-int	signals(t_shell *shell)
+void	normal_mode(int signal, siginfo_t *info, void *context)
 {
-	struct sigaction	sa_server;
-
-	sa_server.sa_sigaction = handle_signal;
-	sa_server.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa_server.sa_mask);
-	if (sigaction(SIGINT, &sa_server, NULL) == -1
-		|| sigaction(SIGQUIT, &sa_server, NULL) == -1)
+	(void)context;
+	if (signal == SIGQUIT)
 	{
-		return (write(2, "Failed to set up signals\n", 26), 0);
+		printf("Quit (my core dumped)\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	}
+	else if (signal == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		if (my_sig_nal != TYPING)//
+			rl_redisplay();////////
+		my_sig_nal = CONTROL_C;////
+	}
+}
+
+int	signals(t_shell *shell, int mode)
+{
+	struct sigaction	sa_sig_nal;
+	struct sigaction	sa_ignore;
+
+	if (mode == NORMAL_MODE)
+	{
+		sa_sig_nal.sa_sigaction = normal_mode;
+		sa_sig_nal.sa_flags = SA_SIGINFO;
+		sigemptyset(&sa_sig_nal.sa_mask);
+		sigaction(SIGINT, &sa_sig_nal, NULL);
+		sigaction(SIGQUIT, &sa_sig_nal, NULL);
+	}
+	else if (mode == INTERACTIVE_MODE)
+	{
+		sa_sig_nal.sa_sigaction = interactive_mode;
+		sa_sig_nal.sa_flags = SA_SIGINFO;
+		sigemptyset(&sa_sig_nal.sa_mask);
+		sigaction(SIGINT, &sa_sig_nal, NULL);
+
+		sa_ignore.sa_handler = SIG_IGN;
+		sigemptyset(&sa_ignore.sa_mask);
+		sa_ignore.sa_flags = 0;
+		sigaction(SIGQUIT, &sa_ignore, NULL);
+	}
+	else if (mode == HEREDOC_MODE)
+	{
+		sa_sig_nal.sa_sigaction = heredoc_mode;
+		sa_sig_nal.sa_flags = SA_SIGINFO;
+		sigemptyset(&sa_sig_nal.sa_mask);
+		sigaction(SIGINT, &sa_sig_nal, NULL);
+
+		sa_ignore.sa_handler = SIG_IGN;
+		sigemptyset(&sa_ignore.sa_mask);
+		sa_ignore.sa_flags = 0;
+		sigaction(SIGQUIT, &sa_ignore, NULL);
 	}
 	return (1);
 }

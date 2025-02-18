@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 16:30:08 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:43:13 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ typedef struct s_shell
 
 /* SIGNAL */
 
-int		signals(t_shell *shell);
+int	signals(t_shell *shell, int mode);
+void	default_sig_nal(void);
 
 /* INPUT */
 
@@ -104,7 +105,7 @@ void		apply_to_list(t_shell *s, t_list *n, void f(t_shell *, t_list *));
 int			letter_is(int lexem, char *string);
 int			token_is(int lexem, t_list *node);
 void		group_strings(t_shell *shell, t_list *node);
-void		remove_delimiter(t_shell *shell, char **ptr_to_string);
+void		remove_quotes_from_string(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
 
 /* EXPANSION */
@@ -159,6 +160,7 @@ int			exec_pipe_monitor(t_shell *shell, t_tree *tree);
 void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
 void		assemble_heredoc(t_shell *s, t_cmd *cmd, t_file *file);
 void		close_cmd_fd(t_cmd *cmd);
+void		check_file(t_shell *shell, t_cmd *cmd, t_file *file);
 
 /* ERROR HANDLING */
 
@@ -182,6 +184,8 @@ void		print_tokens(t_list *first);
 
 int			token_is_redirection(t_list *token_node);
 int			token_is_operator(t_list *token_node);
+
+#define SHELL_PROMPT "algo$ "
 
 # define TRUE			1
 # define FALSE			0
@@ -242,6 +246,8 @@ enum e_err_code
 	TOO_FEW_ARGS,
 	SIGNALS,
 	INTERUPT,
+	AMBIG_REDIR,
+	NON_NUM,
 };
 
 /* Actual return values expected from minishell program */
@@ -287,5 +293,12 @@ enum e_my_signal
 	CONTROL_C = 3,
 };
 
+
+enum e_ignal_mode
+{
+	NORMAL_MODE = 0,
+	INTERACTIVE_MODE = 1,
+	HEREDOC_MODE = 2,
+};
 
 #endif

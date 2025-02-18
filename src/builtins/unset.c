@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:55:19 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/02 12:54:24 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 12:02:36 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	unset(t_shell *shell, t_cmd *cmd)
 	current_arg = cmd->arg_list->next;
 	while (current_arg)
 	{
-		env_to_be_unset = find_env(shell->env_list, (char *)current_arg->content);
+		env_to_be_unset = find_env(shell->env_list,
+				(char *)current_arg->content);
 		ft_lstpop(&shell->env_list, env_to_be_unset, free);
 		current_arg = current_arg->next;
 	}

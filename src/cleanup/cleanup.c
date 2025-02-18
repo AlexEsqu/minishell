@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/11 00:23:48 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/14 11:41:32 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ void	free_tree(t_tree **tree)
 	free(*tree);
 	(*tree) = NULL;
 }
-
-
 
 void	free_minishell(t_shell *shell)
 {
