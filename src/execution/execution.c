@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 11:17:38 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:20:05 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	exec_for_builtin(t_shell *shell, t_cmd *cmd, bool piped)
 		return (cmd->exit_code);
 	exit_code = exec_builtin(shell, cmd);
 	reset_std(shell, piped);
-	return (WEXITSTATUS(exit_code));
+	return (exit_code);
 }
 
 static int	create_fork_to_exec_binary(t_shell *shell, t_cmd *cmd)

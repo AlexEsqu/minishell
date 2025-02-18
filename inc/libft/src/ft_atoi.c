@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:27:11 by mkling            #+#    #+#             */
-/*   Updated: 2024/10/09 16:46:21 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:07:51 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_atoi(const char *str)
 	return (number * minus);
 }
 
-long	ft_atol(const char *str)
+long long	ft_atol(const char *str)
 {
 	long long	result;
 	int			sign;

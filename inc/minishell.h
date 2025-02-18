@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 14:43:44 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:49:55 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ enum e_err_code
 	IS_NOT_DIR,
 	TOO_MANY_ARGS,
 	TOO_FEW_ARGS,
+	NON_NUM_ARG,
 };
 
 /* Actual return values expected from minishell program */
