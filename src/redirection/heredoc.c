@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 19:22:25 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:57:34 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,26 +79,21 @@ static void	accumulate_heredoc_content(t_shell *shell, t_cmd *cmd, t_file *file)
 		my_sig_nal = IN_HEREDOC;
 		signals(shell, HEREDOC_MODE);
 		line = readline("here_doc$ ");
-		//printf("line=[%s]\n", line);
 		signals(shell, NORMAL_MODE);
 		if (my_sig_nal == CONTROL_C)
 		{
-			//printf("CONTROL C\n");
 			free(line);
 			shell->last_exit_code = E_SIG_INT;
 			break ;
 		}
 		else if (!line)
 		{
-			//printf("!line\n");
 			printf("pas cool, t'aurais pu mettre le delim [%s] que t'as choisi\n", file->delim);
 			free(line);
 			break ;
 		}
 		else if (ft_strncmp(file->delim, line, ft_strlen(line)) == 0)
 		{
-			//printf("file->delim=[%s]\n", file->delim);
-			//printf("sortie normale\n");
 			free(line);
 			break ;
 		}

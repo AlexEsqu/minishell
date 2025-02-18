@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 18:41:08 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:57:22 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,10 @@ void	init_readline(t_shell *shell)
 			shell->last_exit_code = E_SIG_INT;
 			my_sig_nal = BASE;
 		}
-		if (my_sig_nal == CONTROL_D)
-		{
-			shell->last_exit_code = E_SIG_SLSH;
-			my_sig_nal = BASE;
-		}
 		if (!input)
+		{
 			break ;
+		}
 		if (input && countword(input, ' ') > 0)
 		{
 			my_sig_nal = TYPING;

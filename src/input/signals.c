@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:36:09 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/18 19:26:37 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/18 20:01:00 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,16 @@ void	deaf_mode(void)
 
 void	heredoc_mode(int signal, siginfo_t *info, void *context)
 {
-	int	forkpid;
 
 	(void)context;
 	if (signal == SIGINT)
 	{
-		deaf_mode();
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 		my_sig_nal = CONTROL_C;
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
-		// rl_redisplay();
 
-		// forkpid = fork();
-		// if (forkpid == 0)
-		// {
-		// 	rl_on_new_line();
-		// 	rl_replace_line("", 0);
-		// 	rl_redisplay();
-		// 	exit(52);
-		// }
-		// waitpid(forkpid, NULL, NULL);
+		// deaf_mode();
 
 		// write(STDIN_FILENO, "\x04", 1);
 
@@ -97,9 +87,9 @@ void	normal_mode(int signal, siginfo_t *info, void *context)
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		if (my_sig_nal != TYPING)//
-			rl_redisplay();////////
-		my_sig_nal = CONTROL_C;////
+		if (my_sig_nal != TYPING)
+			rl_redisplay();
+		my_sig_nal = CONTROL_C;
 	}
 }
 
