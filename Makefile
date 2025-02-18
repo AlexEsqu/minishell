@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
+#    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/14 11:18:48 by mkling           ###   ########.fr        #
+#    Updated: 2025/02/18 13:41:06 by vgodoy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ FUNC_EXEC	=	execution.c \
 				arguments.c
 
 FUNC_EXPA	=	expand.c \
-				variable.c
+				variable.c \
+				delimiters.c
 
 FUNC_INPU	=	readline.c \
 				signals.c
@@ -99,7 +100,7 @@ INC			= -I$(DIR_INC) -I$(DIR_LIB)
 
 CC			= cc
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= #-Wall -Wextra -Werror
 
 # **************************************************************************** #
 #		Unit test variables													   #

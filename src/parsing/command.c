@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:13:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 11:02:09 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:07:48 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,14 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 	cmd = create_cmd();
 	while ((*node)->next && !token_is_operator(*node))
 	{
+		// problem potentiel (???)
 		if (token_is_redirection((*node)))
 			parse_in_out_files(shell, cmd, node);
 		if (token_is(WORD, *node) || token_is(STRING, *node)
 			|| token_is(VARIABLE, *node))
 			parse_command_arg(shell, cmd, node);
+		if (my_sig_nal == CONTROL_C)
+			return (NULL);
 		*node = (*node)->next;
 	}
 	return (create_branch(shell, AST_CMD, cmd));

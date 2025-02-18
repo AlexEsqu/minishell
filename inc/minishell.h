@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 17:49:55 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:41:18 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <readline/history.h>
 # include "libft/inc/libft.h"
 # include <errno.h>
+
+extern int	my_sig_nal;
 
 typedef struct s_token
 {
@@ -82,7 +84,8 @@ typedef struct s_shell
 
 /* SIGNAL */
 
-void		signals(void);
+int	signals(t_shell *shell, int mode);
+void	default_sig_nal(void);
 
 /* INPUT */
 
@@ -102,7 +105,7 @@ void		apply_to_list(t_shell *s, t_list *n, void f(t_shell *, t_list *));
 int			letter_is(int lexem, char *string);
 int			token_is(int lexem, t_list *node);
 void		group_strings(t_shell *shell, t_list *node);
-void		remove_delimiter(t_shell *shell, char **ptr_to_string);
+void		remove_quotes_from_string(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
 
 /* EXPANSION */
@@ -157,6 +160,7 @@ int			exec_pipe_monitor(t_shell *shell, t_tree *tree);
 void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
 void		assemble_heredoc(t_shell *s, t_cmd *cmd, t_file *file);
 void		close_cmd_fd(t_cmd *cmd);
+void		check_file(t_shell *shell, t_cmd *cmd, t_file *file);
 
 /* ERROR HANDLING */
 
@@ -180,6 +184,8 @@ void		print_tokens(t_list *first);
 
 int			token_is_redirection(t_list *token_node);
 int			token_is_operator(t_list *token_node);
+
+#define SHELL_PROMPT "algo$ "
 
 # define TRUE			1
 # define FALSE			0
@@ -238,7 +244,10 @@ enum e_err_code
 	IS_NOT_DIR,
 	TOO_MANY_ARGS,
 	TOO_FEW_ARGS,
-	NON_NUM_ARG,
+	SIGNALS,
+	INTERUPT,
+	AMBIG_REDIR,
+	NON_NUM,
 };
 
 /* Actual return values expected from minishell program */
@@ -250,6 +259,7 @@ enum e_exit_code
 	E_NO_CMD = 127,
 	E_BAD_EXIT = 128,
 	E_SIG_INT = 130,
+	E_SIG_SLSH = 131,
 };
 
 enum e_pipe_fd
@@ -276,5 +286,21 @@ enum e_tree_mode
 	AST_RIGHT,
 };
 
+enum e_my_signal
+{
+	BASE = 0,
+	TYPING = 1,
+	IN_HEREDOC = 2,
+	CONTROL_C = 3,
+	CONTROL_D = 4,
+};
+
+
+enum e_ignal_mode
+{
+	NORMAL_MODE = 0,
+	INTERACTIVE_MODE = 1,
+	HEREDOC_MODE = 2,
+};
 
 #endif

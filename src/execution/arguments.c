@@ -6,25 +6,11 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 15:07:02 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:37:50 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_tree	*create_branch(t_shell *shell, int type, void *content)
-{
-	t_tree	*node;
-
-	node = ft_calloc(1, sizeof(t_tree));
-	if (!node)
-		return (set_error(MALLOC_FAIL, shell), NULL);
-	node->type = type;
-	node->content = content;
-	node->left = NULL;
-	node->left = NULL;
-	return (node);
-}
 
 char	**extract_list_as_array(t_shell *shell, t_list *head)
 {
@@ -59,10 +45,11 @@ void	put_arg_in_array(t_cmd *cmd)
 		return (set_cmd_error(MALLOC_FAIL, cmd, NULL));
 	index = 0;
 	current = cmd->arg_list;
-	while (index < cmd->argc)
+	while (current)
 	{
-		cmd->argv[index] = current->content;
+		if (current->content)
+			cmd->argv[index++] = current->content;
 		current = current->next;
-		index++;
 	}
+	cmd->argc = index;
 }

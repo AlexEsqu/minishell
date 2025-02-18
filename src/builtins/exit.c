@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 09:20:16 by skassimi          #+#    #+#             */
-/*   Updated: 2025/02/18 18:24:41 by mkling           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/18 18:38:26 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -51,7 +52,7 @@ void	print_exit_error(int err_code)
 {
 	print_error();
 	ft_putstr_fd("exit: ", STDERR_FILENO);
-	if (err_code == NON_NUM_ARG)
+	if (err_code == NON_NUM)
 		ft_putstr_fd("Requires numerical arguments\n", STDERR_FILENO);
 	if (err_code == TOO_MANY_ARGS)
 		ft_putstr_fd("Too many arguments\n", STDERR_FILENO);
@@ -69,7 +70,7 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 	else if (!string_is_only_digit_or_sign(cmd->argv[1])
 		|| is_too_long_for_long_long(cmd->argv[1]))
 	{
-		print_exit_error(NON_NUM_ARG);
+		print_exit_error(NON_NUM);
 		exit_code = E_CMD_FAIL;
 	}
 	else if (cmd->argc > 2)

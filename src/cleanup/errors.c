@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:37:02 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 00:24:05 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:05:27 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,18 @@ static char	*get_error_message(int err_code)
 		return ("Command not found");
 	if (err_code == TOO_MANY_ARGS)
 		return ("Too many arguments");
+	if (err_code == INTERUPT)
+		return (NULL);
 	return ("Error");
 }
 
 void	set_error(int err_code, t_shell *shell)
 {
+	char	*error_message;
+
+	error_message = get_error_message(err_code);
 	print_error();
-	ft_putstr_fd(get_error_message(err_code), STDERR_FILENO);
+	ft_putstr_fd(error_message, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	if (shell->tree_root)
 		free_tree(&shell->tree_root);
@@ -59,6 +64,11 @@ void	set_error(int err_code, t_shell *shell)
 
 void	set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd)
 {
+	char	*error_message;
+
+	error_message = get_error_message(err_code);
+	if (!error_message)
+		return ;
 	print_error();
 	if (file_or_cmd != NULL)
 	{
