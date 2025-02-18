@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 19:09:35 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:23:32 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	expand_check_and_open(t_shell *shell, t_cmd *cmd, t_file *file)
 	if (cmd->exit_code)
 		return ;
 	open_file(cmd, file->mode, file->path);
+	free(stored_var);
 }
 
 void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
