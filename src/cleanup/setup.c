@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/02/13 18:31:42 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:04:19 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ t_shell	*create_minishell(char **env)
 	shell = ft_calloc(sizeof(t_shell), 1);
 	if (!shell)
 		return (NULL);
-	shell->env = env;
 	dup2(STDOUT_FILENO, shell->std_out);
 	dup2(STDIN_FILENO, shell->std_in);
+	shell->env = env;
 	extract_env_as_linked_list(shell);
+	shell->env = extract_list_as_array(shell, shell->env_list);
 	return (shell);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/11 00:23:48 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:07:37 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,13 @@ void	free_tree(t_tree **tree)
 	(*tree) = NULL;
 }
 
-
-
 void	free_minishell(t_shell *shell)
 {
 	shell->index = 0;
 	if (shell->token_list)
 		ft_lstclear(&shell->token_list, free_token);
+	if (shell->env)
+		ft_free_tab(shell->env);
 	if (shell->env_list)
 		ft_lstclear(&shell->env_list, free);
 	if (shell->tree_root)

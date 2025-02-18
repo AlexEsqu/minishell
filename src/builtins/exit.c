@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:20:16 by skassimi          #+#    #+#             */
-/*   Updated: 2025/02/14 01:19:16 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/18 14:29:59 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 	else
 		exit_code = shell->last_exit_code;
 	free_minishell(shell);
+	fprintf(stderr, "freeing during an exit\n");
 	exit(exit_code);
 }

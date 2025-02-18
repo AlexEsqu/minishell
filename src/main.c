@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:09:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/10 18:07:04 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 14:29:28 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char **argv, char **envp)
 		parse_and_exec_cmd(shell, argv[2]);
 	else
 		init_readline(shell);
+	fprintf(stderr, "freeing at end of program\n");
 	free_minishell(shell);
 	return (0);
 }
