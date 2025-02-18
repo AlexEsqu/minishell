@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 09:08:11 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/18 10:14:20 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
 	while (current)
 	{
 		current_file = (t_file *)current->content;
+		expand_string(shell, &current_file->path);
 		open_file(cmd, current_file->mode, current_file->path);
 		current = current->next;
 	}
