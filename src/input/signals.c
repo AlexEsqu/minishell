@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:36:09 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/18 18:40:11 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:26:37 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,34 @@ void	deaf_mode(void)
 
 void	heredoc_mode(int signal, siginfo_t *info, void *context)
 {
+	int	forkpid;
+
 	(void)context;
 	if (signal == SIGINT)
 	{
-		//write(1, "\n", 1);
-		//rl_on_new_line();
-		//rl_replace_line("", 0);
-		//printf(SHELL_PROMPT);
-		//if (my_sig_nal != TYPING)
-		//rl_redisplay();
-
 		deaf_mode();
 		my_sig_nal = CONTROL_C;
-		//write(STDIN_FILENO, 0, 0);
+		// rl_on_new_line();
+		// rl_replace_line("", 0);
+		// rl_redisplay();
+
+		// forkpid = fork();
+		// if (forkpid == 0)
+		// {
+		// 	rl_on_new_line();
+		// 	rl_replace_line("", 0);
+		// 	rl_redisplay();
+		// 	exit(52);
+		// }
+		// waitpid(forkpid, NULL, NULL);
+
+		// write(STDIN_FILENO, "\x04", 1);
+
+		//write(STDIN_FILENO, "\n", 1);
+
 		// int dev_null = open("/dev/null", O_RDONLY);
 		// dup2(dev_null, STDIN_FILENO);
-   		// close(dev_null);
+		// close(dev_null);
 	}
 }
 

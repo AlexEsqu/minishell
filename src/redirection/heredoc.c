@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 18:33:39 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:22:25 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	accumulate_heredoc_content(t_shell *shell, t_cmd *cmd, t_file *file)
 			free(line);
 			break ;
 		}
-		else if (ft_strncmp(file->delim, line, ft_strlen(file->delim)) == 0)
+		else if (ft_strncmp(file->delim, line, ft_strlen(line)) == 0)
 		{
 			//printf("file->delim=[%s]\n", file->delim);
 			//printf("sortie normale\n");
