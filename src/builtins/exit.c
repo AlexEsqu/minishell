@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:20:16 by skassimi          #+#    #+#             */
-/*   Updated: 2025/02/18 18:12:34 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:24:41 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	is_too_long_for_long_long(char *str)
 	return (digit_count > 19);
 }
 
-void	print_error_and_exit(t_shell *shell, int err_code)
+void	print_exit_error(int err_code)
 {
 	print_error();
 	ft_putstr_fd("exit: ", STDERR_FILENO);
@@ -55,7 +55,6 @@ void	print_error_and_exit(t_shell *shell, int err_code)
 		ft_putstr_fd("Requires numerical arguments\n", STDERR_FILENO);
 	if (err_code == TOO_MANY_ARGS)
 		ft_putstr_fd("Too many arguments\n", STDERR_FILENO);
-	free_minishell(shell);
 }
 
 /* Exit with first argument as exit code
@@ -69,7 +68,10 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 		exit_code = shell->last_exit_code;
 	else if (!string_is_only_digit_or_sign(cmd->argv[1])
 		|| is_too_long_for_long_long(cmd->argv[1]))
-		return (print_error_and_exit(shell, NON_NUM_ARG), E_CMD_FAIL);
+	{
+		print_exit_error(NON_NUM_ARG);
+		exit_code = E_CMD_FAIL;
+	}
 	else if (cmd->argc > 2)
 		return (set_cmd_error(TOO_MANY_ARGS, cmd, cmd->argv[0]),
 			E_CMD_FAIL);
