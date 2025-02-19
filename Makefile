@@ -6,7 +6,7 @@
 #    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/18 13:41:06 by vgodoy           ###   ########.fr        #
+#    Updated: 2025/02/19 15:18:20 by vgodoy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,8 @@ FUNC_EXPA	=	expand.c \
 				delimiters.c
 
 FUNC_INPU	=	readline.c \
-				signals.c
+				signals.c \
+				modes.c
 
 FUNC_LEXR	=	lexer.c \
 				scanner.c \
@@ -74,6 +75,7 @@ FUNC_PARS	=	command.c \
 				path.c \
 
 FUNC_REDI	=	heredoc.c \
+				heredoc_utils.c \
 				redirection.c
 
 FUNC		=	$(addprefix $(DIR_BUTI)/, $(FUNC_BUTI)) \

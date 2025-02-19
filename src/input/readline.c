@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 12:47:09 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 14:13:05 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,47 +38,35 @@ void	parse_and_exec_cmd(t_shell *shell, char *input)
 		shell->last_exit_code = exec_tree(shell, shell->tree_root, false);
 	free_tree(&shell->tree_root);
 }
+
+
+void	signal_test(t_shell *shell)
+{
+	if (my_sig_nal == CONTROL_C)
+		shell->last_exit_code = E_SIG_INT;
+	if (my_sig_nal == CONTROL_D)
+		shell->last_exit_code = E_SIG_SLSH;
+	my_sig_nal = BASE;
+}
+
 void	init_readline(t_shell *shell)
 {
 	char		*input;
 
 	while (1)
 	{
-		if (my_sig_nal == CONTROL_D)
-		{
-			shell->last_exit_code = E_SIG_SLSH;
-			my_sig_nal = BASE;
-		}
 		my_sig_nal = BASE;
 		signals(shell, INTERACTIVE_MODE);
 		input = readline(SHELL_PROMPT);
-		printf("readline my_sig_nal = [%d]\n", my_sig_nal);
 		signals(shell, NORMAL_MODE);
-		printf("readline my_sig_nal = [%d]\n", my_sig_nal);
-		if (my_sig_nal == CONTROL_C)
-		{
-			shell->last_exit_code = E_SIG_INT;
-			my_sig_nal = BASE;
-		}
-		if (my_sig_nal == CONTROL_D)
-		{
-			shell->last_exit_code = E_SIG_SLSH;
-			my_sig_nal = BASE;
-		}
-		printf("readline my_sig_nal = [%d]\n", my_sig_nal);
+		signal_test(shell);
 		if (!input)
-		{
 			break ;
-		}
 		if (input && countword(input, ' ') > 0)
 		{
 			my_sig_nal = TYPING;
 			parse_and_exec_cmd(shell, input);
-			if (my_sig_nal == CONTROL_C)
-				shell->last_exit_code = E_SIG_INT;
-			if (my_sig_nal == CONTROL_D)
-				shell->last_exit_code = E_SIG_SLSH;
-			my_sig_nal = BASE;
+			signal_test(shell);
 			add_history(input);
 			free(input);
 		}

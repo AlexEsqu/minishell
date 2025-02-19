@@ -6,46 +6,11 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 12:38:44 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:17:21 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* PIPE METHOD */
-
-// void	handle_heredoc(int sig)
-// {
-// 	printf("\n");
-// 	rl_replace_line(NULL, 0);
-// 	(void) sig;
-// }
-
-// int	assemble_heredoc(t_shell *shell, t_cmd *cmd, char *end_of_file)
-// {
-// 	int		fd[2];
-// 	char	*line;
-
-// 	if (create_pipe(shell, fd) != 0)
-// 		return (set_cmd_error(PIPE_ERROR, cmd, NULL), PIPE_ERROR);
-// 	while (true)
-// 	{
-// 		// signal(SIGINT, heredoc_handler);
-// 		line = readline("> ");
-// 		// signal(SIGINT, signal_handler);
-// 		if (!ft_strcmp(line, end_of_file) || !line)
-// 		{
-// 			close(fd[1]);
-// 			free(line);
-// 			return (fd[0]);
-// 		}
-// 		ft_putstr_fd(line, fd[1]);
-// 		ft_putstr_fd("\n", fd[1]);
-// 		free(line);
-// 	}
-// }
-
-/* FILE METHOD */
 
 static char	*generate_heredoc_filepath(t_shell *shell)
 {
@@ -72,7 +37,6 @@ static char	*generate_heredoc_filepath(t_shell *shell)
 static void	accumulate_heredoc_content(t_shell *shell, t_cmd *cmd, t_file *file)
 {
 	char	*line;
-	char	*tmp;
 
 	while (1)
 	{
@@ -80,29 +44,12 @@ static void	accumulate_heredoc_content(t_shell *shell, t_cmd *cmd, t_file *file)
 		signals(shell, HEREDOC_MODE);
 		line = readline("here_doc$ ");
 		signals(shell, NORMAL_MODE);
-		if (!line)
-		{
-			printf("pas cool, t'aurais pu mettre le delim [%s] que t'as choisi\n", file->delim);
-			free(line);//?? !line donc pas besoin de free
+		if (control_d_pressed(line, file))
 			break ;
-		}
-		if (my_sig_nal == CONTROL_C)
-		{
-			free(line);
-			shell->last_exit_code = E_SIG_INT;
+		if (control_c_pressed(line, shell))
 			break ;
-		}
-		// if (my_sig_nal == CONTROL_D)
-		// {
-		// 	free(line);
-		// 	shell->last_exit_code = E_SIG_SLSH;
-		// 	break ;
-		// }
-		else if (ft_strncmp(file->delim, line, ft_strlen(line)) == 0)
-		{
-			free(line);
+		if (delim_summoned(line, file))
 			break ;
-		}
 		if (!file->is_quoted)
 			expand_string(shell, &line);
 		write(file->fd, line, ft_strlen(line));
