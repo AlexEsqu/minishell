@@ -6,7 +6,7 @@
 #    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/19 15:18:20 by vgodoy           ###   ########.fr        #
+#    Updated: 2025/02/19 15:58:31 by vgodoy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ FUNC_BUTI	=	cd.c \
 
 FUNC_CLEA	=	cleanup.c \
 				errors.c \
+				messages.c \
 				setup.c
 
 FUNC_EXEC	=	execution.c \
@@ -75,7 +76,7 @@ FUNC_PARS	=	command.c \
 				path.c \
 
 FUNC_REDI	=	heredoc.c \
-				heredoc_utils.c \
+				interruptions.c \
 				redirection.c
 
 FUNC		=	$(addprefix $(DIR_BUTI)/, $(FUNC_BUTI)) \

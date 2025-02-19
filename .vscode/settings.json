@@ -1,6 +1,7 @@
 {
   "files.associations": {
-    "minishell.h": "c"
+    "minishell.h": "c",
+    "modes": "cpp"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",

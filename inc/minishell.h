@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 15:16:53 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:56:49 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ typedef struct s_shell
 
 /* SIGNAL */
 
-void	signals(t_shell *shell, int mode);
-void	normal_mode(int signal, siginfo_t *info, void *context);
-void	interactive_mode(int signal, siginfo_t *info, void *context);
-void	heredoc_mode(int signal, siginfo_t *info, void *context);
+void		signals(t_shell *shell, int mode);
+void		normal_mode(int signal, siginfo_t *info, void *context);
+void		interactive_mode(int signal, siginfo_t *info, void *context);
+void		heredoc_mode(int signal, siginfo_t *info, void *context);
 
 /* INPUT */
 
@@ -154,9 +154,9 @@ char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
 
 /* REDIRECTION */
-int	delim_summoned(char *line, t_file *file);
-int	control_c_pressed(char *line, t_shell *shell);
-int	control_d_pressed(char *line, t_file *file);
+int			delim_summoned(char *line, t_file *file);
+int			control_c_pressed(char *line, t_shell *shell);
+int			control_d_pressed(char *line, t_file *file);
 
 // void		parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current);
 void		open_file(t_cmd *cmd, int mode, char *path);
@@ -173,6 +173,7 @@ void		set_error(int err_code, t_shell *shell);
 void		set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd);
 void		print_error(void);
 void		print_syntax_error(t_token *token);
+char		*get_error_message(int err_code);
 
 /* CLEAN UP */
 
@@ -190,8 +191,7 @@ void		print_tokens(t_list *first);
 int			token_is_redirection(t_list *token_node);
 int			token_is_operator(t_list *token_node);
 
-#define SHELL_PROMPT "algo$ "
-
+# define SHELL_PROMPT "algo$ "
 # define TRUE			1
 # define FALSE			0
 # define DELIMITERS		"'\"()"
