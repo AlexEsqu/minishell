@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:51:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 19:57:22 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:47:09 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,28 @@ void	init_readline(t_shell *shell)
 
 	while (1)
 	{
+		if (my_sig_nal == CONTROL_D)
+		{
+			shell->last_exit_code = E_SIG_SLSH;
+			my_sig_nal = BASE;
+		}
 		my_sig_nal = BASE;
 		signals(shell, INTERACTIVE_MODE);
 		input = readline(SHELL_PROMPT);
+		printf("readline my_sig_nal = [%d]\n", my_sig_nal);
 		signals(shell, NORMAL_MODE);
+		printf("readline my_sig_nal = [%d]\n", my_sig_nal);
 		if (my_sig_nal == CONTROL_C)
 		{
 			shell->last_exit_code = E_SIG_INT;
 			my_sig_nal = BASE;
 		}
+		if (my_sig_nal == CONTROL_D)
+		{
+			shell->last_exit_code = E_SIG_SLSH;
+			my_sig_nal = BASE;
+		}
+		printf("readline my_sig_nal = [%d]\n", my_sig_nal);
 		if (!input)
 		{
 			break ;
@@ -63,6 +76,8 @@ void	init_readline(t_shell *shell)
 			parse_and_exec_cmd(shell, input);
 			if (my_sig_nal == CONTROL_C)
 				shell->last_exit_code = E_SIG_INT;
+			if (my_sig_nal == CONTROL_D)
+				shell->last_exit_code = E_SIG_SLSH;
 			my_sig_nal = BASE;
 			add_history(input);
 			free(input);

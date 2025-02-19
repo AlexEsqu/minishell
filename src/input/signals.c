@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:36:09 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/18 20:01:00 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:36:41 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,10 @@ void	heredoc_mode(int signal, siginfo_t *info, void *context)
 	(void)context;
 	if (signal == SIGINT)
 	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
 		my_sig_nal = CONTROL_C;
-
-		// deaf_mode();
-
-		// write(STDIN_FILENO, "\x04", 1);
-
-		//write(STDIN_FILENO, "\n", 1);
-
-		// int dev_null = open("/dev/null", O_RDONLY);
-		// dup2(dev_null, STDIN_FILENO);
-		// close(dev_null);
+		rl_done = 1;
+		write(STDIN_FILENO, "\n", 2);
+		printf(SHELL_PROMPT);
 	}
 }
 
@@ -81,6 +71,7 @@ void	normal_mode(int signal, siginfo_t *info, void *context)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		my_sig_nal = CONTROL_D;
+		printf("normal_mode my_sig_nal = [%d]\n", my_sig_nal);
 	}
 	else if (signal == SIGINT)
 	{
