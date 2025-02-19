@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:31 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 17:01:48 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 18:30:32 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*Ensures unique heredoc file paths to prevent overwriting existing files.
+Handles memory allocation failures gracefully by setting errors.
+Uses a static counter (i) to generate new file names when needed.
+Creates temporary files dynamically*/
 static char	*generate_heredoc_filepath(t_shell *shell)
 {
 	static int	i;
@@ -34,13 +38,18 @@ static char	*generate_heredoc_filepath(t_shell *shell)
 	return (heredoc_path);
 }
 
+/*accumulate heredoc with readline, writing a line and the a /n
+break the infinite loop:
+- simple !line check for control+D
+- custom signals for control+C
+- strcmp for delimitator*/
 static void	accumulate_heredoc_content(t_shell *shell, t_cmd *cmd, t_file *file)
 {
 	char	*line;
 
 	while (1)
 	{
-		my_sig_nal = IN_HEREDOC;
+		//my_sig_nal = IN_HEREDOC;
 		signals(shell, HEREDOC_MODE);
 		line = readline("here_doc$ ");
 		signals(shell, NORMAL_MODE);
@@ -58,6 +67,11 @@ static void	accumulate_heredoc_content(t_shell *shell, t_cmd *cmd, t_file *file)
 	}
 }
 
+/*set the delim
+check if it is quoted and removes quotes
+generate a unique file path and opens it
+accumulate heredoc content and closes file
+clean up file path if control+C is used*/
 void	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_file *file)
 {
 	file->delim = file->path;

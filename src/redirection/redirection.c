@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:41 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 17:01:37 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 18:06:21 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+/*This function is responsible for opening a file for a command (t_cmd *cmd)
+based on the specified mode (mode) and file path (path).
+    if : OUTFILE or APPEND (indicating output redirection):
+    else : Otherwise (input redirection):*/
 void	open_file(t_cmd *cmd, int mode, char *path)
 {
 	if (mode == OUTFILE || mode == APPEND)
@@ -35,6 +40,9 @@ void	open_file(t_cmd *cmd, int mode, char *path)
 	}
 }
 
+/*if heredoc or error does nothing
+INFILE : verify if there is a file / verify if we can access file
+OUTFILE : if it exists and we connot write -> perm error*/
 void	check_file(t_shell *shell, t_cmd *cmd, t_file *file)
 {
 	char	*expanded_filepath;
@@ -59,6 +67,9 @@ void	check_file(t_shell *shell, t_cmd *cmd, t_file *file)
 	free(expanded_filepath);
 }
 
+/*This function ensures that file paths are properly
+expanded, validated, and opened,
+handling potential errors like ambiguous redirections before proceeding.*/
 void	expand_check_and_open(t_shell *shell, t_cmd *cmd, t_file *file)
 {
 	char	*stored_var;
@@ -77,6 +88,11 @@ void	expand_check_and_open(t_shell *shell, t_cmd *cmd, t_file *file)
 	free(stored_var);
 }
 
+/*Ensures file input/output redirection (<, >, >>) are processed correctly
+before executing a command.
+    Expands and validates file paths before opening them.
+    Redirects standard input and output to the correct files.
+    Handles errors properly (e.g., invalid files, failed dup2 calls).*/
 void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
 {
 	t_list	*current;
@@ -105,6 +121,10 @@ void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
 		return (set_cmd_error(DUP_ERROR, cmd, NULL));
 }
 
+/*Prevents file descriptor leaks by closing files
+  when they are no longer needed.
+Ensures that only opened, non-standard file descriptors are closed.
+Marks closed file descriptors as -2, indicating they are invalid or unused.*/
 void	close_cmd_fd(t_cmd *cmd)
 {
 	if (cmd->fd_in != STDIN_FILENO && cmd->fd_in > 0)

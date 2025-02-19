@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/28 14:09:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 15:51:52 by mkling           ###   ########.fr       */
+/*   Created: 2025/02/19 18:11:08 by vgodoy            #+#    #+#             */
+/*   Updated: 2025/02/19 18:14:50 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* This function is the core of algo-shell program,
+handling both interactive and non-interactive command execution.
+    Initializes the shell environment.
+    Handles non-interactive execution (-c "command").
+    Determines if it's running in interactive mode and starts readline.
+    Frees memory before exiting.*/
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;

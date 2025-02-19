@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/02/18 18:36:46 by mkling           ###   ########.fr       */
+/*   Created: 2025/02/19 17:25:58 by vgodoy            #+#    #+#             */
+/*   Updated: 2025/02/19 18:11:30 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell	*create_minishell(char **env)
+{
+	t_shell	*shell;
+
+	shell = ft_calloc(sizeof(t_shell), 1);
+	if (!shell)
+		return (NULL);
+	dup2(STDOUT_FILENO, shell->std_out);
+	dup2(STDIN_FILENO, shell->std_in);
+	shell->env = env;
+	extract_env_as_linked_list(shell);
+	shell->env = extract_list_as_array(shell, shell->env_list);
+	return (shell);
+}
 
 t_token	*create_token(t_shell *shell, int lexem, char letter, char *content)
 {
@@ -62,20 +77,6 @@ t_cmd	*create_cmd(void)
 	return (cmd);
 }
 
-t_shell	*create_minishell(char **env)
-{
-	t_shell	*shell;
-
-	shell = ft_calloc(sizeof(t_shell), 1);
-	if (!shell)
-		return (NULL);
-	dup2(STDOUT_FILENO, shell->std_out);
-	dup2(STDIN_FILENO, shell->std_in);
-	shell->env = env;
-	extract_env_as_linked_list(shell);
-	shell->env = extract_list_as_array(shell, shell->env_list);
-	return (shell);
-}
 
 void	apply_to_list(t_shell *shell, t_list *node,
 			void function(t_shell *, t_list *))

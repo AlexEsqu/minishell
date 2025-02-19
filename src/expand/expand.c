@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 16:38:31 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:13:30 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	t_list	*relevant_env;
 
 	var_name = (char *)(*ptr_to_variable);
-	if (ft_strcmp(var_name, "?") == 0)
+	if (ft_strcmp(var_name, "$?") == 0)
 		expanded_var = ft_itoa(shell->last_exit_code);
 	else
 	{

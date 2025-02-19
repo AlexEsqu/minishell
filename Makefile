@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
+#    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/19 17:00:45 by mkling           ###   ########.fr        #
+#    Updated: 2025/02/19 17:25:43 by vgodoy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ DIR_EXEC	= execution
 DIR_PARS	= parsing
 DIR_BUTI	= builtins
 DIR_REDI	= redirection
-DIR_CLEA	= cleanup
+DIR_SNC		= set_n_clean
 DIR_EXPA	= expand
 DIR_INPU	= input
 DIR_LEXR	= lexer
@@ -47,7 +47,7 @@ FUNC_BUTI	=	cd.c \
 				unset.c \
 				builtins.c
 
-FUNC_CLEA	=	cleanup.c \
+FUNC_SNC		=	cleanup.c \
 				errors.c \
 				messages.c \
 				setup.c
