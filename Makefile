@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
+#    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/18 13:41:06 by vgodoy           ###   ########.fr        #
+#    Updated: 2025/02/19 15:22:58 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,8 @@ FUNC_EXEC	=	execution.c \
 
 FUNC_EXPA	=	expand.c \
 				variable.c \
-				delimiters.c
+				delimiters.c \
+				tokenizer.c
 
 FUNC_INPU	=	readline.c \
 				signals.c

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 12:14:06 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:40:45 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ int			has_valid_var(char *string);
 int			is_valid_variable(char *input);
 void		id_variables(t_shell *shell, t_list *current);
 void		expand_string(t_shell *shell, char **ptr_to_str);
+t_list		*tokenize_and_expand_string(t_shell *shell, char *string);
+void		expand_variable(t_shell *shell, char **ptr_to_variable);
 
 /* PARSER */
 
@@ -191,8 +193,7 @@ int			token_is_operator(t_list *token_node);
 # define TRUE			1
 # define FALSE			0
 # define DELIMITERS		"'\"()"
-# define OPERATORS		"|><&$"
-# define DOLLAR			"$"
+# define OPERATORS		"|><&"
 # define BLANKS			" \n\t"
 # define HEREDOC_LOC	"/tmp/.heredoc_"
 # define SHELL_NAME		"shell"
@@ -221,6 +222,7 @@ enum e_lexem
 	LESSER,
 	AND,
 	OR			= 20,
+	DOLLAR,
 };
 
 /* Internal values used inside minishell to print correct error

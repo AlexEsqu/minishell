@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scanner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:37:27 by alex              #+#    #+#             */
-/*   Updated: 2024/12/30 13:24:52 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/19 15:09:55 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,13 @@ void	add_operator_token(t_shell *shell, t_list **dest, char *input)
 	if (input[shell->index] == input[shell->index + 1])
 		len = 2;
 	token = create_token(shell, OPERATOR, input[shell->index], NULL);
-	token->content = ft_calloc(sizeof(char), len + 1);
 	if (!token)
-		return ;
-	ft_strlcat(token->content, &input[shell->index], 2);
+		return (set_error(MALLOC_FAIL, shell));
+	token->content = ft_calloc(sizeof(char), len + 1);
+	ft_strlcat(token->content, &input[shell->index], len + 1);
 	if (!token->content)
 		return (set_error(MALLOC_FAIL, shell));
 	token->lexem = OPERATOR;
-	ft_strlcat(token->content, &input[shell->index], len + 1);
 	ft_lstadd_back(dest, ft_lstnew(token));
 	shell->index += len;
 }

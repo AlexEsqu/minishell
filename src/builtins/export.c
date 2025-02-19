@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 12:35:42 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:48:38 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	t_list	*to_be_replaced;
 	char	*env_key;
 
-	printf("var is [%s]\n", env_key_and_value);
 	env_key = extract_env_key(env_key_and_value);
 	to_be_replaced = find_env(shell->env_list, env_key);
 	if (!to_be_replaced)
