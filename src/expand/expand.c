@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 16:38:31 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:53:03 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	t_list	*relevant_env;
 
 	var_name = (char *)(*ptr_to_variable);
-	if (ft_strcmp(var_name, "?") == 0)
+	if (ft_strcmp(var_name, "$?") == 0)
 		expanded_var = ft_itoa(shell->last_exit_code);
 	else
 	{
@@ -88,7 +88,7 @@ void	expand_node(t_shell *shell, t_list *node)
 	if (!node || !node->content)
 		return ;
 	ptr_to_str = (char **)&node->content;
-	if (token_is(SUBSHELL, node))
+	if (*ptr_to_str[0] == '(')
 		exec_subshell(shell, node->content);
 	if (is_valid_variable(node->content))
 		expand_variable(shell, ptr_to_str);

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/02/14 11:36:45 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:37:02 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_tree	*parse_and_or(t_shell *shell, t_list **node)
 {
 	t_tree	*left;
 	t_tree	*right;
-	t_tree	*pipe_node;
+	t_tree	*andor_node;
 	int		type;
 
 	left = parse_pipe(shell, node);
@@ -67,10 +67,10 @@ t_tree	*parse_and_or(t_shell *shell, t_list **node)
 	right = parse_and_or(shell, node);
 	if (!right)
 		return (free_tree(&left), NULL);
-	pipe_node = create_branch(shell, type, NULL);
-	pipe_node->left = left;
-	pipe_node->right = right;
-	return (pipe_node);
+	andor_node = create_branch(shell, type, NULL);
+	andor_node->left = left;
+	andor_node->right = right;
+	return (andor_node);
 }
 
 void	parser(t_shell *shell)
