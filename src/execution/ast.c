@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:15:51 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 16:51:57 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 16:40:34 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	exec_subshell(t_shell *shell, t_list **current)
+{
+	t_shell	*subshell;
+	char	*cmd_line;
+	int		exit_code;
+
+	cmd_line = ft_strdup((char *)((t_token *)(*current)->content)->content);
+	remove_parenthesis_from_string(shell, &cmd_line);
+	printf("%s\n", cmd_line);
+	subshell = create_minishell(shell->env);
+	exit_code = 0;
+	parse_and_exec_cmd(subshell, cmd_line);
+	exit_code = subshell->last_exit_code;
+	return (exit_code);
+}
 
 int	exec_tree(t_shell *shell, t_tree *tree, bool piped)
 {

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 13:50:23 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 10:13:14 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:08:00 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,18 @@ int	has_valid_var(char *string)
 void	id_variables(t_shell *shell, t_list *current)
 {
 	t_token	*token;
+	t_token	*next_token;
+	char	*tmp;
 
 	token = (t_token *)current->content;
-	if (shell->critical_er || token->letter != '$')
-		return ;
-	if (current->next->next)
-		merge_token(shell, current);
-	if (is_valid_variable((char *)((t_token *)current->content)->content))
-		token->lexem = VARIABLE;
-	else
-		token->lexem = WORD;
+	if (token->lexem == DOLLAR)
+	{
+		next_token = (t_token *)current->next->content;
+		next_token->lexem = VARIABLE;
+		tmp = ft_strjoin("$", next_token->content);
+		free(next_token->content);
+		next_token->content = tmp;
+	}
 }
 
 int	can_expand(t_list *node)

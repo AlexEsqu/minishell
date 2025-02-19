@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:13:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 18:07:48 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 16:42:29 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	parse_command_arg(t_shell *shell, t_cmd *cmd, t_list **current)
 	if (!arg)
 		return (set_error(MALLOC_FAIL, shell));
 	ft_lstadd_back(&cmd->arg_list, ft_lstnew(arg));
-	if (cmd->arg_list->next == NULL)
+	if (cmd->arg_list->next == NULL && arg[0] != '(')
 		find_cmd_path(shell, cmd);
 }
 
@@ -43,11 +43,10 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 	cmd = create_cmd();
 	while ((*node)->next && !token_is_operator(*node))
 	{
-		// problem potentiel (???)
 		if (token_is_redirection((*node)))
 			parse_in_out_files(shell, cmd, node);
 		if (token_is(WORD, *node) || token_is(STRING, *node)
-			|| token_is(VARIABLE, *node))
+			|| token_is(VARIABLE, *node) || token_is(SUBSHELL, *node))
 			parse_command_arg(shell, cmd, node);
 		if (my_sig_nal == CONTROL_C)
 			return (NULL);

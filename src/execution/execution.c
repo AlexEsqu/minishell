@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 18:34:35 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:05:47 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 	{
 		redirect_for_cmd(shell, cmd);
 		reset_std(shell, piped);
+		close_cmd_fd(cmd);
 	}
 	else if (is_builtin(cmd))
 		cmd->exit_code = exec_for_builtin(shell, cmd, piped);

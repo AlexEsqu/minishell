@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 14:35:40 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:48:38 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ char	*extract_env_key(char *env_key_and_value)
 {
 	char	*env_key;
 	char	*equal_sign;
-	int		equal_sign_pos;
+	int		equal_sign_index;
 
 	equal_sign = ft_strchr(env_key_and_value, '=');
 	if (equal_sign == NULL)
-		return (env_key_and_value);
-	equal_sign_pos = equal_sign - env_key_and_value;
-	env_key = ft_calloc(equal_sign_pos + 1, sizeof(char));
-	ft_strlcat(env_key, env_key_and_value, equal_sign_pos + 1);
+		return (ft_strdup(env_key_and_value));
+	equal_sign_index = equal_sign - env_key_and_value;
+	env_key = ft_calloc(equal_sign_index + 1, sizeof(char));
+	ft_strlcat(env_key, env_key_and_value, equal_sign_index + 1);
 	return (env_key);
 }
 

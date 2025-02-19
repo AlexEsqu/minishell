@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:42:40 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/11 23:23:09 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/16 09:56:09 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,25 @@
 /* Minishell's subject states open quotes are not to be implemented */
 void	is_missing_delimiter(t_shell *shell, t_list *node)
 {
-	t_list	*current;
+	int		char_count;
 	char	delim_type;
 
 	if (shell->critical_er || !token_is(DELIMITER, node))
 		return ;
 	delim_type = ((t_token *)node->content)->letter;
-	current = node->next;
-	while (!token_is(END, current))
+	if (delim_type == '(' || delim_type == ')')
 	{
-		if (((t_token *)current->content)->letter == delim_type)
+		char_count = count_char_in_string(shell->cmd_line, ')');
+		if (char_count == count_char_in_string(shell->cmd_line, '('))
 			return ;
-		current = current->next;
 	}
-	current = node->prev;
-	while (!token_is(START, current))
+	else
 	{
-		if (((t_token *)current->content)->letter == delim_type)
+		char_count = count_char_in_string(shell->cmd_line, delim_type);
+		if (char_count % 2 == 0)
 			return ;
-		current = current->prev;
 	}
-	print_syntax_error((t_token *)current->content);
+	print_syntax_error((t_token *)node->content);
 	shell->critical_er = SYNTAX_ERROR;
 }
 

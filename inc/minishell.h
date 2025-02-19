@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 15:56:49 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:01:04 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int			token_is(int lexem, t_list *node);
 void		group_strings(t_shell *shell, t_list *node);
 void		remove_quotes_from_string(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
+int			count_char_in_string(char *string, int c);
+void		remove_parenthesis_from_string(t_shell *shell, char **ptr_to_string);
 
 /* EXPANSION */
 
@@ -117,6 +119,8 @@ int			has_valid_var(char *string);
 int			is_valid_variable(char *input);
 void		id_variables(t_shell *shell, t_list *current);
 void		expand_string(t_shell *shell, char **ptr_to_str);
+t_list		*tokenize_and_expand_string(t_shell *shell, char *string);
+void		expand_variable(t_shell *shell, char **ptr_to_variable);
 
 /* PARSER */
 
@@ -133,6 +137,7 @@ int			exec_single_cmd(t_shell *shell, t_tree *tree, bool piped);
 int			create_fork(t_shell *shell, int	*fork_pid);
 void		find_cmd_path(t_shell *shell, t_cmd *cmd);
 void		put_arg_in_array(t_cmd *cmd);
+int			exec_subshell(t_shell *shell, t_list **current);
 
 /* BUILT IN */
 
@@ -152,6 +157,7 @@ void		expand_node(t_shell *shell, t_list *node);
 t_list		*find_env(t_list *env_list, char *env_name);
 char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
+char		*extract_env_key(char *env_key_and_value);
 
 /* REDIRECTION */
 int			delim_summoned(char *line, t_file *file);
@@ -195,8 +201,7 @@ int			token_is_operator(t_list *token_node);
 # define TRUE			1
 # define FALSE			0
 # define DELIMITERS		"'\"()"
-# define OPERATORS		"|><&$"
-# define DOLLAR			"$"
+# define OPERATORS		"|><&"
 # define BLANKS			" \n\t"
 # define HEREDOC_LOC	"/tmp/.heredoc_"
 # define SHELL_NAME		"shell"
@@ -225,6 +230,8 @@ enum e_lexem
 	LESSER,
 	AND,
 	OR			= 20,
+	SUBSHELL,
+	DOLLAR,
 };
 
 /* Internal values used inside minishell to print correct error

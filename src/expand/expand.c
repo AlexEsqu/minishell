@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 16:38:31 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	t_list	*relevant_env;
 
 	var_name = (char *)(*ptr_to_variable);
-	if (ft_strcmp(var_name, "$?") == 0)
+	if (ft_strcmp(var_name, "?") == 0)
 		expanded_var = ft_itoa(shell->last_exit_code);
 	else
 	{
@@ -34,29 +34,6 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	}
 	free(var_name);
 	*ptr_to_variable = expanded_var;
-}
-
-t_list	*tokenize_and_expand_string(t_shell *shell, char *string)
-{
-	t_list	*token_list;
-	t_list	*current;
-	t_token	*token;
-
-	token_list = NULL;
-	scan(shell, &token_list, string);
-	apply_to_list(shell, token_list, id_variables);
-	apply_to_list(shell, token_list, group_strings);
-	current = token_list;
-	while (current->next)
-	{
-		token = (t_token *)current->content;
-		if (token->lexem == VARIABLE)
-			expand_variable(shell, &token->content);
-		if (token->lexem == STRING && token->letter != '\'')
-			expand_string(shell, &token->content);
-		current = current->next;
-	}
-	return (token_list);
 }
 
 char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
@@ -111,6 +88,8 @@ void	expand_node(t_shell *shell, t_list *node)
 	if (!node || !node->content)
 		return ;
 	ptr_to_str = (char **)&node->content;
+	if (token_is(SUBSHELL, node))
+		exec_subshell(shell, node->content);
 	if (is_valid_variable(node->content))
 		expand_variable(shell, ptr_to_str);
 	else if (has_valid_var(node->content) && can_expand(node))

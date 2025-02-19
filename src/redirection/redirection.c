@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:41 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 15:40:42 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:01:37 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	expand_check_and_open(t_shell *shell, t_cmd *cmd, t_file *file)
 	if (cmd->exit_code)
 		return ;
 	open_file(cmd, file->mode, file->path);
+	free(stored_var);
 }
 
 void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
