@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 08:42:58 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/18 18:37:50 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**extract_list_as_array(t_shell *shell, t_list *head)
 	current = head;
 	while (index < len)
 	{
-		result[index] = current->content;
+		result[index] = ft_strdup(current->content);
 		current = current->next;
 		index++;
 	}

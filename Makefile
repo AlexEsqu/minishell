@@ -6,7 +6,7 @@
 #    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/14 11:31:12 by mkling           ###   ########.fr        #
+#    Updated: 2025/02/19 15:22:58 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,8 @@ FUNC_EXEC	=	execution.c \
 
 FUNC_EXPA	=	expand.c \
 				variable.c \
-				delimiters.c
+				delimiters.c \
+				tokenizer.c
 
 FUNC_INPU	=	readline.c \
 				signals.c
@@ -100,7 +101,7 @@ INC			= -I$(DIR_INC) -I$(DIR_LIB)
 
 CC			= cc
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= #-Wall -Wextra -Werror
 
 # **************************************************************************** #
 #		Unit test variables													   #

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:15:51 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 22:06:06 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/19 16:40:34 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ int	exec_tree(t_shell *shell, t_tree *tree, bool piped)
 	int	exit_code;
 
 	if (!tree)
-		return (set_error(AST_ERROR, shell), AST_ERROR);
+	{
+		exit_code = shell->critical_er;
+		free_minishell(shell);
+		return (exit_code);
+	}
 	if (tree->type == AST_PIPE)
 		return (exec_pipe_monitor(shell, tree));
 	if (tree->type == AST_AND)

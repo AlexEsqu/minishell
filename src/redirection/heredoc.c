@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:42:30 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:15:29 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,25 +69,45 @@ static char	*generate_heredoc_filepath(t_shell *shell)
 	return (heredoc_path);
 }
 
-static int	accumulate_heredoc_content(t_shell *shell, t_file *file)
+static void	accumulate_heredoc_content(t_shell *shell, t_cmd *cmd, t_file *file)
 {
 	char	*line;
+	char	*tmp;
 
 	while (1)
 	{
-		write(STDIN_FILENO, "> ", 3);
-		line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(file->delim, line, ft_strlen(file->delim)) == 0)
+		my_sig_nal = IN_HEREDOC;
+		signals(shell, HEREDOC_MODE);
+		line = readline("here_doc$ ");
+		//printf("line=[%s]\n", line);
+		signals(shell, NORMAL_MODE);
+		if (my_sig_nal == CONTROL_C)
 		{
+			//printf("CONTROL C\n");
+			free(line);
+			shell->last_exit_code = E_SIG_INT;
+			break ;
+		}
+		else if (!line)
+		{
+			//printf("!line\n");
+			printf("pas cool, t'aurais pu mettre le delim [%s] que t'as choisi\n", file->delim);
+			free(line);
+			break ;
+		}
+		else if (ft_strncmp(file->delim, line, ft_strlen(line)) == 0)
+		{
+			//printf("file->delim=[%s]\n", file->delim);
+			//printf("sortie normale\n");
 			free(line);
 			break ;
 		}
 		if (!file->is_quoted)
 			expand_string(shell, &line);
 		write(file->fd, line, ft_strlen(line));
+		write(file->fd, "\n", 1);
 		free(line);
 	}
-	return (SUCCESS);
 }
 
 void	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_file *file)
@@ -102,6 +122,8 @@ void	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_file *file)
 	file->fd = open(file->path, O_RDWR | O_TRUNC | O_CREAT, 777);
 	if (file->fd < 0)
 		return (set_cmd_error(OPEN_ERROR, cmd, "Heredoc"));
-	accumulate_heredoc_content(shell, file);
+	accumulate_heredoc_content(shell, cmd, file);
 	close(file->fd);
+	if (my_sig_nal == CONTROL_C)
+		unlink(file->path);
 }

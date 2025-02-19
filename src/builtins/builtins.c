@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 10:22:40 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 19:11:44 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:41:23 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ int	exec_builtin(t_shell *shell, t_cmd *cmd)
 	if (ft_strcmp(cmd->argv[0], "pwd") == 0)
 		return (pwd(shell, cmd));
 	else
-		exit_shell(shell, cmd);
+		return (exit_shell(shell, cmd));
 	return (1);
 }

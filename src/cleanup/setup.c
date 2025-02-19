@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/02/13 18:31:42 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:36:46 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,11 @@ void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
 	file->path = ft_strdup(token->content);
 	if (!file->path)
 		return (set_error(MALLOC_FAIL, shell));
-	if (file->mode == INFILE)
-	{
-		if (access(file->path, F_OK) != SUCCESS)
-			return (set_cmd_error(NO_FILE, cmd, file->path));
-		if (access(file->path, R_OK) != SUCCESS)
-			return (set_cmd_error(PERM_ERROR, cmd, file->path));
-	}
-	else if (file->mode == HEREDOC)
+	check_file(shell, cmd, file);
+	if (file->mode == HEREDOC)
 		assemble_heredoc(shell, cmd, file);
-	else if (access(file->path, F_OK) == 0 && access(file->path, W_OK) != 0)
-		return (set_cmd_error(PERM_ERROR, cmd, file->path));
+	if (my_sig_nal == CONTROL_C)
+		return ;
 	node = ft_lstnew(file);
 	if (!node)
 		return (set_error(MALLOC_FAIL, shell));
@@ -75,10 +69,11 @@ t_shell	*create_minishell(char **env)
 	shell = ft_calloc(sizeof(t_shell), 1);
 	if (!shell)
 		return (NULL);
-	shell->env = env;
 	dup2(STDOUT_FILENO, shell->std_out);
 	dup2(STDIN_FILENO, shell->std_in);
+	shell->env = env;
 	extract_env_as_linked_list(shell);
+	shell->env = extract_list_as_array(shell, shell->env_list);
 	return (shell);
 }
 

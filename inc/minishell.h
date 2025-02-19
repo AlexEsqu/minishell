@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 22:06:25 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/19 16:40:05 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <readline/history.h>
 # include "libft/inc/libft.h"
 # include <errno.h>
+
+extern int	my_sig_nal;
 
 typedef struct s_token
 {
@@ -82,7 +84,8 @@ typedef struct s_shell
 
 /* SIGNAL */
 
-void		signals(void);
+int	signals(t_shell *shell, int mode);
+void	default_sig_nal(void);
 
 /* INPUT */
 
@@ -114,6 +117,8 @@ int			has_valid_var(char *string);
 int			is_valid_variable(char *input);
 void		id_variables(t_shell *shell, t_list *current);
 void		expand_string(t_shell *shell, char **ptr_to_str);
+t_list		*tokenize_and_expand_string(t_shell *shell, char *string);
+void		expand_variable(t_shell *shell, char **ptr_to_variable);
 
 /* PARSER */
 
@@ -150,6 +155,7 @@ void		expand_node(t_shell *shell, t_list *node);
 t_list		*find_env(t_list *env_list, char *env_name);
 char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
+char		*extract_env_key(char *env_key_and_value);
 
 /* REDIRECTION */
 
@@ -160,6 +166,7 @@ int			exec_pipe_monitor(t_shell *shell, t_tree *tree);
 void		create_file(t_shell *shell, t_cmd *cmd, t_token *token);
 void		assemble_heredoc(t_shell *s, t_cmd *cmd, t_file *file);
 void		close_cmd_fd(t_cmd *cmd);
+void		check_file(t_shell *shell, t_cmd *cmd, t_file *file);
 
 /* ERROR HANDLING */
 
@@ -184,11 +191,12 @@ void		print_tokens(t_list *first);
 int			token_is_redirection(t_list *token_node);
 int			token_is_operator(t_list *token_node);
 
+#define SHELL_PROMPT "algo$ "
+
 # define TRUE			1
 # define FALSE			0
 # define DELIMITERS		"'\"()"
-# define OPERATORS		"|><&$"
-# define DOLLAR			"$"
+# define OPERATORS		"|><&"
 # define BLANKS			" \n\t"
 # define HEREDOC_LOC	"/tmp/.heredoc_"
 # define SHELL_NAME		"shell"
@@ -218,6 +226,7 @@ enum e_lexem
 	AND,
 	OR			= 20,
 	SUBSHELL,
+	DOLLAR,
 };
 
 /* Internal values used inside minishell to print correct error
@@ -242,6 +251,10 @@ enum e_err_code
 	IS_NOT_DIR,
 	TOO_MANY_ARGS,
 	TOO_FEW_ARGS,
+	SIGNALS,
+	INTERUPT,
+	AMBIG_REDIR,
+	NON_NUM,
 };
 
 /* Actual return values expected from minishell program */
@@ -253,6 +266,7 @@ enum e_exit_code
 	E_NO_CMD = 127,
 	E_BAD_EXIT = 128,
 	E_SIG_INT = 130,
+	E_SIG_SLSH = 131,
 };
 
 enum e_pipe_fd
@@ -279,5 +293,21 @@ enum e_tree_mode
 	AST_RIGHT,
 };
 
+enum e_my_signal
+{
+	BASE = 0,
+	TYPING = 1,
+	IN_HEREDOC = 2,
+	CONTROL_C = 3,
+	CONTROL_D = 4,
+};
+
+
+enum e_ignal_mode
+{
+	NORMAL_MODE = 0,
+	INTERACTIVE_MODE = 1,
+	HEREDOC_MODE = 2,
+};
 
 #endif

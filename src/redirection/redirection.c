@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:34:05 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 09:08:11 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/18 19:23:32 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,64 @@ void	open_file(t_cmd *cmd, int mode, char *path)
 	}
 }
 
+void	check_file(t_shell *shell, t_cmd *cmd, t_file *file)
+{
+	char	*expanded_filepath;
+
+	if (file->mode == HEREDOC || !cmd->exit_code)
+		return ;
+	expanded_filepath = ft_strdup(file->path);
+	expand_string(shell, &expanded_filepath);
+	if (file->mode == INFILE)
+	{
+		if (access(expanded_filepath, F_OK) != SUCCESS)
+			set_cmd_error(NO_FILE, cmd, file->path);
+		else if (access(expanded_filepath, R_OK) != SUCCESS)
+			set_cmd_error(PERM_ERROR, cmd, file->path);
+	}
+	else if (file->mode == OUTFILE || file->mode == APPEND)
+	{
+		if (access(expanded_filepath, F_OK) == 0
+			&& access(expanded_filepath, W_OK) != 0)
+			set_cmd_error(PERM_ERROR, cmd, file->path);
+	}
+	free(expanded_filepath);
+}
+
+void	expand_check_and_open(t_shell *shell, t_cmd *cmd, t_file *file)
+{
+	char	*stored_var;
+
+	stored_var = ft_strdup(file->path);
+	expand_string(shell, &file->path);
+	if (!file->path)
+	{
+		set_cmd_error(AMBIG_REDIR, cmd, stored_var);
+		free(stored_var);
+	}
+	check_file(shell, cmd, file);
+	if (cmd->exit_code)
+		return ;
+	open_file(cmd, file->mode, file->path);
+	free(stored_var);
+}
+
 void	redirect_for_cmd(t_shell *shell, t_cmd *cmd)
 {
 	t_list	*current;
-	t_file	*current_file;
 
 	if (shell->critical_er || cmd->exit_code)
 		return ;
 	current = cmd->files;
 	while (current)
 	{
-		current_file = (t_file *)current->content;
-		open_file(cmd, current_file->mode, current_file->path);
+		expand_check_and_open(shell, cmd, (t_file *)current->content);
+		if (cmd->exit_code)
+			return ;
 		current = current->next;
 	}
+	if (!cmd->arg_list)
+		return ;
 	if (cmd->fd_in == -2)
 		cmd->fd_in = STDIN_FILENO;
 	else if (dup2(cmd->fd_in, STDIN_FILENO) == -1
