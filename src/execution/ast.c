@@ -6,25 +6,26 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:15:51 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 16:23:34 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/18 22:06:06 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_subshell(t_shell *shell, t_cmd *cmd, t_list **current)
+int	exec_subshell(t_shell *shell, t_list **current)
 {
 	t_shell	*subshell;
 	char	*cmd_line;
+	int		exit_code;
 
 	cmd_line = ft_strdup((char *)((t_token *)(*current)->content)->content);
 	remove_parenthesis_from_string(shell, &cmd_line);
-	// printf("%s\n", subshell_cmd_line);
+	printf("%s\n", cmd_line);
 	subshell = create_minishell(shell->env);
-	cmd->exit_code = 0;
+	exit_code = 0;
 	parse_and_exec_cmd(subshell, cmd_line);
-	cmd->exit_code = subshell->last_exit_code;
-	return (cmd->exit_code);
+	exit_code = subshell->last_exit_code;
+	return (exit_code);
 }
 
 int	exec_tree(t_shell *shell, t_tree *tree, bool piped)

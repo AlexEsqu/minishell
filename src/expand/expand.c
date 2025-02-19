@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/14 16:03:11 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 00:11:08 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void	expand_node(t_shell *shell, t_list *node)
 	if (!node || !node->content)
 		return ;
 	ptr_to_str = (char **)&node->content;
+	if (token_is(SUBSHELL, node))
+		exec_subshell(shell, node->content);
 	if (is_valid_variable(node->content))
 		expand_variable(shell, ptr_to_str);
 	else if (has_valid_var(node->content) && can_expand(node))

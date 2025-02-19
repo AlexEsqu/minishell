@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:13:38 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 16:19:22 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/19 00:43:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ static void	parse_command_arg(t_shell *shell, t_cmd *cmd, t_list **current)
 	char	*arg;
 
 	arg = ft_strdup(((t_token *)(*current)->content)->content);
+	fprintf(stderr, "arg is %s\n", arg);
 	if (!arg)
 		return (set_error(MALLOC_FAIL, shell));
 	ft_lstadd_back(&cmd->arg_list, ft_lstnew(arg));
-	if (cmd->arg_list->next == NULL)
+	if (cmd->arg_list->next == NULL && arg[0] != '(')
 		find_cmd_path(shell, cmd);
 }
 
@@ -48,8 +49,6 @@ t_tree	*parse_command(t_shell *shell, t_list **node)
 		if (token_is(WORD, *node) || token_is(STRING, *node)
 			|| token_is(VARIABLE, *node) || token_is(SUBSHELL, *node))
 			parse_command_arg(shell, cmd, node);
-		// if (token_is(SUBSHELL, *node))
-		// 	parse_subshell(shell, cmd, node);
 		*node = (*node)->next;
 	}
 	return (create_branch(shell, AST_CMD, cmd));

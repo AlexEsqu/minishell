@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 10:08:23 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/18 22:06:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int			exec_single_cmd(t_shell *shell, t_tree *tree, bool piped);
 int			create_fork(t_shell *shell, int	*fork_pid);
 void		find_cmd_path(t_shell *shell, t_cmd *cmd);
 void		put_arg_in_array(t_cmd *cmd);
+int			exec_subshell(t_shell *shell, t_list **current);
 
 /* BUILT IN */
 
