@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 18:41:18 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:14:06 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void		expand_node(t_shell *shell, t_list *node);
 t_list		*find_env(t_list *env_list, char *env_name);
 char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
+char		*extract_env_key(char *env_key_and_value);
 
 /* REDIRECTION */
 

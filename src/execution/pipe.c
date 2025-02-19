@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/18 18:44:10 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:07:52 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	clean_fork_exit(t_shell *shell, int err_code)
 	if (err_code != E_CMD_FAIL)
 		set_error(err_code, shell);
 	free_minishell(shell);
-	// fprintf(stderr, "freeing at clean fork\n");
 	exit(E_CMD_FAIL);
 }
 
