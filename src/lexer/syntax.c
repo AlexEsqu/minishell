@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:42:40 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 17:51:32 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 18:54:34 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	is_missing_delimiter(t_shell *shell, char *input)
 			s_quote_count++;
 		if (*input++ == '\"')
 			d_quote_count++;
+		if (bracket_count < 0)
+			return (set_error(SYNTAX_ERROR, shell), 1);
 	}
 	if (d_quote_count % 2 != 0 || s_quote_count % 2 != 0 || bracket_count != 0)
 		return (set_error(SYNTAX_ERROR, shell), 1);
