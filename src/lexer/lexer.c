@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:34:47 by alex              #+#    #+#             */
-/*   Updated: 2025/02/19 17:52:07 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:38:12 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,24 @@ void	group_strings(t_shell *shell, t_list *node)
 	first_delim->lexem = STRING;
 }
 
-void	group_subshell(t_shell *shell, t_list *node)
-{
-	t_token	*first_delim;
+// void	group_subshell(t_shell *shell, t_list *node)
+// {
+// 	t_token	*first_delim;
 
-	first_delim = ((t_token *)node->content);
-	if (first_delim->letter != '(')
-		return ;
-	while (!token_is(END, node->next))
-	{
-		if (((t_token *)node->next->content)->letter == ')')
-		{
-			merge_token(shell, node);
-			break ;
-		}
-		merge_token(shell, node);
-	}
-	first_delim->lexem = SUBSHELL;
-}
+// 	first_delim = ((t_token *)node->content);
+// 	if (first_delim->letter != '(')
+// 		return ;
+// 	while (!token_is(END, node->next))
+// 	{
+// 		if (((t_token *)node->next->content)->letter == ')')
+// 		{
+// 			merge_token(shell, node);
+// 			break ;
+// 		}
+// 		merge_token(shell, node);
+// 	}
+// 	first_delim->lexem = SUBSHELL;
+// }
 
 void	id_operators(t_shell *shell, t_list *current)
 {
@@ -89,6 +89,6 @@ void	lexer(t_shell *shell, t_list **token_list)
 {
 	apply_to_list(shell, *token_list, id_operators);
 	apply_to_list(shell, *token_list, group_strings);
-	apply_to_list(shell, *token_list, group_subshell);
+	// apply_to_list(shell, *token_list, group_subshell);
 	apply_to_list(shell, *token_list, remove_space);
 }

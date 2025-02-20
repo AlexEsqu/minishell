@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 14:58:10 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 20:37:31 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,8 @@ enum e_lexem
 	OR			= 20,
 	SUBSHELL,
 	DOLLAR,
+	OPEN_PARENTH,
+	CLOS_PARENTH,
 };
 
 /* Internal values used inside minishell to print correct error
