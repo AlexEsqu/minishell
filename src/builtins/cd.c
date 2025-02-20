@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:30:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 15:23:16 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:40:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	update_cwd(t_shell *shell, t_cmd *cmd)
 		free(env_pwd->content);
 		env_pwd->content = pwd;
 		replace_env(shell, old_pwd);
+		free(old_pwd);
 	}
 	return (SUCCESS);
 }

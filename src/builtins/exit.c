@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/18 18:38:26 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 15:33:00 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 		|| is_too_long_for_long_long(cmd->argv[1]))
 	{
 		print_exit_error(NON_NUM);
-		exit_code = E_CMD_FAIL;
+		exit_code = E_SYNTAX;
 	}
 	else if (cmd->argc > 2)
 		return (set_cmd_error(TOO_MANY_ARGS, cmd, cmd->argv[0]),
