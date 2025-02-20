@@ -2,6 +2,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Noninteractive",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": ["-c", "echo hello"],
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/minishell",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-gdb-set follow-fork-mode child",
+        }
+      ]
+    },
+    {
       "name": "Launch",
       "type": "cppdbg",
       "request": "launch",

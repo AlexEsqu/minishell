@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 17:48:52 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 11:17:38 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,9 @@ void		check_file(t_shell *shell, t_cmd *cmd, t_file *file);
 void		set_error(int err_code, t_shell *shell);
 void		set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd);
 void		print_error(void);
-void		print_syntax_error(t_token *token);
+void		print_syntax_error(t_shell *shell, t_token *token);
 char		*get_error_message(int err_code);
+int			is_missing_delimiter(t_shell *shell, char *input);
 
 /* CLEAN UP */
 

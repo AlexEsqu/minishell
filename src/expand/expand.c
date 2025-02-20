@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 17:53:03 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 11:56:22 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,8 @@ void	expand_node(t_shell *shell, t_list *node)
 		return ;
 	ptr_to_str = (char **)&node->content;
 	if (*ptr_to_str[0] == '(')
-		exec_subshell(shell, node->content);
-	if (is_valid_variable(node->content))
-		expand_variable(shell, ptr_to_str);
-	else if (has_valid_var(node->content) && can_expand(node))
+		shell->last_exit_code = exec_subshell(shell, node->content);
+	if (has_valid_var(node->content) && can_expand(node))
 	{
 		remove_quotes_from_string(shell, ptr_to_str);
 		expand_string(shell, ptr_to_str);
