@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:41 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:06:21 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:11:30 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	check_file(t_shell *shell, t_cmd *cmd, t_file *file)
 {
 	char	*expanded_filepath;
 
-	if (file->mode == HEREDOC || !cmd->exit_code)
+	if (file->mode == HEREDOC || cmd->exit_code)
 		return ;
 	expanded_filepath = ft_strdup(file->path);
 	expand_string(shell, &expanded_filepath);

@@ -6,7 +6,7 @@
 #    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/20 18:45:19 by vgodoy           ###   ########.fr        #
+#    Updated: 2025/02/20 20:09:55 by vgodoy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,6 @@ FUNC_SNC	=	cleanup.c \
 
 FUNC_EXEC	=	execution.c \
 				pipe.c \
-				forks.c \
 				ast.c \
 				arguments.c
 

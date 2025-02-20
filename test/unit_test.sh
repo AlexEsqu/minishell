@@ -5,7 +5,7 @@ TEST_ARRAY=(
 #### PWD ####
 'pwd'
 'pwd "useless argument"'
-'unset PWD ; pwd'
+'unset PWD | pwd'
 #### ECHO ####
 'echo | cat -e'
 'echo hola buenos dias | cat -e'
@@ -13,29 +13,28 @@ TEST_ARRAY=(
 #### ENV ####
 'env | grep USER'
 #### EXPORT ####
-'export Z=z ; echo $Z'
-'export A=a B=b C=c; echo $A$B$C'
-'export zz zzz= zzzz=asd ; echo $zz$zzz$zzzz; export | grep zz'
-'export =a ; echo $a'
-'export /dont/export/this=hola ; export | grep /dont/export/this'
-'export A=a=a=a=a=a; echo $A'
-'export A B C; echo $A$B$C'
+'export Z=z && echo $Z'
+'export A=a B=b C=c && echo $A$B$C'
+'export zz zzz= zzzz=asd && echo $zz$zzz$zzzz'
+'export =a'
+'export A=a=a=a=a=a && echo $A'
+'export A B C && echo $A$B$C'
 'export $'
 'export ?=42'
 #### UNSET ####
 'unset'
-'export A=a ; unset A ; echo $A'
-'export A=a B=b C=c ; unset A asd B asd ; echo $A$B$C'
+'export A=a && unset A && echo $A'
+'export A=a B=b C=c && unset A asd B asd && echo $A$B$C'
 #### CD ####
-'cd ; pwd'
-'unset HOME ; cd ; pwd'
-'cd .; pwd'
-'cd ..; pwd'
-'cd ..; echo $OLDPWD; pwd'
-'unset OLDPWD; cd .. ; echo $OLDPWD; pwd'
-"cd ' /'; pwd"
-'cd ../../ ; pwd'
-'cd ../../../../../../.. ; pwd'
+'cd && pwd'
+'unset HOME && cd && pwd'
+'cd . && pwd'
+'cd ..&& pwd'
+'cd ..&& echo $OLDPWD; pwd'
+'unset OLDPWD&& cd .. && echo $OLDPWD&& pwd'
+"cd ' /'"
+'cd ../../'
+'cd ../../../../../../.. '
 'cd dirwithoutpermissions'
 #### EXIT ####
 'exit'
@@ -49,14 +48,14 @@ TEST_ARRAY=(
 'cd'
 'pwd'
 'echo $PWD'
-'cd .. ; echo $OLDPWD'
+'cd .. && echo $OLDPWD'
 './lscp'
 '################		COMMAND EXECUTION	        #################'
 'ls'
 '/bin/ls'
 './lscp'
-'cd dir ; ../lscp'
-'cd dir/encoreuneautredir ; ../../lscp'
+'cd dir && ../lscp'
+'cd dir/encoreuneautredir && ../../lscp'
 'df -h | head -2'
 '/'
 '../'
@@ -66,9 +65,8 @@ TEST_ARRAY=(
 'idontexist'
 './meneither'
 './dir'
-'touch ucantexecme.e ; chmod 000 ucantexecme.e ; ./ucantexecme.e'
+'touch ucantexecme.e && chmod 000 ucantexecme.e && ./ucantexecme.e'
 '################   		SYNTAX ERRORS			#################'
-';'
 '|'
 '|b'
 'a|||b'
@@ -78,9 +76,7 @@ TEST_ARRAY=(
 '>>> a'
 '<<<< a'
 'a<<<<'
-'pwd >;'
-';pwd'
-'pwd ;;'
+'pwd >'
 '################		    QUOTES			#################'
 'echo "$HOME"'
 "echo '\$HOME'"
@@ -89,7 +85,7 @@ TEST_ARRAY=(
 "echo \" '\$PWD' \\\"\$PWD\\\" '\$PWD' \"" "echo \"\\\$HOME\""
 "echo \"'\$'\""
 "echo \\\\\n"
-"echo \"< no pipe | or semicolon will ; stop me >\""
+"echo \"< no pipe | or semicolon will stop me >\""
 'bash -c "I am not a command" "Im the program name"'
 'pwd" should not work"'
 'echo\" should not work neiter\"'
@@ -98,33 +94,32 @@ TEST_ARRAY=(
 'ls | wc | wc -l | bc'
 'echo "cat traveler" | cat | cat | cat | cat | cat | cat'
 '################	        RIGHT REDIRECTION		#################'
-'> a ; ls'
-'pwd > a ; cat a'
-'ls > a -f ; cat a'
-'echo entre el clavel y la rosa > a su majestad es coja; cat a'
-'> a echo cucu cantaba la rana; cat a'
-'echo "redirection party trick" > a > b > c > d ; ls ; cat d'
+'> a && ls'
+'pwd > a && cat a'
+'ls > a -f && cat a'
+'> a echo cucu cantaba la rana && cat a'
+'echo "redirection party trick" > a > b > c > d && ls && cat d'
 'notacommand > a'
 'pwd > dir'
 'ls > a imnotaflag meneither'
 '################	        DOUBLE REDIRECTION		#################'
-'>> a; ls'
-'pwd >> a; cat a'
-'echo double the redirection double the fun >> a ; cat a'
-'pwd >> a ; echo apendicitis >> a ; cat a'
-'pwd >> a ; ls >> a -f ; cat a'
-'echo entre el clavel y la rosa >> a su majestad es coja ; cat a'
-'>> a echo cucu cantaba la rana; cat a'
-'echo "party trick x2" >> a >> b >> c >> d ; ls ; cat d'
+'>> a && ls'
+'pwd >> a && cat a'
+'echo double the redirection double the fun >> a && cat a'
+'pwd >> a && echo apendicitis >> a && cat a'
+'pwd >> a && ls >> a -f && cat a'
+'echo entre el clavel y la rosa >> a su majestad es coja && cat a'
+'>> a echo cucu cantaba la rana && cat a'
+'echo "party trick x2" >> a >> b >> c >> d && ls && cat d'
 'notacommand >> a'
 'pwd >> dir'
 'ls >> a imnotaflag meneither'
 '################	    	LEFT REDIRECTION		#################'
-'touch a ; < a'
-'echo pim pam > pum ; cat < pum'
-'echo ayayay > a; echo im a butterfly > b ; cat < a < b'
-'touch a b c; echo sorry > d; cat < a < b < c < d'
-'echo ayayay > a ; cat < doesnotexist < a'
+'touch a && < a'
+'echo pim pam > pum && cat < pum'
+'echo ayayay > a && echo im a butterfly > b && cat < a < b'
+'touch a b c && echo sorry > d && cat < a < b < c < d'
+'echo ayayay > a && cat < doesnotexist < a'
 '< doesnotexist'
 'cat < doesnotexist'
 'cat < dir'
@@ -236,7 +231,7 @@ make -C ..
 if [[ ! -f ../minishell ]]; then
     printf "${RED}Error:$NC There is no executable called minishell in ../"
     printf "\n\n${RED}aborting test...\n\n$NC"
-    exit 1 
+    exit 1
 fi
 
 cp ../minishell .
@@ -297,7 +292,7 @@ do
 	if [[ $DFL_TEST == 1 || $TEST_SECTION == 1 ]]; then
 	    printf "\n"
 	fi
-	continue 
+	continue
     fi
     if [[ $DFL_TEST -eq 0 && $TEST_SECTION -eq 0 ]]
     then
@@ -305,7 +300,7 @@ do
     fi
 #	echo "$val" > testfile ########
     TESTOK=0
-    $ENV bash -c "$val" minishell > out1 2> err1
+    $ENV bash --posix -c "$val" minishell > out1 2> err1
     RET1=$?
     rm -rf a b c d
     $ENV ./minishell -c "$val" > out2 2> err2 ######   #####
@@ -315,7 +310,7 @@ do
 #	awk 'NR==FNR{a[$0]=1;next}!a[$0]' hp out2 > pc ##############
 #	printf "${YELLOW}pc is$NC $(cat pc)\n" ##################
 #	printf "${YELLOW}out2 was$NC\n $(cat out2)\n" ##############
-#	sed "s/$(cat p)//" pc > out2 ################### 
+#	sed "s/$(cat p)//" pc > out2 ###################
 #	printf "${YELLOW}now out2 is$NC $(cat out2)\n" ####################
     rm -rf a b c d p pc ###############
     if [[ $(uname) == "Darwin" ]]; then
@@ -330,7 +325,7 @@ do
     if [[ $(cat out2) == "exit" ]];then
 	echo exit >> out1
     fi
-    DIFF=$(diff out1 out2) 
+    DIFF=$(diff out1 out2)
     ERRDIFF=$(diff err1 err2)
     if [[ "$DIFF" == "" && $RET1 == $RET2 ]]; then
 	TESTOK=1

@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 17:13:30 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:11:04 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 
 	var_name = (char *)(*ptr_to_variable);
 	if (ft_strcmp(var_name, "$?") == 0)
+	if (ft_strcmp(var_name, "$?") == 0)
 		expanded_var = ft_itoa(shell->last_exit_code);
 	else
 	{
 		relevant_env = find_env(shell->env_list, &var_name[1]);
 		if (relevant_env)
-			expanded_var = ft_strdup(relevant_env->content
-					+ ft_strlen(var_name));
+			expanded_var = extract_env_value(relevant_env->content);
 		else
 			expanded_var = NULL;
 	}
@@ -88,11 +88,9 @@ void	expand_node(t_shell *shell, t_list *node)
 	if (!node || !node->content)
 		return ;
 	ptr_to_str = (char **)&node->content;
-	if (token_is(SUBSHELL, node))
-		exec_subshell(shell, node->content);
-	if (is_valid_variable(node->content))
-		expand_variable(shell, ptr_to_str);
-	else if (has_valid_var(node->content) && can_expand(node))
+	if (*ptr_to_str[0] == '(')
+		shell->last_exit_code = exec_subshell(shell, node->content);
+	if (has_valid_var(node->content) && can_expand(node))
 	{
 		remove_quotes_from_string(shell, ptr_to_str);
 		expand_string(shell, ptr_to_str);

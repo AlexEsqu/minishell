@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/19 12:07:52 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 08:59:23 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	create_fork(t_shell *shell, int	*fork_pid)
+{
+	*fork_pid = fork();
+	if (*fork_pid == -1)
+		return (set_error(FORK_ERROR, shell), FORK_ERROR);
+	return (0);
+}
 
 static int	create_pipe_and_fork(t_shell *shell, int *pipe_fd, int *fork_pid)
 {

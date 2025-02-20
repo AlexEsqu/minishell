@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:11:08 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:14:50 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:10:07 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	shell = create_minishell(envp);
 	if (argc > 2 && ft_strcmp(argv[1], "-c") == 0)
 		parse_and_exec_cmd(shell, argv[2]);
-	if (!isatty(STDIN_FILENO))
+	else if (!isatty(STDIN_FILENO))
 		free_minishell(shell);
 	else
 		init_readline(shell);

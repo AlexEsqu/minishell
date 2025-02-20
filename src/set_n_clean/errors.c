@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:22:48 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 17:22:50 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:11:43 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ void	set_error(int err_code, t_shell *shell)
 	if (shell->tree_root)
 		free_tree(&shell->tree_root);
 	shell->critical_er = err_code;
+	if (shell->critical_er == SYNTAX_ERROR)
+		shell->last_exit_code = E_SYNTAX;
+	else
+		shell->last_exit_code = E_CMD_FAIL;
 }
 
 void	set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd)
@@ -55,7 +59,7 @@ void	set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd)
 		cmd->exit_code = E_SYNTAX;
 }
 
-void	print_syntax_error(t_token *token)
+void	print_syntax_error(t_shell *shell, t_token *token)
 {
 	print_error();
 	ft_putstr_fd("syntax error near unexpected token '", STDERR_FILENO);
@@ -66,4 +70,6 @@ void	print_syntax_error(t_token *token)
 	else
 		ft_putchar_fd(token->letter, STDERR_FILENO);
 	ft_putstr_fd("'\n", STDERR_FILENO);
+	shell->critical_er = SYNTAX_ERROR;
+	shell->last_exit_code = E_SYNTAX;
 }

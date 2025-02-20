@@ -3,42 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:42:40 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 09:56:09 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 17:51:32 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Minishell's subject states open quotes are not to be implemented */
-void	is_missing_delimiter(t_shell *shell, t_list *node)
+int	is_missing_delimiter(t_shell *shell, char *input)
 {
-	int		char_count;
-	char	delim_type;
+	int		s_quote_count;
+	int		d_quote_count;
+	int		bracket_count;
 
-	if (shell->critical_er || !token_is(DELIMITER, node))
-		return ;
-	delim_type = ((t_token *)node->content)->letter;
-	if (delim_type == '(' || delim_type == ')')
+	bracket_count = 0;
+	s_quote_count = 0;
+	d_quote_count = 0;
+	while (*input)
 	{
-		char_count = count_char_in_string(shell->cmd_line, ')');
-		if (char_count == count_char_in_string(shell->cmd_line, '('))
-			return ;
+		if (*input == '(')
+			bracket_count++;
+		if (*input == ')')
+			bracket_count--;
+		if (*input == '\'')
+			s_quote_count++;
+		if (*input++ == '\"')
+			d_quote_count++;
 	}
-	else
-	{
-		char_count = count_char_in_string(shell->cmd_line, delim_type);
-		if (char_count % 2 == 0)
-			return ;
-	}
-	print_syntax_error((t_token *)node->content);
-	shell->critical_er = SYNTAX_ERROR;
+	if (d_quote_count % 2 != 0 || s_quote_count % 2 != 0 || bracket_count != 0)
+		return (set_error(SYNTAX_ERROR, shell), 1);
+	return (0);
 }
 
 /* Bash syntax expect word anytime after redirection to be file path */
-void	is_missing_redirection(t_shell *shell, t_list *node)
+static void	is_missing_redirection(t_shell *shell, t_list *node)
 {
 	t_token	*operator;
 	t_list	*current;
@@ -54,12 +55,11 @@ void	is_missing_redirection(t_shell *shell, t_list *node)
 			return ;
 		current = current->next;
 	}
-	print_syntax_error((t_token *)current->content);
-	shell->critical_er = SYNTAX_ERROR;
+	print_syntax_error(shell, (t_token *)current->content);
 	return ;
 }
 
-void	is_missing_cmd_before_pipe_or_amp(t_shell *shell, t_list *node)
+static void	is_missing_cmd_before_pipe_or_amp(t_shell *shell, t_list *node)
 {
 	t_list	*current;
 
@@ -68,17 +68,18 @@ void	is_missing_cmd_before_pipe_or_amp(t_shell *shell, t_list *node)
 			&& ((t_token *)node->content)->letter != '&'))
 		return ;
 	current = node->prev;
-	while (!token_is(START, current) && !token_is(PIPE, current))
+	while (current->prev)
 	{
+		if (token_is(PIPE, current) || token_is(AND, current))
+			return (print_syntax_error(shell, ((t_token *)node->content)));
 		if (token_is(WORD, current))
 			return ;
 		current = current->prev;
 	}
-	print_syntax_error(((t_token *)node->content));
-	shell->critical_er = SYNTAX_ERROR;
+	print_syntax_error(shell, ((t_token *)node->content));
 }
 
-void	is_missing_cmd_after_pipe_or_amp(t_shell *shell, t_list *node)
+static void	is_missing_cmd_after_pipe_or_amp(t_shell *shell, t_list *node)
 {
 	t_list	*current;
 
@@ -87,14 +88,15 @@ void	is_missing_cmd_after_pipe_or_amp(t_shell *shell, t_list *node)
 			&& ((t_token *)node->content)->letter != '&'))
 		return ;
 	current = node->next;
-	while (!token_is(END, current) && !token_is(PIPE, current))
+	while (current->next)
 	{
+		if (token_is(AND, current) || token_is(PIPE, current))
+			return (print_syntax_error(shell, ((t_token *)node->content)));
 		if (token_is(WORD, current))
 			return ;
 		current = current->next;
 	}
-	print_syntax_error(((t_token *)node->content));
-	shell->critical_er = SYNTAX_ERROR;
+	print_syntax_error(shell, ((t_token *)node->content));
 }
 
 int	check_syntax(t_shell *shell, t_list *node)
@@ -102,8 +104,5 @@ int	check_syntax(t_shell *shell, t_list *node)
 	apply_to_list(shell, node, is_missing_cmd_before_pipe_or_amp);
 	apply_to_list(shell, node, is_missing_cmd_after_pipe_or_amp);
 	apply_to_list(shell, node, is_missing_redirection);
-	apply_to_list(shell, node, is_missing_delimiter);
-	if (shell->critical_er)
-		shell->last_exit_code = E_SYNTAX;
 	return (shell->critical_er);
 }

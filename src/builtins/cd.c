@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:09:50 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:09:52 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:10:21 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	update_cwd(t_shell *shell, t_cmd *cmd)
 		free(env_pwd->content);
 		env_pwd->content = pwd;
 		replace_env(shell, old_pwd);
+		free(old_pwd);
 	}
 	return (SUCCESS);
 }
@@ -57,10 +58,10 @@ int	cd(t_shell *shell, t_cmd *cmd)
 	else
 		path = (char *)cmd->argv[1];
 	if (path == NULL)
-		return (set_cmd_error(NO_FILE, cmd, path), NO_FILE);
+		return (set_cmd_error(NO_FILE, cmd, path), E_CMD_FAIL);
 	cmd->exit_code = chdir(path);
 	if (cmd->exit_code)
-		return (set_cmd_error(NO_FILE, cmd, path), NO_FILE);
+		return (set_cmd_error(NO_FILE, cmd, path), E_CMD_FAIL);
 	update_cwd(shell, cmd);
 	return (cmd->exit_code);
 }

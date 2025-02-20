@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 17:33:11 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:09:35 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int			exec_single_cmd(t_shell *shell, t_tree *tree, bool piped);
 int			create_fork(t_shell *shell, int	*fork_pid);
 void		find_cmd_path(t_shell *shell, t_cmd *cmd);
 void		put_arg_in_array(t_cmd *cmd);
-int			exec_subshell(t_shell *shell, t_list **current);
+int			exec_subshell(t_shell *shell, char *input);
 
 /* BUILT IN */
 
@@ -158,6 +158,7 @@ t_list		*find_env(t_list *env_list, char *env_name);
 char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
 char		*extract_env_key(char *env_key_and_value);
+char		*extract_env_value(char *env_key_and_value);
 
 /* REDIRECTION */
 int			delim_summoned(char *line, t_file *file);
@@ -178,8 +179,9 @@ void		check_file(t_shell *shell, t_cmd *cmd, t_file *file);
 void		set_error(int err_code, t_shell *shell);
 void		set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd);
 void		print_error(void);
-void		print_syntax_error(t_token *token);
+void		print_syntax_error(t_shell *shell, t_token *token);
 char		*get_error_message(int err_code);
+int			is_missing_delimiter(t_shell *shell, char *input);
 
 /* CLEAN UP */
 

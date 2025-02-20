@@ -6,25 +6,26 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:15:51 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 16:40:34 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:53:00 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_subshell(t_shell *shell, t_list **current)
+int	exec_subshell(t_shell *shell, char *input)
 {
 	t_shell	*subshell;
 	char	*cmd_line;
 	int		exit_code;
 
-	cmd_line = ft_strdup((char *)((t_token *)(*current)->content)->content);
+	cmd_line = ft_strdup(input);
 	remove_parenthesis_from_string(shell, &cmd_line);
-	printf("%s\n", cmd_line);
 	subshell = create_minishell(shell->env);
-	exit_code = 0;
+	subshell->last_exit_code = 0;
 	parse_and_exec_cmd(subshell, cmd_line);
 	exit_code = subshell->last_exit_code;
+	free_minishell(subshell);
+	free(cmd_line);
 	return (exit_code);
 }
 

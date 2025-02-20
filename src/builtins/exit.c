@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:10:08 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:10:09 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:10:52 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 		|| is_too_long_for_long_long(cmd->argv[1]))
 	{
 		print_exit_error(NON_NUM);
-		exit_code = E_CMD_FAIL;
+		exit_code = E_SYNTAX;
 	}
 	else if (cmd->argc > 2)
 		return (set_cmd_error(TOO_MANY_ARGS, cmd, cmd->argv[0]),

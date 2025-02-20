@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 19:05:47 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 12:12:19 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ static int	exec_binary(t_shell *shell, t_cmd *cmd)
 		exit(cmd->exit_code);
 	apply_to_list(shell, cmd->arg_list, expand_node);
 	put_arg_in_array(cmd);
-	if (!cmd->argv || cmd->exit_code)
+	if (!cmd->argv || !cmd->argv[0] || cmd->exit_code)
 		exit(cmd->exit_code);
 	execve(cmd->cmd_path, cmd->argv, shell->env);
-	free_cmd(cmd);
 	free_minishell(shell);
 	exit(E_CMD_FAIL);
 }
