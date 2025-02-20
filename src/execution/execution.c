@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 11:26:24 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 12:12:19 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	exec_binary(t_shell *shell, t_cmd *cmd)
 		exit(cmd->exit_code);
 	apply_to_list(shell, cmd->arg_list, expand_node);
 	put_arg_in_array(cmd);
-	printf("cmd_argv is %s\n", cmd->argv[0]);
 	if (!cmd->argv || !cmd->argv[0] || cmd->exit_code)
 		exit(cmd->exit_code);
 	execve(cmd->cmd_path, cmd->argv, shell->env);

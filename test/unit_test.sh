@@ -15,7 +15,7 @@ TEST_ARRAY=(
 #### EXPORT ####
 'export Z=z && echo $Z'
 'export A=a B=b C=c && echo $A$B$C'
-'export zz zzz= zzzz=asd ; echo $zz$zzz$zzzz; export | grep zz'
+'export zz zzz= zzzz=asd && echo $zz$zzz$zzzz && export | grep zz'
 'export =a ; echo $a'
 'export /dont/export/this=hola ; export | grep /dont/export/this'
 'export A=a=a=a=a=a; echo $A'
@@ -305,7 +305,7 @@ do
     fi
 #	echo "$val" > testfile ########
     TESTOK=0
-    $ENV bash -c "$val" minishell > out1 2> err1
+    $ENV bash --posix -c "$val" minishell > out1 2> err1
     RET1=$?
     rm -rf a b c d
     $ENV ./minishell -c "$val" > out2 2> err2 ######   #####

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 15:48:38 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 13:02:41 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	if (!to_be_replaced)
 	{
 		to_be_replaced = ft_lstnew(ft_strdup(env_key_and_value));
-		if (!to_be_replaced)
+		if (!to_be_replaced || !to_be_replaced->content)
 		{
 			free(env_key);
 			return (MALLOC_FAIL);
@@ -67,18 +67,46 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	return (SUCCESS);
 }
 
+int	encapsulate_env_value_in_quotes(t_shell *shell, t_cmd *cmd, char **env)
+{
+	char	*ptr_to_equal_sign;
+	char	*env_value;
+	char	*env_key;
+	char	*tmp;
+	int		i;
+
+	ptr_to_equal_sign = ft_strchr(*env, '=');
+	if (!ptr_to_equal_sign)
+		return (SUCCESS);
+	env_key = extract_env_key(*env);
+	if (ptr_to_equal_sign[1])
+		env_value = ft_strdup(&ptr_to_equal_sign[1]);
+	else
+		env_value = ft_strdup("");
+	remove_quotes_from_string(shell, &env_value);
+	tmp = ft_strjoin("=\"", env_value);
+	free(env_value);
+	tmp = ft_strjoinfree(tmp, "\"");
+	env_value = tmp;
+	*env = ft_strjoin(env_key, env_value);
+	free(env_key);
+	free(env_value);
+}
+
 int	export(t_shell *shell, t_cmd *cmd)
 {
-	int	i;
+	int		i;
 
 	i = 1;
 	if (cmd->argv[i] == NULL)
 		return (print_env_as_export(shell), 0);
 	while (cmd->argv[i])
 	{
+		encapsulate_env_value_in_quotes(shell, cmd, &cmd->argv[i]);
 		if (replace_env(shell, cmd->argv[i]) != SUCCESS)
 			return (set_cmd_error(MALLOC_FAIL, cmd, NULL), MALLOC_FAIL);
 		i++;
 	}
+	ft_free_tab(cmd->argv);
 	return (0);
 }
