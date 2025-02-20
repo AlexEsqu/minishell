@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 11:17:38 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 14:58:10 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ t_list		*find_env(t_list *env_list, char *env_name);
 char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
 char		*extract_env_key(char *env_key_and_value);
+char		*extract_env_value(char *env_key_and_value);
 
 /* REDIRECTION */
 int			delim_summoned(char *line, t_file *file);

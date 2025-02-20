@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 13:13:40 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:07:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	else
 	{
 		relevant_env = find_env(shell->env_list, &var_name[1]);
-		if (relevant_env && relevant_env->content)
-			expanded_var = ft_strdup(relevant_env->content
-					+ ft_strlen(var_name));
+		if (relevant_env)
+			expanded_var = extract_env_value(relevant_env->content);
 		else
 			expanded_var = NULL;
 	}

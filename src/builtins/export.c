@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 13:16:32 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:08:32 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,21 @@ char	*extract_env_key(char *env_key_and_value)
 	return (env_key);
 }
 
+char	*extract_env_value(char *env_key_and_value)
+{
+	char	*env_value;
+	char	*equal_sign;
+	char	*ptr_to_equal;
+	int		value_len;
+
+	ptr_to_equal = ft_strchr(env_key_and_value, '=');
+	if (ptr_to_equal == NULL)
+		return (ft_strdup(""));
+	env_value = ft_calloc(ft_strlen(ptr_to_equal) - 1 + 1, sizeof(char));
+	ft_strlcat(env_value, &ptr_to_equal[1], ft_strlen(ptr_to_equal) + 1);
+	return (env_value);
+}
+
 int	replace_env(t_shell *shell, char *env_key_and_value)
 {
 	t_list	*to_be_replaced;
@@ -61,7 +76,7 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	else
 	{
 		free(to_be_replaced->content);
-		to_be_replaced->content = env_key_and_value;
+		to_be_replaced->content = ft_strdup(env_key_and_value);
 	}
 	free(env_key);
 	return (SUCCESS);
@@ -79,8 +94,10 @@ int	export(t_shell *shell, t_cmd *cmd)
 		return (print_env_as_export(shell), 0);
 	while (cmd->argv[i])
 	{
+		if (cmd->argv[i][0] == '=')
+			return (set_cmd_error(SYNTAX_ERROR, cmd, cmd->argv[i]), E_SYNTAX);
 		ptr_to_equal_sign = ft_strchr(cmd->argv[i], '=');
-		if (ptr_to_equal_sign && *ptr_to_equal_sign + 1 == '\0')
+		if (ptr_to_equal_sign && ptr_to_equal_sign[0] == '\0')
 		{
 			tmp = ft_strjoin(cmd->argv[i], "");
 			free(cmd->argv[i]);
