@@ -5,7 +5,7 @@ TEST_ARRAY=(
 #### PWD ####
 'pwd'
 'pwd "useless argument"'
-'unset PWD ; pwd'
+'unset PWD | pwd'
 #### ECHO ####
 'echo | cat -e'
 'echo hola buenos dias | cat -e'
@@ -13,8 +13,8 @@ TEST_ARRAY=(
 #### ENV ####
 'env | grep USER'
 #### EXPORT ####
-'export Z=z ; echo $Z'
-'export A=a B=b C=c; echo $A$B$C'
+'export Z=z && echo $Z'
+'export A=a B=b C=c && echo $A$B$C'
 'export zz zzz= zzzz=asd ; echo $zz$zzz$zzzz; export | grep zz'
 'export =a ; echo $a'
 'export /dont/export/this=hola ; export | grep /dont/export/this'
@@ -236,7 +236,7 @@ make -C ..
 if [[ ! -f ../minishell ]]; then
     printf "${RED}Error:$NC There is no executable called minishell in ../"
     printf "\n\n${RED}aborting test...\n\n$NC"
-    exit 1 
+    exit 1
 fi
 
 cp ../minishell .
@@ -297,7 +297,7 @@ do
 	if [[ $DFL_TEST == 1 || $TEST_SECTION == 1 ]]; then
 	    printf "\n"
 	fi
-	continue 
+	continue
     fi
     if [[ $DFL_TEST -eq 0 && $TEST_SECTION -eq 0 ]]
     then
@@ -315,7 +315,7 @@ do
 #	awk 'NR==FNR{a[$0]=1;next}!a[$0]' hp out2 > pc ##############
 #	printf "${YELLOW}pc is$NC $(cat pc)\n" ##################
 #	printf "${YELLOW}out2 was$NC\n $(cat out2)\n" ##############
-#	sed "s/$(cat p)//" pc > out2 ################### 
+#	sed "s/$(cat p)//" pc > out2 ###################
 #	printf "${YELLOW}now out2 is$NC $(cat out2)\n" ####################
     rm -rf a b c d p pc ###############
     if [[ $(uname) == "Darwin" ]]; then
@@ -330,7 +330,7 @@ do
     if [[ $(cat out2) == "exit" ]];then
 	echo exit >> out1
     fi
-    DIFF=$(diff out1 out2) 
+    DIFF=$(diff out1 out2)
     ERRDIFF=$(diff err1 err2)
     if [[ "$DIFF" == "" && $RET1 == $RET2 ]]; then
 	TESTOK=1
