@@ -6,12 +6,13 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:08:04 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:08:07 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 19:31:13 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*test function for debud, print tokens*/
 void	print_tokens(t_list *node)
 {
 	while (node != NULL)
@@ -25,6 +26,21 @@ void	print_tokens(t_list *node)
 	}
 }
 
+/*small function to set up last_exit_code according to the signal*/
+void	signal_test(t_shell *shell)
+{
+	if (my_sig_nal == CONTROL_C)
+		shell->last_exit_code = E_SIG_INT;
+	if (my_sig_nal == CONTROL_D)
+		shell->last_exit_code = E_SIG_SLSH;
+	my_sig_nal = BASE;
+}
+
+/*  INIT cm_line and critical_er
+	SCAN function to create token list
+	LEXER funtion to give each token the right control values
+	PARSER function to create the tree of commands
+	EXEC_TREE fuction to execute the commands*/
 void	parse_and_exec_cmd(t_shell *shell, char *input)
 {
 	shell->cmd_line = input;
@@ -40,15 +56,10 @@ void	parse_and_exec_cmd(t_shell *shell, char *input)
 }
 
 
-void	signal_test(t_shell *shell)
-{
-	if (my_sig_nal == CONTROL_C)
-		shell->last_exit_code = E_SIG_INT;
-	if (my_sig_nal == CONTROL_D)
-		shell->last_exit_code = E_SIG_SLSH;
-	my_sig_nal = BASE;
-}
-
+/*interactive mode of the shell with readline
+ctrl+C is detected by signal_test
+ctrl+D is detected by (!input) -> exit shell and clear history
+if something is writen and entre pushed, enters parse_and_exec_cmd*/
 void	init_readline(t_shell *shell)
 {
 	char		*input;
