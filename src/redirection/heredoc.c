@@ -6,16 +6,14 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:31 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:30:32 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 18:30:32 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Ensures unique heredoc file paths to prevent overwriting existing files.
-Handles memory allocation failures gracefully by setting errors.
-Uses a static counter (i) to generate new file names when needed.
-Creates temporary files dynamically*/
+/*Using a static counter
+Give a new heredoc_path*/
 static char	*generate_heredoc_filepath(t_shell *shell)
 {
 	static int	i;

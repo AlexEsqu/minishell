@@ -6,7 +6,7 @@
 #    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/19 17:25:43 by vgodoy           ###   ########.fr        #
+#    Updated: 2025/02/20 18:45:19 by vgodoy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ DIR_LEXR	= lexer
 DIR_OBJ		= obj
 DIR_OBJS	= $(DIR_OBJ) $(DIR_OBJ)/$(DIR_EXEC) $(DIR_OBJ)/$(DIR_PARS) \
 				$(DIR_OBJ)/$(DIR_BUTI) $(DIR_OBJ)/$(DIR_REDI) \
-				$(DIR_OBJ)/$(DIR_CLEA) $(DIR_OBJ)/$(DIR_EXPA) \
+				$(DIR_OBJ)/$(DIR_SNC) $(DIR_OBJ)/$(DIR_EXPA) \
 				$(DIR_OBJ)/$(DIR_INPU) $(DIR_OBJ)/$(DIR_LEXR)
 
 DIR_INC		= inc
@@ -47,7 +47,7 @@ FUNC_BUTI	=	cd.c \
 				unset.c \
 				builtins.c
 
-FUNC_SNC		=	cleanup.c \
+FUNC_SNC	=	cleanup.c \
 				errors.c \
 				messages.c \
 				setup.c
@@ -81,7 +81,7 @@ FUNC_REDI	=	heredoc.c \
 				redirection.c
 
 FUNC		=	$(addprefix $(DIR_BUTI)/, $(FUNC_BUTI)) \
-				$(addprefix $(DIR_CLEA)/, $(FUNC_CLEA)) \
+				$(addprefix $(DIR_SNC)/, $(FUNC_SNC)) \
 				$(addprefix $(DIR_EXEC)/, $(FUNC_EXEC)) \
 				$(addprefix $(DIR_EXPA)/, $(FUNC_EXPA)) \
 				$(addprefix $(DIR_INPU)/, $(FUNC_INPU)) \
