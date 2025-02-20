@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 15:08:32 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:18:15 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,9 @@ int	export(t_shell *shell, t_cmd *cmd)
 		return (print_env_as_export(shell), 0);
 	while (cmd->argv[i])
 	{
-		if (cmd->argv[i][0] == '=')
-			return (set_cmd_error(SYNTAX_ERROR, cmd, cmd->argv[i]), E_SYNTAX);
+		if (cmd->argv[i][0] == '=' || cmd->argv[i][0] == '?'
+			|| ft_strchr(cmd->argv[i], '$'))
+			return (set_cmd_error(SYNTAX_ERROR, cmd, cmd->argv[i]), E_CMD_FAIL);
 		ptr_to_equal_sign = ft_strchr(cmd->argv[i], '=');
 		if (ptr_to_equal_sign && ptr_to_equal_sign[0] == '\0')
 		{

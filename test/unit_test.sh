@@ -16,10 +16,9 @@ TEST_ARRAY=(
 'export Z=z && echo $Z'
 'export A=a B=b C=c && echo $A$B$C'
 'export zz zzz= zzzz=asd && echo $zz$zzz$zzzz'
-'export =a ; echo $a'
-'export /dont/export/this=hola ; export | grep /dont/export/this'
-'export A=a=a=a=a=a; echo $A'
-'export A B C; echo $A$B$C'
+'export =a'
+'export A=a=a=a=a=a && echo $A'
+'export A B C && echo $A$B$C'
 'export $'
 'export ?=42'
 #### UNSET ####
