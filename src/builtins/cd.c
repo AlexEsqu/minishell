@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:30:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 09:15:51 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/20 15:23:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ int	cd(t_shell *shell, t_cmd *cmd)
 	else
 		path = (char *)cmd->argv[1];
 	if (path == NULL)
-		return (set_cmd_error(NO_FILE, cmd, path), NO_FILE);
+		return (set_cmd_error(NO_FILE, cmd, path), E_CMD_FAIL);
 	cmd->exit_code = chdir(path);
 	if (cmd->exit_code)
-		return (set_cmd_error(NO_FILE, cmd, path), NO_FILE);
+		return (set_cmd_error(NO_FILE, cmd, path), E_CMD_FAIL);
 	update_cwd(shell, cmd);
 	return (cmd->exit_code);
 }

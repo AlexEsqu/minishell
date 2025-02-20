@@ -23,11 +23,11 @@ TEST_ARRAY=(
 'export ?=42'
 #### UNSET ####
 'unset'
-'export A=a ; unset A ; echo $A'
-'export A=a B=b C=c ; unset A asd B asd ; echo $A$B$C'
+'export A=a && unset A && echo $A'
+'export A=a B=b C=c && unset A asd B asd && echo $A$B$C'
 #### CD ####
-'cd ; pwd'
-'unset HOME ; cd ; pwd'
+'cd && pwd'
+'unset HOME && cd && pwd'
 'cd .; pwd'
 'cd ..; pwd'
 'cd ..; echo $OLDPWD; pwd'
