@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:42:40 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 18:54:34 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/20 19:53:12 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,13 @@ static void	is_missing_cmd_before_pipe_or_amp(t_shell *shell, t_list *node)
 {
 	t_list	*current;
 
-	if (shell->critical_er || !token_is(OPERATOR, node)
-		|| (((t_token *)node->content)->letter != '|'
-			&& ((t_token *)node->content)->letter != '&'))
+	if (shell->critical_er || !token_is(OPERATOR, node))
 		return ;
 	current = node->prev;
 	while (current->prev)
 	{
-		if (token_is(PIPE, current) || token_is(AND, current))
+		if ((((t_token *)current->content)->letter == '&')
+			|| ((t_token *)current->content)->letter == '|')
 			return (print_syntax_error(shell, ((t_token *)node->content)));
 		if (token_is(WORD, current))
 			return ;
@@ -85,14 +84,13 @@ static void	is_missing_cmd_after_pipe_or_amp(t_shell *shell, t_list *node)
 {
 	t_list	*current;
 
-	if (shell->critical_er || !token_is(OPERATOR, node)
-		|| (((t_token *)node->content)->letter != '|'
-			&& ((t_token *)node->content)->letter != '&'))
+	if (shell->critical_er || !token_is(OPERATOR, node))
 		return ;
 	current = node->next;
 	while (current->next)
 	{
-		if (token_is(AND, current) || token_is(PIPE, current))
+		if ((((t_token *)current->content)->letter == '&')
+			|| ((t_token *)current->content)->letter == '|')
 			return (print_syntax_error(shell, ((t_token *)node->content)));
 		if (token_is(WORD, current))
 			return ;

@@ -30,7 +30,7 @@ TEST_ARRAY=(
 'unset HOME && cd && pwd'
 'cd . && pwd'
 'cd ..&& pwd'
-'cd ..&& echo $OLDPWD; pwd'
+'cd ..&& echo $OLDPWD && pwd'
 'unset OLDPWD&& cd .. && echo $OLDPWD&& pwd'
 "cd ' /'"
 'cd ../../'
