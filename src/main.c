@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:09:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 11:39:08 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/21 19:04:39 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
+	int		exit_return;
 
 	shell = create_minishell(envp);
 	if (argc > 2 && ft_strcmp(argv[1], "-c") == 0)
@@ -23,6 +24,7 @@ int	main(int argc, char **argv, char **envp)
 		free_minishell(shell);
 	else
 		init_readline(shell);
+	exit_return = shell->last_exit_code;
 	free_minishell(shell);
-	return (0);
+	return (exit_return);
 }
