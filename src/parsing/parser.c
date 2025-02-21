@@ -6,11 +6,13 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/02/20 20:38:44 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/21 16:54:35 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_tree	*parse_parenthesis(t_shell *shell, t_list **node);
 
 t_tree	*create_branch(t_shell *shell, int type, void *content)
 {
@@ -77,7 +79,7 @@ t_tree	*parse_parenthesis(t_shell *shell, t_list **node)
 {
 	t_tree	*tree;
 
-	if (token is(OPEN_PARENTH, *node))
+	if (token_is(OPEN_PARENTH, *node))
 	{
 		*node = (*node)->next;
 		tree = parse_and_or(shell, node);

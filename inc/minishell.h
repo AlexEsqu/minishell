@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 20:37:31 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/21 17:04:05 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void		remove_quotes_from_string(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
 int			count_char_in_string(char *string, int c);
 void		remove_parenthesis_from_string(t_shell *shell, char **ptr_to_string);
+void		group_strings(t_shell *shell, t_list *node);
 
 /* EXPANSION */
 
@@ -161,6 +162,7 @@ char		*extract_env_key(char *env_key_and_value);
 char		*extract_env_value(char *env_key_and_value);
 
 /* REDIRECTION */
+
 int			delim_summoned(char *line, t_file *file);
 int			control_c_pressed(char *line, t_shell *shell);
 int			control_d_pressed(char *line, t_file *file);

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:34:47 by alex              #+#    #+#             */
-/*   Updated: 2025/02/20 20:38:12 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/21 17:02:24 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ void	group_strings(t_shell *shell, t_list *node)
 		merge_token(shell, node);
 	}
 	first_delim->lexem = STRING;
+}
+
+void	glue_words_to_strings(t_shell *shell, t_list *node)
+{
+	t_token	*word;
+
+	word = ((t_token *)node->content);
+	if (word->lexem != WORD)
+		return ;
+	while (token_is(STRING, node->next) || token_is(WORD, node->next))
+		merge_token(shell, node);
+	word->lexem = STRING;
 }
 
 // void	group_subshell(t_shell *shell, t_list *node)
@@ -88,7 +100,7 @@ void	id_operators(t_shell *shell, t_list *current)
 void	lexer(t_shell *shell, t_list **token_list)
 {
 	apply_to_list(shell, *token_list, id_operators);
-	apply_to_list(shell, *token_list, group_strings);
+	apply_to_list(shell, *token_list, glue_words_to_strings);
 	// apply_to_list(shell, *token_list, group_subshell);
 	apply_to_list(shell, *token_list, remove_space);
 }
