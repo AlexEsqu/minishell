@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:30:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 15:40:16 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/21 18:58:18 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	cd(t_shell *shell, t_cmd *cmd)
 		path = (char *)cmd->argv[1];
 	if (path == NULL)
 		return (set_cmd_error(NO_FILE, cmd, path), E_CMD_FAIL);
+	if (access(path, X_OK))
+		return (set_cmd_error(PERM_ERROR, cmd, path), E_CMD_FAIL);
 	cmd->exit_code = chdir(path);
 	if (cmd->exit_code)
 		return (set_cmd_error(NO_FILE, cmd, path), E_CMD_FAIL);
