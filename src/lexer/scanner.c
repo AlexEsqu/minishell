@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scanner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:37:27 by alex              #+#    #+#             */
-/*   Updated: 2025/02/24 08:32:35 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/24 11:27:03 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,5 @@ void	scan(t_shell *shell, t_list **dest, char *input)
 			add_word_token(shell, dest, input);
 	}
 	ft_lstadd_back(dest, ft_lstnew(create_token(shell, END, '\n', NULL)));
-	// print_tokens(*dest);
-	apply_to_list(shell, *dest, id_escaped_char);
 	apply_to_list(shell, *dest, group_strings);
-	// print_tokens(*dest);
 }

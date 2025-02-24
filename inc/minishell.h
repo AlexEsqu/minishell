@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/23 23:03:04 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/24 12:06:38 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void		id_operators(t_shell *shell, t_list *current);
 int			count_char_in_string(char *string, int c);
 void		remove_parenthesis_from_string(t_shell *shell, char **ptr_to_string);
 void		group_strings(t_shell *shell, t_list *node);
-void		id_escaped_char(t_shell *shell, t_list *node);
 
 /* EXPANSION */
 
@@ -185,6 +184,7 @@ void		print_error(void);
 void		print_syntax_error(t_shell *shell, t_token *token);
 char		*get_error_message(int err_code);
 int			is_missing_delimiter(t_shell *shell, char *input);
+int			input_contains_unsupported(t_shell *shell, char *input);
 
 /* CLEAN UP */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:39:06 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/24 08:53:50 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/24 12:01:55 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	parse_and_exec_cmd(t_shell *shell, char *input)
 {
 	shell->cmd_line = input;
 	shell->critical_er = 0;
-	if (is_missing_delimiter(shell, input))
+	if (input_contains_unsupported(shell, input))
 		return ;
 	scan(shell, &shell->token_list, input);
 	if (check_syntax(shell, shell->token_list) != 0)

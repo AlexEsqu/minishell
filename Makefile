@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/23 12:23:18 by alex             ###   ########.fr        #
+#    Updated: 2025/02/24 12:07:09 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ FUNC_LEXR	=	lexer.c \
 				scanner.c \
 				syntax.c \
 				token.c \
-				escape.c
+				refused.c
 
 FUNC_PARS	=	command.c \
 				parser.c \
