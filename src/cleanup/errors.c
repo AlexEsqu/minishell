@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:37:02 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 17:14:21 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 17:55:53 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd)
 		cmd->exit_code = E_NO_PERM;
 	else if (err_code == PATH_ERROR || err_code == NO_CMD)
 		cmd->exit_code = E_NO_CMD;
+	else if (err_code == NO_FILE)
+		cmd->exit_code = E_CMD_FAIL;
 	else
 		cmd->exit_code = E_SYNTAX;
 }
