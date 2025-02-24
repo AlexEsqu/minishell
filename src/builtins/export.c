@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 13:30:54 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:11:57 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	{
 		to_be_replaced = ft_lstnew(ft_strdup(env_key_and_value));
 		if (!to_be_replaced)
-		{
-			free(env_key);
-			return (MALLOC_FAIL);
-		}
+			return (free(env_key), MALLOC_FAIL);
 		ft_lstadd_back(&shell->env_list, to_be_replaced);
 	}
 	else
