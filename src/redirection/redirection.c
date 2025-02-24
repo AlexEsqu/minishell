@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:41 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/20 17:36:39 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 16:18:53 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,6 @@ void	open_file(t_cmd *cmd, int mode, char *path)
 		if (cmd->fd_in < 0)
 			return (set_cmd_error(OPEN_ERROR, cmd, path));
 	}
-}
-
-void	check_file(t_shell *shell, t_cmd *cmd, t_file *file)
-{
-	char	*expanded_filepath;
-
-	if (file->mode == HEREDOC || cmd->exit_code)
-		return ;
-	expanded_filepath = ft_strdup(file->path);
-	expand_string(shell, &expanded_filepath);
-	if (file->mode == INFILE)
-	{
-		if (access(expanded_filepath, F_OK) != SUCCESS)
-			set_cmd_error(NO_FILE, cmd, file->path);
-		else if (access(expanded_filepath, R_OK) != SUCCESS)
-			set_cmd_error(PERM_ERROR, cmd, file->path);
-	}
-	else if (file->mode == OUTFILE || file->mode == APPEND)
-	{
-		if (access(expanded_filepath, F_OK) == 0
-			&& access(expanded_filepath, W_OK) != 0)
-			set_cmd_error(PERM_ERROR, cmd, file->path);
-	}
-	free(expanded_filepath);
 }
 
 void	expand_check_and_open(t_shell *shell, t_cmd *cmd, t_file *file)

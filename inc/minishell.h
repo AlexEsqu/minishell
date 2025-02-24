@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 13:29:46 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 16:09:11 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,14 @@ int			replace_env(t_shell *shell, char *env_value);
 char		*extract_env_key(char *env_key_and_value);
 char		*extract_env_value(char *env_key_and_value);
 
-/* REDIRECTION */
+/* SIGNAL */
 
 int			delim_summoned(char *line, t_file *file);
 int			control_c_pressed(char *line, t_shell *shell);
 int			control_d_pressed(char *line, t_file *file);
 
-// void		parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current);
+/* REDIRECTION */
+
 void		open_file(t_cmd *cmd, int mode, char *path);
 void		redirect_for_cmd(t_shell *shell, t_cmd *cmd);
 int			exec_pipe_monitor(t_shell *shell, t_tree *tree);
@@ -185,6 +186,7 @@ void		print_syntax_error(t_shell *shell, t_token *token);
 char		*get_error_message(int err_code);
 int			is_missing_delimiter(t_shell *shell, char *input);
 int			input_contains_unsupported(t_shell *shell, char *input);
+int			is_or_should_be_directory(t_cmd *cmd, char *path);
 
 /* CLEAN UP */
 

@@ -6,7 +6,7 @@
 #    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/24 12:07:09 by mkling           ###   ########.fr        #
+#    Updated: 2025/02/24 16:43:44 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,8 @@ FUNC_PARS	=	command.c \
 
 FUNC_REDI	=	heredoc.c \
 				interruptions.c \
-				redirection.c
+				redirection.c \
+				verifications.c
 
 FUNC		=	$(addprefix $(DIR_BUTI)/, $(FUNC_BUTI)) \
 				$(addprefix $(DIR_CLEA)/, $(FUNC_CLEA)) \

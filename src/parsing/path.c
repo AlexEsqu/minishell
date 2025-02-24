@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/24 16:06:22 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 16:15:00 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,18 @@ int	is_or_should_be_directory(t_cmd *cmd, char *path)
 	fd = open(path, __O_DIRECTORY | O_RDONLY);
 	if (fd < 0)
 	{
-		if (cmd->cmd_path[ft_strlen(cmd->cmd_path) - 1] == '/')
-			return (set_cmd_error(IS_NOT_DIR, cmd, cmd->cmd_path), (1));
+		if (path[ft_strlen(path) - 1] == '/')
+		{
+			if (access(path, F_OK)== 0)
+				return (set_cmd_error(IS_NOT_DIR, cmd, path), 1);
+			else
+				return (set_cmd_error(IS_DIR, cmd, path), 1);
+		}
 		else
 			return (0);
 	}
 	close(fd);
-	return (set_cmd_error(IS_DIR, cmd, cmd->cmd_path), 1);
+	return (set_cmd_error(IS_DIR, cmd, path), 1);
 }
 
 static int	check_each_path(t_cmd *cmd, char **paths)
