@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 12:06:38 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:29:46 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,6 @@ enum e_lexem
 	DOLLAR,
 	OPEN_PARENTH,
 	CLOS_PARENTH,
-	BACKSLASH,
 };
 
 /* Internal values used inside minishell to print correct error

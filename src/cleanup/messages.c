@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:44:51 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/23 11:13:49 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/24 13:31:30 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char	*get_error_message(int err_code)
 		return ("Command not found");
 	if (err_code == TOO_MANY_ARGS)
 		return ("Too many arguments");
+	if (err_code == INVALID_VAR)
+		return ("Not a valid identifier");
 	if (err_code == INTERUPT)
 		return (NULL);
 	return (get_error_message_1(err_code));

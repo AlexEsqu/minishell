@@ -82,7 +82,7 @@ TEST_ARRAY=(
 "echo '\$HOME'"
 "echo ' \"\$HOME\" '"
 "echo \"'\$HOME'\""
-"echo \" '\$PWD' \\\"\$PWD\\\" '\$PWD' \"" "echo \"\\\$HOME\""
+"echo \" '\$PWD' \"\$PWD\" '\$PWD' \"" "echo \"\$HOME\""
 "echo \"'\$'\""
 "echo \\\\\n"
 "echo \"< no pipe | or semicolon will stop me >\""

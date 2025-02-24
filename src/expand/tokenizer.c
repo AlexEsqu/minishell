@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:58:45 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 13:23:56 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:28:49 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ t_list	*tokenize_and_expand_string(t_shell *shell, char *string)
 	while (current->next)
 	{
 		token = (t_token *)current->content;
-		fprintf(stderr, "token content is [%s]\n", token->content);
 		if (token->lexem == VARIABLE)
 			expand_variable(shell, &token->content);
 		// if (token->lexem == STRING && token->letter != '\'')

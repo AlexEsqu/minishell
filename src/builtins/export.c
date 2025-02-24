@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/23 11:03:36 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/24 13:30:54 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	export(t_shell *shell, t_cmd *cmd)
 	{
 		if (cmd->argv[i][0] == '=' || cmd->argv[i][0] == '?'
 			|| ft_strchr(cmd->argv[i], '$'))
-			return (set_cmd_error(SYNTAX_ERROR, cmd, cmd->argv[i]), E_CMD_FAIL);
+			return (set_cmd_error(INVALID_VAR, cmd, cmd->argv[i]), E_CMD_FAIL);
 		ptr_to_equal_sign = ft_strchr(cmd->argv[i], '=');
 		if (ptr_to_equal_sign && ptr_to_equal_sign[0] == '\0')
 		{
