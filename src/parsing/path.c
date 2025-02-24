@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/10 22:48:50 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:49:22 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	check_environ_paths(t_shell *shell, t_cmd *cmd)
 	char	*path_env;
 
 	if (!find_env(shell->env_list, "PATH"))
-		return (set_cmd_error(NO_CMD, cmd, cmd->cmd_path));
+		return (set_cmd_error(NO_PATH, cmd, cmd->cmd_path));
 	path_env = (char *)find_env(shell->env_list, "PATH")->content;
 	shell->paths = ft_split(&path_env[5], ':');
 	if (!shell->paths)

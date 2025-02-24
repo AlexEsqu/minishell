@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:37:12 by alex              #+#    #+#             */
-/*   Updated: 2025/02/21 17:54:54 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:09:00 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
 	file->path = ft_strdup(token->content);
 	if (!file->path)
 		return (set_error(MALLOC_FAIL, shell));
-	// check_file(shell, cmd, file);
 	if (file->mode == HEREDOC)
 		assemble_heredoc(shell, cmd, file);
 	if (my_sig_nal == CONTROL_C)

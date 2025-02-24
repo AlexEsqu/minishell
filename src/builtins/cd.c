@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:30:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/21 18:58:18 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:03:48 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	cd(t_shell *shell, t_cmd *cmd)
 		if (env_home && env_home->content && ft_strlen(env_home->content) > 5)
 			path = env_home->content + 5;
 		else
-			path = NULL;
+			return (set_cmd_error(NO_HOME, cmd, NULL), E_CMD_FAIL);
 	}
 	else
 		path = (char *)cmd->argv[1];
