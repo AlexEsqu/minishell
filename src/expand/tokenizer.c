@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:58:45 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 08:49:30 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/24 08:51:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	add_alphanum_token(t_shell *shell, t_list **dest, char *input)
 	t_token	*token;
 
 	len = 0;
-	fprintf(stderr, "input is [%s]\n", &input[shell->index]);
 	while (input[len])
 	{
 		if (is_valid_variable(&input[shell->index + len]))

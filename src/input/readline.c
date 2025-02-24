@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:39:06 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/20 11:11:10 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/24 08:53:50 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	parse_and_exec_cmd(t_shell *shell, char *input)
 		shell->last_exit_code = exec_tree(shell, shell->tree_root, false);
 	free_tree(&shell->tree_root);
 }
-
 
 void	signal_test(t_shell *shell)
 {

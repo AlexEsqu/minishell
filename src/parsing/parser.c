@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/02/21 16:54:35 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 09:00:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,6 @@ t_tree	*parse_parenthesis(t_shell *shell, t_list **node)
 	{
 		*node = (*node)->next;
 		tree = parse_and_or(shell, node);
-		if (!token_is(CLOS_PARENTH, *node))
-		{
-			set_error(SYNTAX_ERROR, shell);
-			return (free_tree(&tree), NULL);
-		}
 		*node = (*node)->next;
 		return (tree);
 	}
