@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:52:49 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 14:33:12 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:33:55 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ static void	set_backup_environ(t_shell *shell)
 		fprintf(stderr, "after [%s]\n", buffer);
 		replace_env(shell, buffer);
 	}
-	// path_env = find_env(shell->env_list, "PATH");
-	// if (!path_env || ft_strlen(path_env->content) < 6)
-	// {
-	// 	replace_env(shell, "PATH=/bin/");
-	// }
 }
 
 void	extract_env_as_linked_list(t_shell *shell)
