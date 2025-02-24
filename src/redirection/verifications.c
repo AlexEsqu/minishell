@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:17:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 16:53:37 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 18:24:03 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@ static void	check_if_invalid_infile(t_shell *shell, t_cmd *cmd, char *filepath)
 	int	dir_fd;
 
 	dir_fd = open(filepath, __O_DIRECTORY | O_RDONLY);
-	if (dir_fd == 0)
+	if (dir_fd >= 0)
 	{
 		close(dir_fd);
-		return (set_cmd_error(IS_DIR, cmd, filepath));
+		set_cmd_error(IS_DIR, cmd, filepath);
+		cmd->exit_code = E_CMD_FAIL;
+		return ;
 	}
 	if (filepath[ft_strlen(filepath) - 1] == '/')
 	{
 		if (access(filepath, F_OK) == 0)
-			return (set_cmd_error(IS_NOT_DIR, cmd, filepath));
+			set_cmd_error(IS_NOT_DIR, cmd, filepath);
 		else
-			return (set_cmd_error(IS_DIR, cmd, filepath));
+			set_cmd_error(IS_DIR, cmd, filepath);
+		cmd->exit_code = E_CMD_FAIL;
 	}
 	if (access(filepath, F_OK) != SUCCESS)
 		return (set_cmd_error(NO_FILE, cmd, filepath));
@@ -40,10 +43,11 @@ static void	check_if_invalid_outfile(t_shell *shell, t_cmd *cmd, char *filepath)
 	int	dir_fd;
 
 	dir_fd = open(filepath, __O_DIRECTORY | O_RDONLY);
-	if (dir_fd == 0)
+	if (dir_fd >= 0)
 	{
 		close(dir_fd);
-		return (set_cmd_error(IS_DIR, cmd, filepath));
+		set_cmd_error(IS_DIR, cmd, filepath);
+		cmd->exit_code = E_CMD_FAIL;
 	}
 	if (filepath[ft_strlen(filepath) - 1] == '/')
 		return (set_cmd_error(IS_DIR, cmd, filepath));
