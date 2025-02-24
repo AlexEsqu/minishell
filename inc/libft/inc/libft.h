@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:15:08 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 18:13:54 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 17:16:13 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ int			ft_atoi_base(char *str, char *base);
 void		ft_lstpop(t_list **head, t_list *node, void (*del)(void *));
 int			ft_iseven(int num);
 void		ft_swap_ptr(void **a, void **b, size_t size);
+int			is_too_long_for_long_long(char *str);
 
 #endif

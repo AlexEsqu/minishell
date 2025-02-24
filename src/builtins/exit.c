@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/23 11:09:38 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/24 17:53:01 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -25,27 +24,6 @@ int	string_is_only_digit_or_sign(char *str)
 		i++;
 	}
 	return (1);
-}
-
-/* May accept exit value until 9223372036854775807 */
-int	is_too_long_for_long_long(char *str)
-{
-	int	digit_count;
-
-	digit_count = 0;
-	while (*str == ' ' || *str == '\t' || *str == '\n'
-		|| *str == '\r' || *str == '\f' || *str == '\v')
-		str++;
-	if (*str == '-' || *str == '+')
-		str++;
-	while ((*str) == '0')
-		str++;
-	while (ft_isdigit(*str))
-	{
-		digit_count++;
-		str++;
-	}
-	return (digit_count > 19);
 }
 
 void	print_exit_error(int err_code)
@@ -79,8 +57,8 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 	else
 	{
 		exit_code = ft_atol(cmd->argv[1]);
-		while (exit_code > 255)
-			exit_code -= 255;
+		if (exit_code > 255)
+			exit_code = exit_code % 256;
 	}
 	free_minishell(shell);
 	exit(exit_code);

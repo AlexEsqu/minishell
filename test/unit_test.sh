@@ -43,6 +43,7 @@ TEST_ARRAY=(
 'exit 512'
 'exit 1407'
 'exit 21 42'
+'exit 9223372036854775807'
 'exit notanumber'
 '################	NO ENVIRONMENT (env -i ./minishell)	#################'
 'cd'

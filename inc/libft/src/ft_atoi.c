@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:27:11 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/18 18:07:51 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 17:51:02 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,54 @@ long long	ft_atol(const char *str)
 {
 	long long	result;
 	int			sign;
+	int			i;
+
+	result = 0;
+	sign = -1;
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = 1;
+		i++;
+	}
+	while (ft_isdigit(str[i]))
+	{
+		result = result * 10 - (str[i] - '0');
+		i++;
+	}
+	result = result * sign;
+	return (result);
+}
+
+int	is_too_long_for_long_long(char *str)
+{
+	long long	result;
+	int			sign;
+	int			i;
 
 	result = 0;
 	sign = 1;
-	while (*str == ' ' || *str == '\t' || *str == '\n'
-		|| *str == '\r' || *str == '\f' || *str == '\v')
-		str++;
-	if (*str == '-' || *str == '+')
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (*str == '-')
+		if (str[i] == '-')
 			sign = -1;
-		str++;
+		i++;
 	}
-	while (ft_isdigit(*str))
-		result = result * 10 + (*str++ - '0');
-	result = result * sign;
-	return ((long)result);
+	while (ft_isdigit(str[i]))
+	{
+		if ((result >= 922337203685477580LL && (str[i] - '0') > 8 && sign == -1)
+			|| (result >= 922337203685477580LL && (str[i] - '0') > 7))
+			return (1);
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	return (0);
 }
 
 int	is_too_long_for_int(char *str)
