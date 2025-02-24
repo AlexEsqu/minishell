@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:56:54 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 15:18:15 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/23 11:03:36 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	free(env_key);
 	return (SUCCESS);
 }
-
 
 int	export(t_shell *shell, t_cmd *cmd)
 {

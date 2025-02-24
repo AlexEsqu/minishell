@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/21 17:04:05 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/23 23:03:04 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void		id_operators(t_shell *shell, t_list *current);
 int			count_char_in_string(char *string, int c);
 void		remove_parenthesis_from_string(t_shell *shell, char **ptr_to_string);
 void		group_strings(t_shell *shell, t_list *node);
+void		id_escaped_char(t_shell *shell, t_list *node);
 
 /* EXPANSION */
 
@@ -205,7 +206,7 @@ int			token_is_operator(t_list *token_node);
 # define TRUE			1
 # define FALSE			0
 # define DELIMITERS		"'\"()"
-# define OPERATORS		"|><&"
+# define OPERATORS		"|><&\\"
 # define BLANKS			" \n\t"
 # define HEREDOC_LOC	"/tmp/.heredoc_"
 # define SHELL_NAME		"shell"
@@ -238,6 +239,7 @@ enum e_lexem
 	DOLLAR,
 	OPEN_PARENTH,
 	CLOS_PARENTH,
+	BACKSLASH,
 };
 
 /* Internal values used inside minishell to print correct error
@@ -266,6 +268,9 @@ enum e_err_code
 	INTERUPT,
 	AMBIG_REDIR,
 	NON_NUM,
+	NO_HOME,
+	NO_PATH,
+	INVALID_VAR,
 };
 
 /* Actual return values expected from minishell program */

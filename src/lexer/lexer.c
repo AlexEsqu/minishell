@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:34:47 by alex              #+#    #+#             */
-/*   Updated: 2025/02/21 17:02:24 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/23 23:04:38 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,5 @@ void	lexer(t_shell *shell, t_list **token_list)
 {
 	apply_to_list(shell, *token_list, id_operators);
 	apply_to_list(shell, *token_list, glue_words_to_strings);
-	// apply_to_list(shell, *token_list, group_subshell);
 	apply_to_list(shell, *token_list, remove_space);
 }

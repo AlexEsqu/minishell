@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 00:22:21 by alex              #+#    #+#             */
-/*   Updated: 2025/02/18 18:36:17 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 08:14:45 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	free_token(void *to_be_del)
 	t_token	*token;
 
 	token = (t_token *)to_be_del;
+	fprintf(stderr, "freeing token %s\n", token->content);
 	if (token == NULL)
 		return ;
 	if (token->content != NULL)

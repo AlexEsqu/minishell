@@ -6,11 +6,16 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:29:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/16 10:18:03 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/23 11:45:49 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_escaped(char *stirng, int c)
+{
+	
+}
 
 int	count_char_in_string(char *string, int c)
 {
@@ -56,11 +61,11 @@ static void	remove_char_from_string(t_shell *shell, char **ptr_to_string, int c)
 
 void	remove_quotes_from_string(t_shell *shell, char **ptr_to_string)
 {
-	if (shell->critical_er || !ptr_to_string || !*ptr_to_string)
+	if (shell->critical_er || !ptr_to_string || !*ptr_to_string[0])
 		return ;
-	if (ft_strchr((*ptr_to_string), '\''))
+	if (ft_strchr((*ptr_to_string), '\'') && (*ptr_to_string)[0] == '\'')
 		remove_char_from_string(shell, ptr_to_string, '\'');
-	if (ft_strchr((*ptr_to_string), '\"'))
+	if (ft_strchr((*ptr_to_string), '\"') && (*ptr_to_string)[0] == '\"')
 		remove_char_from_string(shell, ptr_to_string, '\"');
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:58:45 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 17:52:12 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 08:49:30 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ void	add_alphanum_token(t_shell *shell, t_list **dest, char *input)
 	t_token	*token;
 
 	len = 0;
+	fprintf(stderr, "input is [%s]\n", &input[shell->index]);
 	while (input[len])
 	{
-		if (!letter_is(WORD, &input[shell->index + len]))
+		if (is_valid_variable(&input[shell->index + len]))
 			break ;
-		else if (is_valid_variable(&input[shell->index + len]))
+		else if (!letter_is(WORD, &input[shell->index + len])
+			&& !letter_is(DELIMITER, &input[shell->index + len]))
 			break ;
 		len++;
 	}
@@ -57,6 +59,7 @@ int	tokenize_variables(t_shell *shell, t_list **dest, char *input)
 	ft_lstadd_back(dest, ft_lstnew(create_token(shell, START, '\0', NULL)));
 	while (shell->index < ft_strlen(input))
 	{
+		fprintf(stderr, "tokeniwing %s\n", &input[shell->index]);
 		if (is_valid_variable(&input[shell->index]))
 			add_dollar_token(shell, dest, input);
 		else if (letter_is(BLANK, &input[shell->index]))

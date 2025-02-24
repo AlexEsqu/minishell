@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/20 15:33:00 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/23 11:09:38 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 	else if (!string_is_only_digit_or_sign(cmd->argv[1])
 		|| is_too_long_for_long_long(cmd->argv[1]))
 	{
-		print_exit_error(NON_NUM);
+		set_cmd_error(NON_NUM, cmd, NULL);
 		exit_code = E_SYNTAX;
 	}
 	else if (cmd->argc > 2)

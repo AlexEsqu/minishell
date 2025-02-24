@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:44:51 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 15:57:41 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/23 11:13:49 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ char	*get_error_message_1(int err_code)
 		return ("Permission denied");
 	if (err_code == SYNTAX_ERROR)
 		return ("Syntax error");
+	if (err_code == NON_NUM)
+		return ("Numerical arguments required");
+	if (err_code == TOO_MANY_ARGS)
+		return ("Too many arguments");
+	if (err_code == NO_HOME)
+		return ("HOME not set");
+	if (err_code == NO_PATH)
+		return ("PATH not set");
 	return ("Error");
 }
 
