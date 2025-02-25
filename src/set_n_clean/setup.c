@@ -6,12 +6,14 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:25:58 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:11:30 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 19:40:20 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*create minishell by creating std_in std_out
+	and extract environment as linked list and array*/
 t_shell	*create_minishell(char **env)
 {
 	t_shell	*shell;
@@ -27,6 +29,7 @@ t_shell	*create_minishell(char **env)
 	return (shell);
 }
 
+/*create token and puts its content in it*/
 t_token	*create_token(t_shell *shell, int lexem, char letter, char *content)
 {
 	t_token	*token;
@@ -41,6 +44,12 @@ t_token	*create_token(t_shell *shell, int lexem, char letter, char *content)
 	return (token);
 }
 
+/*function creating the necessary files
+	check for malloc fail
+	assign a file mode and create a file path
+	check for permissions with check_file
+	if file is to become a heredoc, collects it with assemble heredoc
+	puts the file at the back of the list*/
 void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
 {
 	t_file	*file;
@@ -64,6 +73,7 @@ void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
 	ft_lstadd_back(&cmd->files, node);
 }
 
+/*create command and initialises values*/
 t_cmd	*create_cmd(void)
 {
 	t_cmd	*cmd;
@@ -77,7 +87,7 @@ t_cmd	*create_cmd(void)
 	return (cmd);
 }
 
-
+/*util function to appli a function to a list*/
 void	apply_to_list(t_shell *shell, t_list *node,
 			void function(t_shell *, t_list *))
 {

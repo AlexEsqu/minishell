@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:36:09 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:22:25 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 19:16:27 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	signal_heredoc(void)
 	struct sigaction	sa_sig_nal;
 	struct sigaction	sa_ignore;
 
-	my_sig_nal = IN_HEREDOC;//---
+	my_sig_nal = IN_HEREDOC;
 	sa_sig_nal.sa_sigaction = heredoc_mode;
 	sa_sig_nal.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa_sig_nal.sa_mask);

@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:31 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/20 18:30:32 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/20 19:08:02 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	accumulate_heredoc_content(t_shell *shell, t_cmd *cmd, t_file *file)
 
 	while (1)
 	{
-		//my_sig_nal = IN_HEREDOC;
 		signals(shell, HEREDOC_MODE);
 		line = readline("here_doc$ ");
 		signals(shell, NORMAL_MODE);
