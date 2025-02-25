@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 19:45:06 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 21:43:22 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	find_cmd_path(t_shell *shell, t_cmd *cmd)
 		return ;
 	if (!cmd || !cmd->arg_list || !cmd->arg_list->content)
 		return (set_cmd_error(NO_CMD, cmd, NULL));
+	expand_string(shell, (char **)&cmd->arg_list->content);
 	cmd->cmd_path = ft_strdup((char *)cmd->arg_list->content);
 	if (!ft_strchr(cmd->cmd_path, '/'))
 	{

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/25 18:52:40 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 21:51:13 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	export(t_shell *shell, t_cmd *cmd)
 	while (cmd->argv[i])
 	{
 		if (cmd->argv[i][0] == '=' || cmd->argv[i][0] == '?'
-			|| ft_strchr(cmd->argv[i], '$'))
+			|| ft_isdigit(cmd->argv[i][0]) || ft_strchr(cmd->argv[i], '$'))
 			return (set_cmd_error(INVALID_VAR, cmd, cmd->argv[i]), E_CMD_FAIL);
 		ptr_to_equal_sign = ft_strchr(cmd->argv[i], '=');
 		if (ptr_to_equal_sign && ptr_to_equal_sign[0] == '\0')

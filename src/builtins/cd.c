@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/25 18:52:13 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 21:47:45 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	cd(t_shell *shell, t_cmd *cmd)
 	t_list	*env_home;
 
 	if (cmd->argv[1] && cmd->argv[2])
-		return (set_cmd_error(TOO_MANY_ARGS, cmd, NULL), TOO_MANY_ARGS);
+		return (set_cmd_error(TOO_MANY_ARGS, cmd, NULL), E_CMD_FAIL);
 	if (cmd->argv[1] == NULL)
 	{
 		env_home = find_env(shell->env_list, "HOME");
