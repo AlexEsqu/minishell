@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 19:00:25 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 20:01:34 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	exec_pipe_forks(t_shell *s, t_tree *tree, int *forkpid, int *pipefd)
 			clean_fork_exit(s, DUP_ERROR);
 		close(pipefd[WRITE]);
 		exec_tree(s, tree->left, true);
+		fprintf(stderr, "about to exit fork\n");
 		clean_fork_exit(s, E_CMD_FAIL);
 	}
 	if (forkpid[1] == 0)
@@ -56,6 +57,7 @@ static void	exec_pipe_forks(t_shell *s, t_tree *tree, int *forkpid, int *pipefd)
 			clean_fork_exit(s, DUP_ERROR);
 		close(pipefd[READ]);
 		exec_tree(s, tree->right, true);
+		fprintf(stderr, "about to exit fork\n");
 		clean_fork_exit(s, E_CMD_FAIL);
 	}
 }

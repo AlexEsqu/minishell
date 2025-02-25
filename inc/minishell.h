@@ -6,14 +6,9 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/25 18:51:20 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:38:02 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
-
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -192,7 +187,6 @@ void		print_syntax_error(t_shell *shell, t_token *token);
 char		*get_error_message(int err_code);
 int			is_missing_delimiter(t_shell *shell, char *input);
 int			input_contains_unsupported(t_shell *shell, char *input);
-int			is_or_should_be_directory(t_cmd *cmd, char *path);
 
 /* CLEAN UP */
 
@@ -324,7 +318,6 @@ enum e_my_signal
 	CONTROL_C = 3,
 	CONTROL_D = 4,
 };
-
 
 enum e_ignal_mode
 {

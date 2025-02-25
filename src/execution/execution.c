@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/21 19:35:51 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:49:28 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ static int	exec_binary(t_shell *shell, t_cmd *cmd)
 	if (!cmd->argv || !cmd->argv[0] || cmd->exit_code)
 		exit(cmd->exit_code);
 	execve(cmd->cmd_path, cmd->argv, shell->env);
+	set_cmd_error(NO_FILE, cmd, NULL);
 	free_minishell(shell);
-	exit(E_CMD_FAIL);
+	exit(E_NO_CMD);
 }
 
 static int	exec_for_builtin(t_shell *shell, t_cmd *cmd, bool piped)

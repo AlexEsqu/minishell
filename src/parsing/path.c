@@ -6,13 +6,13 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/24 16:15:00 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:45:06 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_or_should_be_directory(t_cmd *cmd, char *path)
+int	is_or_should_be_directory(t_cmd *cmd, char *path, int has_slash)
 {
 	int	fd;
 
@@ -30,7 +30,10 @@ int	is_or_should_be_directory(t_cmd *cmd, char *path)
 			return (0);
 	}
 	close(fd);
-	return (set_cmd_error(IS_DIR, cmd, path), 1);
+	if (has_slash)
+		return (set_cmd_error(IS_DIR, cmd, path), 1);
+	else
+		return (set_cmd_error(NO_CMD, cmd, path), 1);
 }
 
 static int	check_each_path(t_cmd *cmd, char **paths)
@@ -106,7 +109,7 @@ static int	is_in_environ_paths(t_shell *shell, t_cmd *cmd)
 	else seeks it using the $PATH variable, invokes it
 	else returns CMD NOT FOUND exit code 127
 
-2. if search was successful OR cmd name contains slashes:
+2. if cmd name contains slashes:
 	executes it directly*/
 void	find_cmd_path(t_shell *shell, t_cmd *cmd)
 {
@@ -117,6 +120,8 @@ void	find_cmd_path(t_shell *shell, t_cmd *cmd)
 	cmd->cmd_path = ft_strdup((char *)cmd->arg_list->content);
 	if (!ft_strchr(cmd->cmd_path, '/'))
 	{
+		if (is_or_should_be_directory(cmd, cmd->cmd_path, false))
+			return ;
 		if (is_in_absolute_or_relative_path(cmd))
 			return ;
 		else if (is_builtin(cmd))
@@ -126,10 +131,9 @@ void	find_cmd_path(t_shell *shell, t_cmd *cmd)
 	}
 	else
 	{
-		if (is_or_should_be_directory(cmd, cmd->cmd_path))
+		if (is_or_should_be_directory(cmd, cmd->cmd_path, true))
 			return ;
 		if (is_in_absolute_or_relative_path(cmd))
 			return ;
 	}
-	return (set_cmd_error(NO_CMD, cmd, NULL));
 }
