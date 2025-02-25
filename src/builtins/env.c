@@ -3,14 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:10:02 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 18:52:21 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 22:48:32 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*extract_env_key(char *env_key_and_value)
+{
+	char	*env_key;
+	char	*equal_sign;
+	int		equal_sign_index;
+
+	equal_sign = ft_strchr(env_key_and_value, '=');
+	if (equal_sign == NULL)
+		return (ft_strdup(env_key_and_value));
+	equal_sign_index = equal_sign - env_key_and_value;
+	env_key = ft_calloc(equal_sign_index + 1, sizeof(char));
+	ft_strlcat(env_key, env_key_and_value, equal_sign_index + 1);
+	return (env_key);
+}
+
+char	*extract_env_value(char *env_key_and_value)
+{
+	char	*env_value;
+	char	*equal_sign;
+	char	*ptr_to_equal;
+	int		value_len;
+
+	ptr_to_equal = ft_strchr(env_key_and_value, '=');
+	if (ptr_to_equal == NULL)
+		return (ft_strdup(""));
+	env_value = ft_calloc(ft_strlen(ptr_to_equal) - 1 + 1, sizeof(char));
+	ft_strlcat(env_value, &ptr_to_equal[1], ft_strlen(ptr_to_equal) + 1);
+	return (env_value);
+}
 
 static void	set_backup_environ(t_shell *shell)
 {

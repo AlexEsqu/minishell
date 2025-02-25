@@ -3,9 +3,9 @@
 [35m> minishell  (exited with 0)
 (B[m[94m----- STDOUT -----(B[m
 1c1
-< mkling2/home/mkling
+< vgodoy2/home/vgodoy
 ---
-> mkling""/home/mkling
+> vgodoy""/home/vgodoy
 
 
 [33mworld(B[m
@@ -61,18 +61,22 @@
 
 [33mexport A-(B[m
 [35m< bash       (exited with 1)(B[m
-[35m> minishell  (exited with 0)
+[35m> minishell  (exited with 1)
 (B[m[94m----- STDERR -----(B[m
-1d0
+1c1
 < minishell: line 1: export: `A-': not a valid identifier
+---
+> shell: A-: Not a valid identifier
 
 
 [33mexport HELLO-=123(B[m
 [35m< bash       (exited with 1)(B[m
-[35m> minishell  (exited with 0)
+[35m> minishell  (exited with 1)
 (B[m[94m----- STDERR -----(B[m
-1d0
+1c1
 < minishell: line 1: export: `HELLO-=123': not a valid identifier
+---
+> shell: HELLO-=123: Not a valid identifier
 
 
 [33mexport =(B[m
@@ -93,14 +97,6 @@
 < minishell: line 1: export: `123': not a valid identifier
 ---
 > shell: 123: Not a valid identifier
-
-
-[33mcd $PWD(B[m
-[35m< bash       (exited with 1)(B[m
-[35m> minishell  (exited with 0)
-(B[m[94m----- STDERR -----(B[m
-1d0
-< minishell: line 1: cd: too many arguments
 
 
 [33mcd $PWD hi(B[m
@@ -374,13 +370,15 @@
 
 [33mecho hi | cat <\"./test_files/infile"(B[m
 [35m< bash       (exited with 2)(B[m
-[35m> minishell  (exited with 2)
+[35m> minishell  (exited with 1)
 (B[m[94m----- STDERR -----(B[m
-1,2c1
+1,2c1,3
 < minishell: -c: line 1: unexpected EOF while looking for matching `"'
 < minishell: -c: line 2: syntax error: unexpected end of file
 ---
-> shell: syntax error near unexpected token '<'
+> shell: \pipe monitor recevies 1st with 0
+> "./test_files/infile": No such file or directory
+> pipe monitor exits with 256
 
 
 [33mecho hi | cat "./test_files/infile"(B[m
@@ -468,8 +466,8 @@
 [35m> minishell  (exited with 2)
 (B[m[94m----- STDERR -----(B[m
 1,2c1
-< minishell: line 1: ./test_files/infile: No such file or directory
 < minishell: line 1: missing: No such file or directory
+< minishell: line 1: ./test_files/infile: No such file or directory
 ---
 > shell: syntax error near unexpected token '<'
 
@@ -618,8 +616,8 @@
 1c1,3
 < minishell: line 1: ./outfiles/outfile01: No such file or directory
 ---
-> shell: ./outfiles/outfile01: pipe monitor recevies 1st with 0
-> Open failed
+> shell: ./outfiles/outfile01: Open failed
+> pipe monitor recevies 1st with 0
 > pipe monitor exits with 512
 
 
@@ -630,8 +628,8 @@
 1c1,3
 < minishell: line 1: ./outfiles/outfile01: No such file or directory
 ---
-> shell: ./outfiles/outfile01: Open failed
-> pipe monitor recevies 1st with 0
+> shell: ./pipe monitor recevies 1st with 0
+> outfiles/outfile01: Open failed
 > pipe monitor exits with 512
 
 
@@ -692,8 +690,8 @@
 1c1,3
 < minishell: line 1: ./test_files/invalid_permission: No such file or directory
 ---
-> shell: ./test_files/ipipe monitor recevies 1st with 0
-> nvalid_permission: Open failed
+> shell: ./test_files/invalid_permission: pipe monitor recevies 1st with 0
+> Open failed
 > pipe monitor exits with 512
 
 
@@ -704,8 +702,8 @@
 1c1,3
 < minishell: line 1: ./outfiles/outfile01: No such file or directory
 ---
-> shell: ./outfiles/outfipipe monitor recevies 1st with 0
-> le01: Open failed
+> shell: ./outfiles/outfile01: Open failed
+> pipe monitor recevies 1st with 0
 > pipe monitor exits with 512
 
 
@@ -716,8 +714,8 @@
 1c1,3
 < minishell: line 1: ./test_files/invalid_permission: No such file or directory
 ---
-> shell: ./test_files/invalid_permission: Open failed
-> pipe monitor recevies 1st with 0
+> shell: ./test_files/invalid_permpipe monitor recevies 1st with 0
+> ission: Open failed
 > pipe monitor exits with 512
 
 
@@ -942,8 +940,8 @@
 1c1,3
 < minishell: line 1: ./outfiles/outfile01: No such file or directory
 ---
-> shell: ./outfiles/outfile01: Open failed
-> pipe monitor recevies 1st with 0
+> shell: ./outfiles/outfile01: Opepipe monitor recevies 1st with 0
+> n failed
 > pipe monitor exits with 512
 
 
@@ -954,8 +952,8 @@
 1c1,3
 < minishell: line 1: ./outfiles/outfile01: No such file or directory
 ---
-> shell: ./outfiles/outfile01: Open failed
-> pipe monitor recevies 1st with 0
+> shell: .pipe monitor recevies 1st with 0
+> /outfiles/outfile01: Open failed
 > pipe monitor exits with 512
 
 
@@ -967,8 +965,8 @@
 < minishell: line 1: ./outfiles/outfile01: No such file or directory
 < minishell: line 1: ./outfiles/outfile02: No such file or directory
 ---
-> shell: ./outfiles/outfile01: sOhpeelnl :f a.i/loeudt
-> files/outfile02: Open failed
+> shell: ./outfiles/outfile01: Opens hfealill:e d.
+> /outfiles/outfile02: Open failed
 > pipe monitor recevies 1st with 512
 > pipe monitor exits with 512
 
@@ -1004,8 +1002,8 @@
 1c1,3
 < minishell: line 1: ./test_files/invalid_permission: No such file or directory
 ---
-> shell: ./test_files/invalid_permission: Open failed
-> pipe monitor recevies 1st with 0
+> shell: ./test_files/invalid_permission: Opipe monitor recevies 1st with 0
+> pen failed
 > pipe monitor exits with 512
 
 
@@ -1016,8 +1014,8 @@
 1c1,3
 < minishell: line 1: ./outfiles/outfile01: No such file or directory
 ---
-> shell: ./outfiles/outfilepipe monitor recevies 1st with 0
-> 01: Open failed
+> shell: ./outfiles/outfipipe monitor recevies 1st with 0
+> le01: Open failed
 > pipe monitor exits with 512
 
 
@@ -1060,9 +1058,9 @@
 [35m> minishell  (exited with 126)
 (B[m[94m----- STDERR -----(B[m
 1c1
-< minishell: line 1: /home/mkling/Documents/minishell/test: Is a directory
+< minishell: line 1: /home/vgodoy/minishell13/testing: Is a directory
 ---
-> shell: /home/mkling/Documents/minishell/test copy: Is a directory
+> shell: /home/vgodoy/minishell13/testing: Is a directory
 
 
 [33m$EMPTY echo hi (B[m

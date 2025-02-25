@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/25 21:57:04 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 22:48:26 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,6 @@ void	print_env_as_export(t_shell *shell)
 		write(STDOUT_FILENO, "\n", 1);
 		current_env = current_env->next;
 	}
-}
-
-char	*extract_env_key(char *env_key_and_value)
-{
-	char	*env_key;
-	char	*equal_sign;
-	int		equal_sign_index;
-
-	equal_sign = ft_strchr(env_key_and_value, '=');
-	if (equal_sign == NULL)
-		return (ft_strdup(env_key_and_value));
-	equal_sign_index = equal_sign - env_key_and_value;
-	env_key = ft_calloc(equal_sign_index + 1, sizeof(char));
-	ft_strlcat(env_key, env_key_and_value, equal_sign_index + 1);
-	return (env_key);
-}
-
-char	*extract_env_value(char *env_key_and_value)
-{
-	char	*env_value;
-	char	*equal_sign;
-	char	*ptr_to_equal;
-	int		value_len;
-
-	ptr_to_equal = ft_strchr(env_key_and_value, '=');
-	if (ptr_to_equal == NULL)
-		return (ft_strdup(""));
-	env_value = ft_calloc(ft_strlen(ptr_to_equal) - 1 + 1, sizeof(char));
-	ft_strlcat(env_value, &ptr_to_equal[1], ft_strlen(ptr_to_equal) + 1);
-	return (env_value);
 }
 
 int	replace_env(t_shell *shell, char *env_key_and_value)
@@ -80,6 +50,25 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	return (SUCCESS);
 }
 
+int	export_valid_var(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (!(ft_isalpha(str[0]) || str[0] == '_'))
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '=')
+			break ;
+		if (!(ft_isalpha(str[i]) || ft_isdigit(str[i])
+				|| str[1] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	export(t_shell *shell, t_cmd *cmd)
 {
 	int		i;
@@ -91,8 +80,7 @@ int	export(t_shell *shell, t_cmd *cmd)
 		return (print_env_as_export(shell), 0);
 	while (cmd->argv[i])
 	{
-		if (cmd->argv[i][0] == '=' || cmd->argv[i][0] == '?'
-			|| ft_isdigit(cmd->argv[i][0]) || ft_strchr(cmd->argv[i], '$'))
+		if (!export_valid_var(cmd->argv[i]))
 			return (set_cmd_error(INVALID_VAR, cmd, cmd->argv[i]), E_CMD_FAIL);
 		ptr_to_equal_sign = ft_strchr(cmd->argv[i], '=');
 		if (ptr_to_equal_sign && ptr_to_equal_sign[0] == '\0')
