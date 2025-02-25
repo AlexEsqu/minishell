@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 20:01:34 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 21:15:14 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,31 @@ static int	create_pipe_and_fork(t_shell *shell, int *pipe_fd, int *fork_pid)
 
 static void	clean_fork_exit(t_shell *shell, int err_code)
 {
-	if (err_code != E_CMD_FAIL)
-		set_error(err_code, shell);
 	free_minishell(shell);
-	exit(E_CMD_FAIL);
+	exit(err_code);
 }
 
 static void	exec_pipe_forks(t_shell *s, t_tree *tree, int *forkpid, int *pipefd)
 {
+	int	exit_return;
+
 	if (forkpid[0] == 0)
 	{
 		close(pipefd[READ]);
 		if (dup2(pipefd[WRITE], STDOUT_FILENO) == -1)
 			clean_fork_exit(s, DUP_ERROR);
 		close(pipefd[WRITE]);
-		exec_tree(s, tree->left, true);
-		fprintf(stderr, "about to exit fork\n");
-		clean_fork_exit(s, E_CMD_FAIL);
+		exit_return = exec_tree(s, tree->left, true);
+		clean_fork_exit(s, exit_return);
 	}
-	if (forkpid[1] == 0)
+	else if (forkpid[1] == 0)
 	{
 		close(pipefd[WRITE]);
 		if (dup2(pipefd[READ], STDIN_FILENO) == -1)
 			clean_fork_exit(s, DUP_ERROR);
 		close(pipefd[READ]);
-		exec_tree(s, tree->right, true);
-		fprintf(stderr, "about to exit fork\n");
-		clean_fork_exit(s, E_CMD_FAIL);
+		exit_return = exec_tree(s, tree->right, true);
+		clean_fork_exit(s, exit_return);
 	}
 }
 
@@ -79,6 +77,11 @@ int	exec_pipe_monitor(t_shell *shell, t_tree *tree)
 	close(pipe_fd[READ]);
 	close(pipe_fd[WRITE]);
 	waitpid(fork_pid[0], &exit_code, 0);
+	fprintf(stderr, "pipe monitor recevies 1st with %d\n", exit_code);
 	waitpid(fork_pid[1], &exit_code, 0);
-	return (WEXITSTATUS(exit_code));
+	fprintf(stderr, "pipe monitor exits with %d\n", exit_code);
+	if (WIFEXITED(exit_code))
+		return (WEXITSTATUS(exit_code));
+	else
+		return (exit_code);
 }
