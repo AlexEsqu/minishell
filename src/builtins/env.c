@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:52:49 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 14:33:55 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 11:43:50 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@ static void	set_backup_environ(t_shell *shell)
 	pwd_env = find_env(shell->env_list, "PWD");
 	if (!pwd_env || ft_strlen(pwd_env->content) < 5)
 	{
-		fprintf(stderr, "before strlcat [%s]\n", buffer);
 		ft_strlcat(buffer, "PWD=", 5);
 		if (getcwd(&buffer[4], PATH_MAX) == NULL)
 			return ;
-		fprintf(stderr, "after [%s]\n", buffer);
 		replace_env(shell, buffer);
 	}
 }

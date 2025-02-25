@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/21 19:35:51 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 14:01:12 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ static int	create_fork_to_exec_binary(t_shell *shell, t_cmd *cmd)
 		exec_binary(shell, cmd);
 	else
 		waitpid(fork_pid, &exit_code, 0);
-	cmd->exit_code = WEXITSTATUS(exit_code);
+	if (WIFEXITED(exit_code))
+		cmd->exit_code = WEXITSTATUS(exit_code);
+	if (WIFSIGNALED(exit_code))
+		cmd->exit_code = WTERMSIG(exit_code);
 	return (cmd->exit_code);
 }
 
@@ -73,6 +76,7 @@ int	exec_single_cmd(t_shell *shell, t_tree *tree, bool piped)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)tree->content;
+	fprintf(stderr, "executing cmd %s which is piped = %d\n", (char *)cmd->arg_list->content, piped);
 	if (cmd->exit_code)
 		return (cmd->exit_code);
 	if (!cmd->arg_list && cmd->files)
