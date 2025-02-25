@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:58:45 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 17:07:34 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 21:31:15 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_list	*tokenize_and_expand_string(t_shell *shell, char *string)
 
 	token_list = NULL;
 	tokenize_variables(shell, &token_list, string);
-	// apply_to_list(shell, token_list, group_strings);
 	apply_to_list(shell, token_list, id_variables);
 	current = token_list;
 	while (current->next)
@@ -86,8 +85,6 @@ t_list	*tokenize_and_expand_string(t_shell *shell, char *string)
 		token = (t_token *)current->content;
 		if (token->lexem == VARIABLE)
 			expand_variable(shell, &token->content);
-		// if (token->lexem == STRING && token->letter != '\'')
-		// 	expand_string(shell, &token->content);
 		current = current->next;
 	}
 	return (token_list);

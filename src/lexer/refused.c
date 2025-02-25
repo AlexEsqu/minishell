@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:14 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 12:07:33 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 21:20:22 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int	contains_non_supported_char(t_shell *shell, char *input)
 	{
 		if (*input == ';')
 			return (set_error(SYNTAX_ERROR, shell), 1);
-		if (*input++ == '\\')
-			return (set_error(SYNTAX_ERROR, shell), 1);
+		// if (*input++ == '\\')
+		// 	return (set_error(SYNTAX_ERROR, shell), 1);
+		input++;
 	}
 	return (0);
 }
