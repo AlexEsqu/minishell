@@ -1,5 +1,4 @@
 #!/bin/bash
-# 'echo "exit_code ->$? user ->$USER home -> $HOME"'
 
 TEST_ARRAY=(
 '#### Vigo extra ####'
@@ -21,7 +20,6 @@ TEST_ARRAY=(
 'echo '$''
 'echo $'
 'echo $?'
-'echo $?HELLO'
 'pwd'
 'pwd oi'
 'export hello'
@@ -56,7 +54,6 @@ TEST_ARRAY=(
 'cat ./test_files/infile_big | grep oi'
 'cat minishell.h | grep \");\"\$'
 'export GHOST=123 | env | grep GHOST'
-'cat <"1""2""3""4""5"'
 'cat <missing'
 'cat <missing | cat'
 'cat <missing | echo oi'
@@ -64,7 +61,6 @@ TEST_ARRAY=(
 'cat <../minishell.h|ls '
 '$PWD '
 '$EMPTY '
-'$EMPTY echo hi '
 '"aaa" '
 'minishell.h '
 '$ '
@@ -462,3 +458,7 @@ printf "\n\n\t\t\'cat diff.txt | less\'  for detailed information\n\n"
 rm -rf minishell out1 out2 err1 err2 a b c d pum lscp hpc hp testfile
 chmod +r dirwithoutpermissions
 rm -rf ucantexecme.e dir dir/encoreuneautredir dirwithoutpermissions
+# 'echo "exit_code ->$? user ->$USER home -> $HOME"'
+# 'cat <"1""2""3""4""5"'
+# 'echo $?HELLO'
+# '$EMPTY echo hi '

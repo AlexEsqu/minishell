@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:29:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 17:42:03 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 22:57:25 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ static void	remove_char_from_string(t_shell *shell, char **ptr_to_string, int c)
 	size_t	j;
 
 	original_string = *ptr_to_string;
+	// fprintf(stderr, "original [%s]\n", original_string);
 	char_count = count_char_in_string(original_string, c);
 	result_string = ft_calloc(sizeof(char),
-			ft_strlen(original_string) - (char_count - 1));
+			ft_strlen(original_string) - (char_count) + 1);
 	if (!result_string)
 		return (set_error(MALLOC_FAIL, shell));
 	i = 0;
@@ -50,6 +51,7 @@ static void	remove_char_from_string(t_shell *shell, char **ptr_to_string, int c)
 			result_string[j++] = original_string[i];
 		i++;
 	}
+	// fprintf(stderr, "result [%s]\n", result_string);
 	free(original_string);
 	*ptr_to_string = result_string;
 }
@@ -58,15 +60,17 @@ void	remove_quotes_from_string(t_shell *shell, char **ptr_to_string)
 {
 	if (shell->critical_er || !ptr_to_string || !*ptr_to_string[0])
 		return ;
-	// fprintf(stderr, "after remove quote 1: %s\n", (*ptr_to_string));
-	if (ft_strchr((*ptr_to_string), '\'')
-		&& ((*ptr_to_string)[0] == '\'' || (*ptr_to_string)[ft_strlen(*ptr_to_string)] == '\''))
+	if (ft_strchr(*ptr_to_string, '\'') && (*ptr_to_string)[0] == '\''
+		&& (*ptr_to_string)[ft_strlen(*ptr_to_string) - 1] == '\'')
 		remove_char_from_string(shell, ptr_to_string, '\'');
-	// fprintf(stderr, "after remove quote 2: %s\n", (*ptr_to_string));
-	if (ft_strchr((*ptr_to_string), '\"')
-		&& ((*ptr_to_string)[0] == '\"' || (*ptr_to_string)[ft_strlen(*ptr_to_string)] == '\"'))
+	else if (ft_strchr(*ptr_to_string, '\"') && (*ptr_to_string)[0] == '\"'
+		&& (*ptr_to_string)[ft_strlen(*ptr_to_string) - 1] == '\"')
 		remove_char_from_string(shell, ptr_to_string, '\"');
-	// fprintf(stderr, "after remove quote 3: %s\n", (*ptr_to_string));
+	else
+	{
+		remove_char_from_string(shell, ptr_to_string, '\"');
+		remove_char_from_string(shell, ptr_to_string, '\'');
+	}
 }
 
 void	remove_parenthesis_from_string(t_shell *shell, char **ptr_to_string)
