@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/25 21:00:49 by mkling           ###   ########.fr       */
+/*   Created: 2025/02/25 23:17:56 by vgodoy            #+#    #+#             */
+/*   Updated: 2025/02/25 23:18:08 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -30,11 +29,11 @@ void	print_tokens(t_list *node)
 /*small function to set up last_exit_code according to the signal*/
 void	signal_test(t_shell *shell)
 {
-	if (my_sig_nal == CONTROL_C)
+	if (g_my_sig == CONTROL_C)
 		shell->last_exit_code = E_SIG_INT;
-	if (my_sig_nal == CONTROL_D)
+	if (g_my_sig == CONTROL_D)
 		shell->last_exit_code = E_SIG_SLSH;
-	my_sig_nal = BASE;
+	g_my_sig = BASE;
 }
 
 /*  INIT cm_line and critical_er
@@ -53,11 +52,10 @@ void	parse_and_exec_cmd(t_shell *shell, char *input)
 		return (ft_lstclear(&shell->token_list, free_token));
 	lexer(shell, &shell->token_list);
 	parser(shell);
-	if (my_sig_nal != CONTROL_C)
+	if (g_my_sig != CONTROL_C)
 		shell->last_exit_code = exec_tree(shell, shell->tree_root, false);
 	free_tree(&shell->tree_root);
 }
-
 
 /*interactive mode of the shell with readline
 ctrl+C is detected by signal_test
@@ -69,7 +67,7 @@ void	init_readline(t_shell *shell)
 
 	while (1)
 	{
-		my_sig_nal = BASE;
+		g_my_sig = BASE;
 		signals(shell, INTERACTIVE_MODE);
 		input = readline(SHELL_PROMPT);
 		signals(shell, NORMAL_MODE);
@@ -78,7 +76,7 @@ void	init_readline(t_shell *shell)
 			break ;
 		if (input && countword(input, ' ') > 0)
 		{
-			my_sig_nal = TYPING;
+			g_my_sig = TYPING;
 			parse_and_exec_cmd(shell, input);
 			signal_test(shell);
 			add_history(input);

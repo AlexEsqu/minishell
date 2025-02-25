@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:20 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 15:58:21 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:17:15 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	control_d_pressed(char *line, t_file *file)
 
 int	control_c_pressed(char *line, t_shell *shell)
 {
-	if (my_sig_nal == CONTROL_C)
+	if (g_my_sig == CONTROL_C)
 	{
 		free(line);
 		shell->last_exit_code = E_SIG_INT;

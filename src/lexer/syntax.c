@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:42:40 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 16:36:28 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:14:40 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,6 @@ static void	is_missing_word_before_operator(t_shell *shell, t_list *node)
 		current = current->prev;
 	}
 	print_syntax_error(shell, ((t_token *)node->content));
-}
-
-int	redirection_after_pipe_or_and(t_list *first, t_list *second)
-{
-	if (((t_token *)first->content)->letter == '&'
-		|| ((t_token *)first->content)->letter == '|')
-	{
-		if (((t_token *)second->content)->letter == '<'
-			|| ((t_token *)second->content)->letter == '>')
-			return (1);
-	}
-	return (0);
 }
 
 static void	is_missing_word_after_operator(t_shell *shell, t_list *node)

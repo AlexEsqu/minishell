@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:34:47 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 22:50:21 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:12:04 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,31 +51,11 @@ void	glue_words_to_strings(t_shell *shell, t_list *node)
 			|| token_is(VARIABLE, node->next))
 		{
 			*next_word = (char *)((t_token *)node->next->content)->content;
-			// fprintf(stderr, "to be merged string is [%s]\n", *next_word);
 			merge_token(shell, node);
 		}
 		word->lexem = STRING;
 	}
 }
-
-// void	group_subshell(t_shell *shell, t_list *node)
-// {
-// 	t_token	*first_delim;
-
-// 	first_delim = ((t_token *)node->content);
-// 	if (first_delim->letter != '(')
-// 		return ;
-// 	while (!token_is(END, node->next))
-// 	{
-// 		if (((t_token *)node->next->content)->letter == ')')
-// 		{
-// 			merge_token(shell, node);
-// 			break ;
-// 		}
-// 		merge_token(shell, node);
-// 	}
-// 	first_delim->lexem = SUBSHELL;
-// }
 
 void	id_operators(t_shell *shell, t_list *current)
 {

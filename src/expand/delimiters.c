@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimiters.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:29:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 22:57:25 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:19:04 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	remove_char_from_string(t_shell *shell, char **ptr_to_string, int c)
 	size_t	j;
 
 	original_string = *ptr_to_string;
-	// fprintf(stderr, "original [%s]\n", original_string);
 	char_count = count_char_in_string(original_string, c);
 	result_string = ft_calloc(sizeof(char),
 			ft_strlen(original_string) - (char_count) + 1);
@@ -51,7 +50,6 @@ static void	remove_char_from_string(t_shell *shell, char **ptr_to_string, int c)
 			result_string[j++] = original_string[i];
 		i++;
 	}
-	// fprintf(stderr, "result [%s]\n", result_string);
 	free(original_string);
 	*ptr_to_string = result_string;
 }

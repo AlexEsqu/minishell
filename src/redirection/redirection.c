@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:41 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 18:55:10 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:11:35 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*This function opens a file
     if : OUTFILE or APPEND -> output redirection

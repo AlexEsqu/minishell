@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 21:43:22 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:11:48 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_or_should_be_directory(t_cmd *cmd, char *path, int has_slash)
 	{
 		if (path[ft_strlen(path) - 1] == '/')
 		{
-			if (access(path, F_OK)== 0)
+			if (access(path, F_OK) == 0)
 				return (set_cmd_error(IS_NOT_DIR, cmd, path), 1);
 			else
 				return (set_cmd_error(IS_DIR, cmd, path), 1);

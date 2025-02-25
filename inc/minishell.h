@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/25 21:30:41 by mkling           ###   ########.fr       */
+/*   Created: 2025/02/25 23:24:18 by vgodoy            #+#    #+#             */
+/*   Updated: 2025/02/25 23:26:04 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,59 +27,59 @@
 # include "libft/inc/libft.h"
 # include <errno.h>
 
-extern int	my_sig_nal;
+extern int	g_my_sig;
 
 typedef struct s_token
 {
-	int				lexem;		// type as determined by the lexer
-	char			letter;		// letter or first letter
-	char			*content;	// malloced words or letter
+	int				lexem;
+	char			letter;
+	char			*content;
 }	t_token;
 
 typedef struct s_files
 {
-	int				mode;		// infile, outfile, heredoc or append
-	char			*path;		// pathfile
-	char			*delim;		// delimiter if heredoc, else NULL
-	int				fd;			// resulting fd once opened
-	bool			is_quoted;	// is the delimiter quoted, expanding content
+	int				mode;
+	char			*path;
+	char			*delim;
+	int				fd;
+	bool			is_quoted;
 }	t_file;
 
 typedef struct s_cmd
 {
-	char			**argv;		// array created with cmd_path, then arguments
-	int				argc;		// argument count to iterate over argv with
-	char			*cmd_path;	// binary filepath, absolute/through PATH
-	t_list			*arg_list;	// linked list of command arguments
-	t_list			*files;		// linked list of input and / or output files
-	int				fd_out;		// fd of the final output redirection
-	int				fd_in;		// fd of the final input redirection
-	int				exit_code;	// value returned by the execution of command
-	int				fork_pid;	// process id of fork sent to execute command
+	char			**argv;
+	int				argc;
+	char			*cmd_path;
+	t_list			*arg_list;
+	t_list			*files;
+	int				fd_out;
+	int				fd_in;
+	int				exit_code;
+	int				fork_pid;
 }	t_cmd;
 
 typedef struct s_ast
 {
-	int				type;		// either pipe, or, and or single cmd node
-	void			*content;	// if cmd node, contain pointer to cmd structure
-	struct s_ast	*left;		// part of the cmd line left of the operator
-	struct s_ast	*right;		// part of the cmd line right of the operator
+	int				type;
+	void			*content;
+	struct s_ast	*left;
+	struct s_ast	*right;
 }	t_tree;
 
 typedef struct s_shell
 {
-	char		*cmd_line;		// readline return
-	t_list		*token_list;	// linked list of tokens id from cmd line
-	t_list		*env_list;		// linked list of env strings
-	t_tree		*tree_root;		// abstract syntaxic tree
-	t_list		*heredoc;		// heredoc to be closed once cmd line is exec
-	size_t		index;			// index of command currently being executed
-	char		**env;			// env received at start of program
-	char		**paths;		// extracted PATH variable of the env
-	int			std_out;		// preserved stdout
-	int			std_in;			// preserved stdin
-	int			critical_er;	// flag if critical error in parent process
-	int			last_exit_code;	// result of the last command
+	char		*cmd_line;
+	t_list		*token_list;
+	t_list		*env_list;
+	t_tree		*tree_root;
+	t_list		*heredoc;
+	size_t		index;
+	char		**env;
+	char		**paths;
+	int			std_out;
+	int			std_in;
+	int			critical_er;
+	int			last_exit_code;
 }	t_shell;
 
 /* SIGNAL */
@@ -110,7 +110,7 @@ void		group_strings(t_shell *shell, t_list *node);
 void		remove_quotes_from_string(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
 int			count_char_in_string(char *string, int c);
-void		remove_parenthesis_from_string(t_shell *shell, char **ptr_to_string);
+void		remove_parenthesis_from_string(t_shell *shell, char **ptr_str);
 void		group_strings(t_shell *shell, t_list *node);
 
 /* EXPANSION */
@@ -187,6 +187,7 @@ void		print_syntax_error(t_shell *shell, t_token *token);
 char		*get_error_message(int err_code);
 int			is_missing_delimiter(t_shell *shell, char *input);
 int			input_contains_unsupported(t_shell *shell, char *input);
+int			redirection_after_pipe_or_and(t_list *first, t_list *second);
 
 /* CLEAN UP */
 

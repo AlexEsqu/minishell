@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:31 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 18:52:51 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:17:15 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ void	assemble_heredoc(t_shell *shell, t_cmd *cmd, t_file *file)
 		return (set_cmd_error(OPEN_ERROR, cmd, "Heredoc"));
 	accumulate_heredoc_content(shell, cmd, file);
 	close(file->fd);
-	if (my_sig_nal == CONTROL_C)
+	if (g_my_sig == CONTROL_C)
 		unlink(file->path);
 }
