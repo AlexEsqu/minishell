@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:34:47 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 17:42:15 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 22:50:21 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,18 @@ void	group_strings(t_shell *shell, t_list *node)
 void	glue_words_to_strings(t_shell *shell, t_list *node)
 {
 	t_token	*word;
+	char	**next_word;
 
 	word = ((t_token *)node->content);
-	if (word->lexem == WORD || word->lexem == STRING || token_is(VARIABLE, node->next))
+	if (word->lexem == WORD || word->lexem == STRING || word->lexem == VARIABLE)
 	{
 		while (token_is(STRING, node->next) || token_is(WORD, node->next)
 			|| token_is(VARIABLE, node->next))
+		{
+			*next_word = (char *)((t_token *)node->next->content)->content;
+			// fprintf(stderr, "to be merged string is [%s]\n", *next_word);
 			merge_token(shell, node);
+		}
 		word->lexem = STRING;
 	}
 }
@@ -104,7 +109,4 @@ void	lexer(t_shell *shell, t_list **token_list)
 	apply_to_list(shell, *token_list, id_operators);
 	apply_to_list(shell, *token_list, glue_words_to_strings);
 	apply_to_list(shell, *token_list, remove_space);
-	// fprintf(stderr, "la\n");
-	// print_tokens(*token_list);
-	// fprintf(stderr, "ici\n");
 }
