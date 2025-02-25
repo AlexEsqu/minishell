@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:25:58 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/20 19:40:20 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/25 18:55:15 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	create_file(t_shell *shell, t_cmd *cmd, t_token *token)
 	file->path = ft_strdup(token->content);
 	if (!file->path)
 		return (set_error(MALLOC_FAIL, shell));
-	check_file(shell, cmd, file);
 	if (file->mode == HEREDOC)
 		assemble_heredoc(shell, cmd, file);
 	if (my_sig_nal == CONTROL_C)

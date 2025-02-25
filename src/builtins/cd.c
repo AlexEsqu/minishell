@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 18:09:50 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/20 20:10:21 by vgodoy           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/25 18:52:13 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -53,12 +54,14 @@ int	cd(t_shell *shell, t_cmd *cmd)
 		if (env_home && env_home->content && ft_strlen(env_home->content) > 5)
 			path = env_home->content + 5;
 		else
-			path = NULL;
+			return (set_cmd_error(NO_HOME, cmd, NULL), E_CMD_FAIL);
 	}
 	else
 		path = (char *)cmd->argv[1];
 	if (path == NULL)
 		return (set_cmd_error(NO_FILE, cmd, path), E_CMD_FAIL);
+	if (access(path, X_OK))
+		return (set_cmd_error(PERM_ERROR, cmd, path), E_CMD_FAIL);
 	cmd->exit_code = chdir(path);
 	if (cmd->exit_code)
 		return (set_cmd_error(NO_FILE, cmd, path), E_CMD_FAIL);

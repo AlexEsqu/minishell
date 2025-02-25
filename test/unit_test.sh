@@ -30,7 +30,7 @@ TEST_ARRAY=(
 'unset HOME && cd && pwd'
 'cd . && pwd'
 'cd ..&& pwd'
-'cd ..&& echo $OLDPWD; pwd'
+'cd ..&& echo $OLDPWD && pwd'
 'unset OLDPWD&& cd .. && echo $OLDPWD&& pwd'
 "cd ' /'"
 'cd ../../'
@@ -43,6 +43,7 @@ TEST_ARRAY=(
 'exit 512'
 'exit 1407'
 'exit 21 42'
+'exit 9223372036854775807'
 'exit notanumber'
 '################	NO ENVIRONMENT (env -i ./minishell)	#################'
 'cd'
@@ -82,13 +83,12 @@ TEST_ARRAY=(
 "echo '\$HOME'"
 "echo ' \"\$HOME\" '"
 "echo \"'\$HOME'\""
-"echo \" '\$PWD' \\\"\$PWD\\\" '\$PWD' \"" "echo \"\\\$HOME\""
+"echo \" '\$PWD' \"\$PWD\" '\$PWD' \"" "echo \"\$HOME\""
 "echo \"'\$'\""
-"echo \\\\\n"
 "echo \"< no pipe | or semicolon will stop me >\""
 'bash -c "I am not a command" "Im the program name"'
 'pwd" should not work"'
-'echo\" should not work neiter\"'
+'echo" should not work neiter"'
 '################		    PIPES			#################'
 'echo 5 + 3 | bc'
 'ls | wc | wc -l | bc'

@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+         #
+#    By: mkling <mkling@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/08/14 14:56:12 by mkling            #+#    #+#              #
-#    Updated: 2025/02/20 20:09:55 by vgodoy           ###   ########.fr        #
+#    Created: Invalid date        by                   #+#    #+#              #
+#    Updated: 2025/02/25 18:50:35 by mkling           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 # **************************************************************************** #
 #		General variables													   #
@@ -69,7 +70,8 @@ FUNC_INPU	=	readline.c \
 FUNC_LEXR	=	lexer.c \
 				scanner.c \
 				syntax.c \
-				token.c
+				token.c \
+				refused.c
 
 FUNC_PARS	=	command.c \
 				parser.c \
@@ -77,7 +79,8 @@ FUNC_PARS	=	command.c \
 
 FUNC_REDI	=	heredoc.c \
 				interruptions.c \
-				redirection.c
+				redirection.c \
+				verifications.c
 
 FUNC		=	$(addprefix $(DIR_BUTI)/, $(FUNC_BUTI)) \
 				$(addprefix $(DIR_SNC)/, $(FUNC_SNC)) \

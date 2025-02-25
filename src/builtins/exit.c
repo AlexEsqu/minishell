@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 18:10:08 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/20 20:10:52 by vgodoy           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/25 18:51:51 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -24,27 +25,6 @@ int	string_is_only_digit_or_sign(char *str)
 		i++;
 	}
 	return (1);
-}
-
-/* May accept exit value until 9223372036854775807 */
-int	is_too_long_for_long_long(char *str)
-{
-	int	digit_count;
-
-	digit_count = 0;
-	while (*str == ' ' || *str == '\t' || *str == '\n'
-		|| *str == '\r' || *str == '\f' || *str == '\v')
-		str++;
-	if (*str == '-' || *str == '+')
-		str++;
-	while ((*str) == '0')
-		str++;
-	while (ft_isdigit(*str))
-	{
-		digit_count++;
-		str++;
-	}
-	return (digit_count > 19);
 }
 
 void	print_exit_error(int err_code)
@@ -69,7 +49,7 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 	else if (!string_is_only_digit_or_sign(cmd->argv[1])
 		|| is_too_long_for_long_long(cmd->argv[1]))
 	{
-		print_exit_error(NON_NUM);
+		set_cmd_error(NON_NUM, cmd, NULL);
 		exit_code = E_SYNTAX;
 	}
 	else if (cmd->argc > 2)
@@ -78,8 +58,8 @@ int	exit_shell(t_shell *shell, t_cmd *cmd)
 	else
 	{
 		exit_code = ft_atol(cmd->argv[1]);
-		while (exit_code > 255)
-			exit_code -= 255;
+		if (exit_code > 255)
+			exit_code = exit_code % 256;
 	}
 	free_minishell(shell);
 	exit(exit_code);

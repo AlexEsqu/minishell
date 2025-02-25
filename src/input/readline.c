@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 18:08:04 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 18:45:36 by mkling           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/25 18:52:46 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -45,7 +46,7 @@ void	parse_and_exec_cmd(t_shell *shell, char *input)
 {
 	shell->cmd_line = input;
 	shell->critical_er = 0;
-	if (is_missing_delimiter(shell, input))
+	if (input_contains_unsupported(shell, input))
 		return ;
 	scan(shell, &shell->token_list, input);
 	if (check_syntax(shell, shell->token_list) != 0)

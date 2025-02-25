@@ -3,12 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 20:09:35 by vgodoy           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/25 18:51:20 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -111,6 +116,7 @@ void		remove_quotes_from_string(t_shell *shell, char **ptr_to_string);
 void		id_operators(t_shell *shell, t_list *current);
 int			count_char_in_string(char *string, int c);
 void		remove_parenthesis_from_string(t_shell *shell, char **ptr_to_string);
+void		group_strings(t_shell *shell, t_list *node);
 
 /* EXPANSION */
 
@@ -121,6 +127,7 @@ void		id_variables(t_shell *shell, t_list *current);
 void		expand_string(t_shell *shell, char **ptr_to_str);
 t_list		*tokenize_and_expand_string(t_shell *shell, char *string);
 void		expand_variable(t_shell *shell, char **ptr_to_variable);
+void		glue_words_to_strings(t_shell *shell, t_list *node);
 
 /* PARSER */
 
@@ -160,12 +167,14 @@ int			replace_env(t_shell *shell, char *env_value);
 char		*extract_env_key(char *env_key_and_value);
 char		*extract_env_value(char *env_key_and_value);
 
-/* REDIRECTION */
+/* SIGNAL */
+
 int			delim_summoned(char *line, t_file *file);
 int			control_c_pressed(char *line, t_shell *shell);
 int			control_d_pressed(char *line, t_file *file);
 
-// void		parse_in_out_files(t_shell *shell, t_cmd *cmd, t_list **current);
+/* REDIRECTION */
+
 void		open_file(t_cmd *cmd, int mode, char *path);
 void		redirect_for_cmd(t_shell *shell, t_cmd *cmd);
 int			exec_pipe_monitor(t_shell *shell, t_tree *tree);
@@ -182,6 +191,8 @@ void		print_error(void);
 void		print_syntax_error(t_shell *shell, t_token *token);
 char		*get_error_message(int err_code);
 int			is_missing_delimiter(t_shell *shell, char *input);
+int			input_contains_unsupported(t_shell *shell, char *input);
+int			is_or_should_be_directory(t_cmd *cmd, char *path);
 
 /* CLEAN UP */
 
@@ -203,7 +214,7 @@ int			token_is_operator(t_list *token_node);
 # define TRUE			1
 # define FALSE			0
 # define DELIMITERS		"'\"()"
-# define OPERATORS		"|><&"
+# define OPERATORS		"|><&\\"
 # define BLANKS			" \n\t"
 # define HEREDOC_LOC	"/tmp/.heredoc_"
 # define SHELL_NAME		"shell"
@@ -234,6 +245,8 @@ enum e_lexem
 	OR			= 20,
 	SUBSHELL,
 	DOLLAR,
+	OPEN_PARENTH,
+	CLOS_PARENTH,
 };
 
 /* Internal values used inside minishell to print correct error
@@ -262,6 +275,9 @@ enum e_err_code
 	INTERUPT,
 	AMBIG_REDIR,
 	NON_NUM,
+	NO_HOME,
+	NO_PATH,
+	INVALID_VAR,
 };
 
 /* Actual return values expected from minishell program */

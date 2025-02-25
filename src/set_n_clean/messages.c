@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:44:51 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 15:57:41 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:31:30 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ char	*get_error_message_1(int err_code)
 		return ("Permission denied");
 	if (err_code == SYNTAX_ERROR)
 		return ("Syntax error");
+	if (err_code == NON_NUM)
+		return ("Numerical arguments required");
+	if (err_code == TOO_MANY_ARGS)
+		return ("Too many arguments");
+	if (err_code == NO_HOME)
+		return ("HOME not set");
+	if (err_code == NO_PATH)
+		return ("PATH not set");
 	return ("Error");
 }
 
@@ -43,6 +51,8 @@ char	*get_error_message(int err_code)
 		return ("Command not found");
 	if (err_code == TOO_MANY_ARGS)
 		return ("Too many arguments");
+	if (err_code == INVALID_VAR)
+		return ("Not a valid identifier");
 	if (err_code == INTERUPT)
 		return (NULL);
 	return (get_error_message_1(err_code));

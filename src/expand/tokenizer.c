@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:58:45 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/19 17:52:12 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 17:07:34 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	add_alphanum_token(t_shell *shell, t_list **dest, char *input)
 	len = 0;
 	while (input[len])
 	{
-		if (!letter_is(WORD, &input[shell->index + len]))
+		if (is_valid_variable(&input[shell->index + len]))
 			break ;
-		else if (is_valid_variable(&input[shell->index + len]))
+		else if (!letter_is(WORD, &input[shell->index + len]))
 			break ;
 		len++;
 	}
@@ -61,6 +61,8 @@ int	tokenize_variables(t_shell *shell, t_list **dest, char *input)
 			add_dollar_token(shell, dest, input);
 		else if (letter_is(BLANK, &input[shell->index]))
 			add_blank_token(shell, dest, input);
+		else if (letter_is(DELIMITER, &input[shell->index]))
+			add_delimiter_token(shell, dest, input);
 		else
 			add_alphanum_token(shell, dest, input);
 	}
@@ -76,7 +78,7 @@ t_list	*tokenize_and_expand_string(t_shell *shell, char *string)
 
 	token_list = NULL;
 	tokenize_variables(shell, &token_list, string);
-	apply_to_list(shell, token_list, group_strings);
+	// apply_to_list(shell, token_list, group_strings);
 	apply_to_list(shell, token_list, id_variables);
 	current = token_list;
 	while (current->next)
@@ -84,8 +86,8 @@ t_list	*tokenize_and_expand_string(t_shell *shell, char *string)
 		token = (t_token *)current->content;
 		if (token->lexem == VARIABLE)
 			expand_variable(shell, &token->content);
-		if (token->lexem == STRING && token->letter != '\'')
-			expand_string(shell, &token->content);
+		// if (token->lexem == STRING && token->letter != '\'')
+		// 	expand_string(shell, &token->content);
 		current = current->next;
 	}
 	return (token_list);

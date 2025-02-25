@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:06:39 by alex              #+#    #+#             */
-/*   Updated: 2025/02/19 17:37:02 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/24 09:00:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_tree	*parse_parenthesis(t_shell *shell, t_list **node);
 
 t_tree	*create_branch(t_shell *shell, int type, void *content)
 {
@@ -64,7 +66,7 @@ t_tree	*parse_and_or(t_shell *shell, t_list **node)
 	else
 		type = AST_OR;
 	*node = (*node)->next;
-	right = parse_and_or(shell, node);
+	right = parse_parenthesis(shell, node);
 	if (!right)
 		return (free_tree(&left), NULL);
 	andor_node = create_branch(shell, type, NULL);
@@ -73,11 +75,25 @@ t_tree	*parse_and_or(t_shell *shell, t_list **node)
 	return (andor_node);
 }
 
+t_tree	*parse_parenthesis(t_shell *shell, t_list **node)
+{
+	t_tree	*tree;
+
+	if (token_is(OPEN_PARENTH, *node))
+	{
+		*node = (*node)->next;
+		tree = parse_and_or(shell, node);
+		*node = (*node)->next;
+		return (tree);
+	}
+	return (parse_and_or(shell, node));
+}
+
 void	parser(t_shell *shell)
 {
 	t_list	*current;
 
 	current = shell->token_list;
-	shell->tree_root = parse_and_or(shell, &current);
+	shell->tree_root = parse_parenthesis(shell, &current);
 	ft_lstclear(&shell->token_list, free_token);
 }

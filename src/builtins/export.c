@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 18:10:13 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/20 20:10:58 by vgodoy           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/25 18:52:40 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -67,10 +68,7 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	{
 		to_be_replaced = ft_lstnew(ft_strdup(env_key_and_value));
 		if (!to_be_replaced)
-		{
-			free(env_key);
-			return (MALLOC_FAIL);
-		}
+			return (free(env_key), MALLOC_FAIL);
 		ft_lstadd_back(&shell->env_list, to_be_replaced);
 	}
 	else
@@ -81,7 +79,6 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	free(env_key);
 	return (SUCCESS);
 }
-
 
 int	export(t_shell *shell, t_cmd *cmd)
 {
@@ -96,7 +93,7 @@ int	export(t_shell *shell, t_cmd *cmd)
 	{
 		if (cmd->argv[i][0] == '=' || cmd->argv[i][0] == '?'
 			|| ft_strchr(cmd->argv[i], '$'))
-			return (set_cmd_error(SYNTAX_ERROR, cmd, cmd->argv[i]), E_CMD_FAIL);
+			return (set_cmd_error(INVALID_VAR, cmd, cmd->argv[i]), E_CMD_FAIL);
 		ptr_to_equal_sign = ft_strchr(cmd->argv[i], '=');
 		if (ptr_to_equal_sign && ptr_to_equal_sign[0] == '\0')
 		{

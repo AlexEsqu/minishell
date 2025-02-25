@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 16:54:16 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/20 20:13:37 by vgodoy           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/25 18:52:33 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -87,8 +88,6 @@ void	expand_node(t_shell *shell, t_list *node)
 	if (!node || !node->content)
 		return ;
 	ptr_to_str = (char **)&node->content;
-	if (*ptr_to_str[0] == '(')
-		shell->last_exit_code = exec_subshell(shell, node->content);
 	if (has_valid_var(node->content) && can_expand(node))
 	{
 		remove_quotes_from_string(shell, ptr_to_str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:22:48 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/20 20:11:43 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/25 18:53:57 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	set_cmd_error(int err_code, t_cmd *cmd, char *file_or_cmd)
 		cmd->exit_code = E_NO_PERM;
 	else if (err_code == PATH_ERROR || err_code == NO_CMD)
 		cmd->exit_code = E_NO_CMD;
+	else if (err_code == NO_FILE)
+		cmd->exit_code = E_CMD_FAIL;
 	else
 		cmd->exit_code = E_SYNTAX;
 }

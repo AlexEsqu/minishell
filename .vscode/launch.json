@@ -39,6 +39,24 @@
       ]
     },
     {
+      "name": "Piped",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/minishell | ${workspaceFolder}/minishell",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-gdb-set follow-fork-mode child",
+        }
+      ]
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
