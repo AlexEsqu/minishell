@@ -3,7 +3,7 @@
 
 TEST_ARRAY=(
 '#### Vigo extra ####'
-'echo $USER$lol"$22"$HOME'
+'echo $USER$lol"$USER"$HOME'
 'e'c'h'o' lol'
 '#### LucasKuhn / minishell_tester ####'
 'echo '''
