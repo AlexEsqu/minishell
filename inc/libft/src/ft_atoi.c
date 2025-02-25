@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:27:11 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 17:51:02 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 18:40:30 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,9 @@ int	is_too_long_for_long_long(char *str)
 	}
 	while (ft_isdigit(str[i]))
 	{
-		if ((result >= 922337203685477580LL && (str[i] - '0') > 8 && sign == -1)
-			|| (result >= 922337203685477580LL && (str[i] - '0') > 7))
+		if (((i == 17 && (str[i] - '0') > 8 && sign == -1)
+				|| (result >= 922337203685477580 && (str[i] - '0') > 7))
+			|| (i == 18 && str[i + 1]))
 			return (1);
 		result = result * 10 + (str[i] - '0');
 		i++;
