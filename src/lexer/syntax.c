@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:42:40 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 12:53:41 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/25 16:36:28 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,31 @@ static void	is_missing_word_before_operator(t_shell *shell, t_list *node)
 	print_syntax_error(shell, ((t_token *)node->content));
 }
 
+int	redirection_after_pipe_or_and(t_list *first, t_list *second)
+{
+	if (((t_token *)first->content)->letter == '&'
+		|| ((t_token *)first->content)->letter == '|')
+	{
+		if (((t_token *)second->content)->letter == '<'
+			|| ((t_token *)second->content)->letter == '>')
+			return (1);
+	}
+	return (0);
+}
+
 static void	is_missing_word_after_operator(t_shell *shell, t_list *node)
 {
 	t_list	*current;
-	int		is_past_operator;
 
 	if (shell->critical_er || !is_operator_requiring_word_after(node))
 		return ;
 	current = node->next;
-	is_past_operator = 0;
 	while (current->next)
 	{
 		if (token_is(OPERATOR, current))
 		{
+			if (redirection_after_pipe_or_and(node, current))
+				return ;
 			return (print_syntax_error(shell, ((t_token *)node->content)));
 		}
 		if (token_is(WORD, current))

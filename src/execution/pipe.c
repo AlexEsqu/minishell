@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 14:01:44 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/21 19:36:07 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,6 @@ int	exec_pipe_monitor(t_shell *shell, t_tree *tree)
 	close(pipe_fd[READ]);
 	close(pipe_fd[WRITE]);
 	waitpid(fork_pid[0], &exit_code, 0);
-	fprintf(stderr, "exit code one is %d\n", exit_code);
 	waitpid(fork_pid[1], &exit_code, 0);
-	fprintf(stderr, "exit code two is %d\n", exit_code);
-	fprintf(stderr, "WIFEXITED exit code two is %d\n", WIFEXITED(exit_code));
-	if (WIFEXITED(exit_code))
-		shell->last_exit_code = WEXITSTATUS(exit_code);
-	else if (WIFSIGNALED(exit_code))
-		shell->last_exit_code = WTERMSIG(exit_code);
-	return (shell->last_exit_code);
+	return (WEXITSTATUS(exit_code));
 }

@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:37:27 by alex              #+#    #+#             */
-/*   Updated: 2025/02/24 11:27:03 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 17:35:20 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,5 @@ void	scan(t_shell *shell, t_list **dest, char *input)
 	}
 	ft_lstadd_back(dest, ft_lstnew(create_token(shell, END, '\n', NULL)));
 	apply_to_list(shell, *dest, group_strings);
+	// print_tokens(*dest);
 }

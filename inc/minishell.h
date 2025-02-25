@@ -6,7 +6,7 @@
 /*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:11:25 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/24 16:09:11 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/25 17:05:56 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void		id_variables(t_shell *shell, t_list *current);
 void		expand_string(t_shell *shell, char **ptr_to_str);
 t_list		*tokenize_and_expand_string(t_shell *shell, char *string);
 void		expand_variable(t_shell *shell, char **ptr_to_variable);
+void		glue_words_to_strings(t_shell *shell, t_list *node);
 
 /* PARSER */
 
