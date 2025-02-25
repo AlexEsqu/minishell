@@ -1,0 +1,1521 @@
+[33mecho $USER$lol"$22"$HOME(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< vgodoy2/home/vgodoy
+---
+> vgodoy""/home/vgodoy
+
+
+[33mworld(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: world: command not found
+---
+> shell: world: Command not found
+> shell: Command not found
+
+
+[33mecho hello""world(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< helloworld
+---
+> hello""world
+
+
+[33mecho 1"aspas ->"(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< 1aspas ->
+---
+> 1"aspas ->"
+
+
+[33mecho \"> >> < * ? [ ] | ; [ ] || && ( ) & \# \$  <<\"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `>>'
+< minishell: -c: line 1: `echo \"> >> < * ? [ ] | ; [ ] || && ( ) & \# \$  <<\"'
+---
+> shell: Syntax error
+
+
+[33mecho $?HELLO(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< 0HELLO
+---
+> 
+
+
+[33mexport A-(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: export: `A-': not a valid identifier
+
+
+[33mexport HELLO-=123(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: export: `HELLO-=123': not a valid identifier
+
+
+[33mexport =(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: export: `=': not a valid identifier
+---
+> shell: =: Not a valid identifier
+
+
+[33mexport 123(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: export: `123': not a valid identifier
+
+
+[33mcd $PWD hi(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 16)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd: too many arguments
+---
+> shell: Too many arguments
+
+
+[33mcd 123123(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd: 123123: No such file or directory
+---
+> shell: 123123: Permission denied
+
+
+[33mexit \"+100\"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: "+100": numeric argument required
+---
+> shell: Syntax error
+
+
+[33mexit +\"100\"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: +"100": numeric argument required
+---
+> shell: Syntax error
+
+
+[33mexit \"-100\"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: "-100": numeric argument required
+---
+> shell: Syntax error
+
+
+[33mexit -\"100\"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: -"100": numeric argument required
+---
+> shell: Syntax error
+
+
+[33mexit hello(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: hello: numeric argument required
+---
+> shell: Numerical arguments required
+
+
+[33mexit 42 world(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: too many arguments
+---
+> shell: exit: Too many arguments
+
+
+[33menv | sort | grep -v SHLVL | grep -v ^_(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 1)
+(B[m
+
+[33mcat minishell.h | grep \");\"\$(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `)'
+< minishell: -c: line 1: `cat minishell.h | grep \");\"\$'
+---
+> shell: Syntax error
+
+
+[33mgrep hi <./test_files/infile(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile: No such file or directory
+---
+> shell: ./test_files/infile: No such file or directory
+
+
+[33mgrep hi "<infile" < ./test_files/infile(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile: No such file or directory
+---
+> shell: ./test_files/infile: No such file or directory
+
+
+[33mecho hi < ./test_files/infile bye bye(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile: No such file or directory
+---
+> shell: ./test_files/infile: No such file or directory
+
+
+[33mgrep hi <./test_files/infile_big <./test_files/infile(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile_big: No such file or directory
+---
+> shell: ./test_files/infile_big: No such file or directory
+
+
+[33mecho <"./test_files/infile" "bonjour       42"(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mcat <"./test_files/file name with spaces"(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/file name with spaces: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mcat <./test_files/infile_big ./test_files/infile(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile_big: No such file or directory
+---
+> shell: ./test_files/infile_big: No such file or directory
+
+
+[33mcat <"1""2""3""4""5"(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: 12345: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mecho <"./test_files/infile\" <missing <"./test_files/infile"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: unexpected EOF while looking for matching `"'
+< minishell: -c: line 2: syntax error: unexpected end of file
+---
+> shell: Syntax error
+
+
+[33mecho <missing <"./test_files/infile" <missing(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: missing: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mcat <"./test_files/infile\"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: unexpected EOF while looking for matching `"'
+< minishell: -c: line 2: syntax error: unexpected end of file
+---
+> shell: Syntax error
+
+
+[33mecho <"./test_files/infile_big\" | cat <"./test_files/infile"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: unexpected EOF while looking for matching `"'
+< minishell: -c: line 2: syntax error: unexpected end of file
+---
+> shell: Syntax error
+
+
+[33mecho <"./test_files/infile_big\" | cat "./test_files/infile"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: unexpected EOF while looking for matching `"'
+< minishell: -c: line 2: syntax error: unexpected end of file
+---
+> shell: Syntax error
+
+
+[33mecho <"./test_files/infile_big\" | echo <"./test_files/infile"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: unexpected EOF while looking for matching `"'
+< minishell: -c: line 2: syntax error: unexpected end of file
+---
+> shell: Syntax error
+
+
+[33mecho hi | cat <\"./test_files/infile"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: unexpected EOF while looking for matching `"'
+< minishell: -c: line 2: syntax error: unexpected end of file
+---
+> shell: Syntax error
+
+
+[33mcat <"./test_files/infile" | echo hi(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< hi
+[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mcat <"./test_files/infile" | grep hello(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mcat <"./test_files/infile_big" | echo hi(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< hi
+[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile_big: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mcat <missing(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: missing: No such file or directory
+---
+> shell: missing: No such file or directory
+
+
+[33mcat <missing | cat(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: missing: No such file or directory
+---
+> shell: missing: No such file or directory
+
+
+[33mcat <missing | echo oi(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: missing: No such file or directory
+---
+> shell: missing: No such file or directory
+
+
+[33mcat <missing | cat <"./test_files/infile"(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: line 1: missing: No such file or directory
+< minishell: line 1: ./test_files/infile: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mecho <123 <456 hi | echo 42(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: 123: No such file or directory
+---
+> shell: 123: No such file or directory
+
+
+[33mls >./outfiles/outfile01(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls > ./outfiles/outfile01(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho hi > ./outfiles/outfile01 bye(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >./outfiles/outfile01 >./outfiles/outfile02(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >./outfiles/outfile01 >./test_files/invalid_permission(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >"./outfiles/outfile with spaces"(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile with spaces: No such file or directory
+---
+> shell: syntax error near unexpected token '>'
+
+
+[33mls >"./outfiles/outfile""1""2""3""4""5"(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile12345: No such file or directory
+---
+> shell: syntax error near unexpected token '>'
+
+
+[33mls >"./outfiles/outfile01" >./test_files/invalid_permission >"./outfiles/outfile02"(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: syntax error near unexpected token '>'
+
+
+[33mls >./test_files/invalid_permission >"./outfiles/outfile01" >./test_files/invalid_permission(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: syntax error near unexpected token '>'
+
+
+[33mcat <"./test_files/infile\" >"./outfiles/outfile01"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: unexpected EOF while looking for matching `"'
+< minishell: -c: line 2: syntax error: unexpected end of file
+---
+> shell: Syntax error
+
+
+[33mecho 1hi >./outfiles/outfile01 | echo bye(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 2hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 3hi | echo >./outfiles/outfile01 bye(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 4hi | echo bye >./outfiles/outfile01 >./outfiles/outfile02(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 5hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1,2c1,2
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+< minishell: line 1: ./outfiles/outfile02: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+> shell: ./outfiles/outfile02: Open failed
+
+
+[33mecho 6hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 7hi >./test_files/invalid_permission | echo bye(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mecho 8hi >./test_files/invalid_permission >./outfiles/outfile01 | echo bye(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mecho 9hi | echo bye >./test_files/invalid_permission(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mecho 10hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 11hi | echo bye >./test_files/invalid_permission >./outfiles/outfile01 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mcat <"./test_files/infile" >./test_files/invalid_permission (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/infile: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mcat >./test_files/invalid_permission <"./test_files/infile" (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33mcat <missing >./outfiles/outfile01 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: missing: No such file or directory
+---
+> shell: missing: No such file or directory
+
+
+[33mcat >./outfiles/outfile01 <missing (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mcat <missing >./test_files/invalid_permission (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: missing: No such file or directory
+---
+> shell: missing: No such file or directory
+
+
+[33mcat >./test_files/invalid_permission <missing (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mcat >./outfiles/outfile01 <missing >./test_files/invalid_permission (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >>./outfiles/outfile01 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >>      ./outfiles/outfile01 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >>./outfiles/outfile01 >./outfiles/outfile01 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >./outfiles/outfile01 >>./outfiles/outfile01 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >./outfiles/outfile01 >>./outfiles/outfile01 >./outfiles/outfile02 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >>./outfiles/outfile01 >>./outfiles/outfile02 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >>./test_files/invalid_permission (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mls >>./test_files/invalid_permission >>./outfiles/outfile01 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mls >>./outfiles/outfile01 >>./test_files/invalid_permission (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls >./outfiles/outfile01 >>./test_files/invalid_permission >>./outfiles/outfile02 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mls <missing >>./test_files/invalid_permission >>./outfiles/outfile02 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: missing: No such file or directory
+---
+> shell: missing: No such file or directory
+
+
+[33mls >>./test_files/invalid_permission >>./outfiles/outfile02 <missing (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mecho 12hi >>./outfiles/outfile01 | echo bye (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 13hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 14hi | echo >>./outfiles/outfile01 bye (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 15hi | echo bye >>./outfiles/outfile01 >>./outfiles/outfile02 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mecho 16hi >>./outfiles/outfile01 | echo bye >>./outfiles/outfile02 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1,2c1,2
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+< minishell: line 1: ./outfiles/outfile02: No such file or directory
+---
+> shell: ./outfiles/outfile01: Ospheenl lf:a i.l/eodu
+> tfiles/outfile02: Open failed
+
+
+[33mecho 17hi >>./test_files/invalid_permission | echo bye (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mecho 18hi >>./test_files/invalid_permission >./outfiles/outfile01 | echo bye (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mecho 19hi | echo bye >>./test_files/invalid_permission (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33mecho 20hi | echo >>./outfiles/outfile01 bye >./test_files/invalid_permission (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./outfiles/outfile01: No such file or directory
+---
+> shell: ./outfiles/outfile01: Open failed
+
+
+[33mcat <minishell.h>./outfiles/outfile (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: minishell.h: No such file or directory
+---
+> shell: minishell.h: No such file or directory
+
+
+[33mcat <minishell.h|ls (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: minishell.h: No such file or directory
+---
+> shell: minishell.h: No such file or directory
+
+
+[33mecho hi >>./test_files/invalid_permission | echo bye (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: ./test_files/invalid_permission: Open failed
+
+
+[33m$PWD (B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: /home/vgodoy/minishell11/test: Is a directory
+---
+> shell: $PWD: Command not found
+> shell: Command not found
+
+
+[33m$EMPTY (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+0a1,2
+> shell: $EMPTY: Command not found
+> shell: Command not found
+
+
+[33m$EMPTY echo hi (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< hi
+[94m----- STDERR -----(B[m
+0a1,2
+> shell: $EMPTY: Command not found
+> shell: Command not found
+
+
+[33m./test_files/invalid_permission (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files/invalid_permission: No such file or directory
+---
+> shell: Command not found
+
+
+[33m./missing.out (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./missing.out: No such file or directory
+---
+> shell: Command not found
+
+
+[33mmissing.out (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: missing.out: command not found
+---
+> shell: missing.out: Command not found
+> shell: Command not found
+
+
+[33m"aaa" (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: aaa: command not found
+---
+> shell: "aaa": Command not found
+> shell: Command not found
+
+
+[33mtest_files (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: test_files: command not found
+---
+> shell: test_files: Command not found
+> shell: Command not found
+
+
+[33m./test_files (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./test_files: No such file or directory
+---
+> shell: Command not found
+
+
+[33m/test_files (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: /test_files: No such file or directory
+---
+> shell: Command not found
+
+
+[33mminishell.h (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: minishell.h: command not found
+---
+> shell: minishell.h: Command not found
+> shell: Command not found
+
+
+[33m$ (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: $: command not found
+---
+> shell: $: Command not found
+> shell: Command not found
+
+
+[33m$? (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: 0: command not found
+---
+> shell: $?: Command not found
+> shell: Command not found
+
+
+[33mREADME.md (B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: README.md: command not found
+---
+> shell: README.md: Command not found
+> shell: Command not found
+
+
+[33mexport =a(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: export: `=a': not a valid identifier
+---
+> shell: =a: Not a valid identifier
+
+
+[33mexport $(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: export: `$': not a valid identifier
+---
+> shell: $: Not a valid identifier
+
+
+[33mexport ?=42(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: export: `?=42': not a valid identifier
+---
+> shell: ?=42: Not a valid identifier
+
+
+[33munset HOME && cd && pwd(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd: HOME not set
+---
+> shell: HOME not set
+
+
+[33mcd ' /'(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd:  /: No such file or directory
+---
+> shell:  /: Permission denied
+
+
+[33mcd dirwithoutpermissions(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd: dirwithoutpermissions: Permission denied
+---
+> shell: dirwithoutpermissions: Permission denied
+
+
+[33mexit 21 42(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: too many arguments
+---
+> shell: exit: Too many arguments
+
+
+[33mexit notanumber(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: exit: notanumber: numeric argument required
+---
+> shell: Numerical arguments required
+
+
+[33menv -i ./minishell: cd(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: cd: HOME not set
+---
+> shell: HOME not set
+
+
+[33mcd dir && ../lscp(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDOUT -----(B[m
+1d0
+< encoreuneautredir
+[94m----- STDERR -----(B[m
+0a1
+> shell: Command not found
+
+
+[33mcd dir/encoreuneautredir && ../../lscp(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> shell: Command not found
+
+
+[33m/(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 126)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: /: Is a directory
+---
+> shell: /: Is a directory
+
+
+[33m../(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 126)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ../: Is a directory
+---
+> shell: ../: Is a directory
+
+
+[33m/..(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 126)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: /..: Is a directory
+---
+> shell: /..: Is a directory
+
+
+[33m..(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: line 1: ..: command not found
+
+
+[33midontexist(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: idontexist: command not found
+---
+> shell: idontexist: Command not found
+> shell: Command not found
+
+
+[33m./meneither(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./meneither: No such file or directory
+---
+> shell: Command not found
+
+
+[33m./dir(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 126)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./dir: Is a directory
+---
+> shell: ./dir: Is a directory
+
+
+[33mtouch ucantexecme.e && chmod 000 ucantexecme.e && ./ucantexecme.e(B[m
+[35m< bash       (exited with 126)(B[m
+[35m> minishell  (exited with 126)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: ./ucantexecme.e: Permission denied
+---
+> shell: ./ucantexecme.e: Permission denied
+
+
+[33m|(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `|'
+< minishell: -c: line 1: `|'
+---
+> shell: syntax error near unexpected token '|'
+
+
+[33m|b(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `|'
+< minishell: -c: line 1: `|b'
+---
+> shell: syntax error near unexpected token '|'
+
+
+[33ma|||b(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `|'
+< minishell: -c: line 1: `a|||b'
+---
+> shell: syntax error near unexpected token '|'
+
+
+[33m> > a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `>'
+< minishell: -c: line 1: `> > a'
+---
+> shell: syntax error near unexpected token '>'
+
+
+[33m< < a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `<'
+< minishell: -c: line 1: `< < a'
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33m< >> a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `>>'
+< minishell: -c: line 1: `< >> a'
+---
+> shell: syntax error near unexpected token '<'
+
+
+[33m>>> a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `>'
+< minishell: -c: line 1: `>>> a'
+---
+> shell: syntax error near unexpected token '>>'
+
+
+[33m<<<< a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `<'
+< minishell: -c: line 1: `<<<< a'
+---
+> shell: syntax error near unexpected token '<<'
+
+
+[33ma<<<<(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `<'
+< minishell: -c: line 1: `a<<<<'
+---
+> shell: syntax error near unexpected token '<<'
+
+
+[33mpwd >(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: line 1: syntax error near unexpected token `newline'
+< minishell: -c: line 1: `pwd >'
+---
+> shell: syntax error near unexpected token '>'
+
+
+[33mpwd" should not work"(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: pwd should not work: command not found
+---
+> shell: pwd" should not work": Command not found
+> shell: Command not found
+
+
+[33mecho" should not work neiter"(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: echo should not work neiter: command not found
+---
+> shell: echo" should not work neiter": Command not found
+> shell: Command not found
+
+
+[33mls | wc | wc -l | bc(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 1)
+(B[m
+
+[33mecho "cat traveler" | cat | cat | cat | cat | cat | cat(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 1)
+(B[m
+
+[33mnotacommand > a(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: notacommand: command not found
+---
+> shell: notacommand: Command not found
+> shell: Command not found
+
+
+[33mpwd > dir(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: dir: Is a directory
+---
+> shell: dir: Is a directory
+
+
+[33mnotacommand >> a(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1c1,2
+< minishell: line 1: notacommand: command not found
+---
+> shell: notacommand: Command not found
+> shell: Command not found
+
+
+[33mpwd >> dir(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: dir: Is a directory
+---
+> shell: dir: Is a directory
+
+
+[33mecho ayayay > a && cat < doesnotexist < a(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: doesnotexist: No such file or directory
+---
+> shell: doesnotexist: No such file or directory
+
+
+[33m< doesnotexist(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: doesnotexist: No such file or directory
+---
+> shell: doesnotexist: No such file or directory
+
+
+[33mcat < doesnotexist(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: line 1: doesnotexist: No such file or directory
+---
+> shell: doesnotexist: No such file or directory
+
+
+[33mcat < dir(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< cat: -: Is a directory
+---
+> shell: dir: Is a directory
+
+
