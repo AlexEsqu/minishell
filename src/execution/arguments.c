@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:51:24 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 20:05:56 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:17:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,14 @@ char	**extract_list_as_array(t_shell *shell, t_list *head)
 	current = head;
 	while (index < len)
 	{
-		result[index] = ft_strdup(current->content);
+		if (current->content)
+		{
+			result[index] = ft_strdup(current->content);
+			if (!result[index])
+				return (set_error(MALLOC_FAIL, shell), result);
+			index++;
+		}
 		current = current->next;
-		index++;
 	}
 	return (result);
 }

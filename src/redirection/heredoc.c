@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:31 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 23:17:15 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:20:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static char	*generate_heredoc_filepath(t_shell *shell)
 	char		*heredoc_path;
 
 	heredoc_path = ft_strdup(HEREDOC_LOC);
+	if (!heredoc_path)
+		return (set_error(MALLOC_FAIL, shell), NULL);
 	while (access(heredoc_path, F_OK) == 0)
 	{
 		free(heredoc_path);

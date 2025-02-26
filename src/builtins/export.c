@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:20:23 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/26 14:01:58 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/26 14:15:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,24 @@ void	print_env_as_export(t_shell *shell)
 int	replace_env(t_shell *shell, char *env_key_and_value)
 {
 	t_list	*to_be_replaced;
-	char	*env_key;
+	char	*content;
 
-	env_key = extract_env_key(shell, env_key_and_value);
-	to_be_replaced = find_env(shell, shell->env_list, env_key);
+	to_be_replaced = find_env(shell, shell->env_list, env_key_and_value);
+	content = ft_strdup(env_key_and_value);
+	if (!content || shell->critical_er)
+		return (set_error(MALLOC_FAIL, shell), MALLOC_FAIL);
 	if (!to_be_replaced)
 	{
-		to_be_replaced = ft_lstnew(ft_strdup(env_key_and_value));
+		to_be_replaced = ft_lstnew(content);
 		if (!to_be_replaced)
-			return (free(env_key), MALLOC_FAIL);
+			return (MALLOC_FAIL);
 		ft_lstadd_back(&shell->env_list, to_be_replaced);
 	}
 	else
 	{
 		free(to_be_replaced->content);
-		to_be_replaced->content = ft_strdup(env_key_and_value);
+		to_be_replaced->content = content;
 	}
-	free(env_key);
 	return (SUCCESS);
 }
 

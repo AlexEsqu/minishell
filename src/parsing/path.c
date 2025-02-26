@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/26 14:04:12 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/26 14:20:02 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,13 @@ void	find_cmd_path(t_shell *shell, t_cmd *cmd)
 		return (set_cmd_error(NO_CMD, cmd, NULL));
 	expand_string(shell, (char **)&cmd->arg_list->content);
 	cmd->cmd_path = ft_strdup((char *)cmd->arg_list->content);
+	if (cmd->arg_list->content && !cmd->cmd_path)
+		return (set_cmd_error(MALLOC_FAIL, cmd, NULL));
 	if (!ft_strchr(cmd->cmd_path, '/'))
 	{
 		if (is_or_should_be_directory(cmd, cmd->cmd_path, false))
 			return ;
-		if (is_in_absolute_or_relative_path(cmd))
-			return ;
-		else if (is_builtin(cmd))
+		if (is_in_absolute_or_relative_path(cmd) || is_builtin(cmd))
 			return ;
 		else if (is_in_environ_paths(shell, cmd))
 			return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:40:41 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 23:11:35 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:21:10 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	expand_check_and_open(t_shell *shell, t_cmd *cmd, t_file *file)
 	char	*stored_var;
 
 	stored_var = ft_strdup(file->path);
+	if (!stored_var)
+		return (set_cmd_error(MALLOC_FAIL, cmd, NULL));
 	expand_string(shell, &file->path);
 	if (!file->path)
 	{
