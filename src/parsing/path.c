@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/26 13:39:12 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/26 14:04:12 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ static int	check_each_path(t_cmd *cmd, char **paths)
 	size_t	i;
 
 	cmd_stem = ft_strjoin("/", cmd->cmd_path);
+	if (!cmd_stem)
+		return (set_cmd_error(MALLOC_FAIL, cmd, NULL), 0);
 	i = 0;
 	while (paths[i])
 	{
 		free(cmd->cmd_path);
 		cmd->cmd_path = NULL;
-		tested_path = ft_strjoin(paths[i], cmd_stem);
+		tested_path = ft_strjoin(paths[i++], cmd_stem);
 		if (!tested_path)
 			return (set_cmd_error(MALLOC_FAIL, cmd, cmd->arg_list->content), 0);
 		if (access(tested_path, F_OK | R_OK) == 0)
@@ -58,7 +60,6 @@ static int	check_each_path(t_cmd *cmd, char **paths)
 			return (1);
 		}
 		free(tested_path);
-		i++;
 	}
 	free(cmd_stem);
 	return (set_cmd_error(NO_CMD, cmd, cmd->arg_list->content), 0);
