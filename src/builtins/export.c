@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:20:23 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/26 13:38:15 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/26 14:01:58 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	export(t_shell *shell, t_cmd *cmd)
 		if (ptr_to_equal_sign && ptr_to_equal_sign[0] == '\0')
 		{
 			tmp = ft_strjoin(cmd->argv[i], "");
+			if (!tmp)
+				return (set_cmd_error(MALLOC_FAIL, cmd, NULL), MALLOC_FAIL);
 			free(cmd->argv[i]);
 			cmd->argv[i] = tmp;
 		}

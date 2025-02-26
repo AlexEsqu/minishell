@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 13:50:23 by alex              #+#    #+#             */
-/*   Updated: 2025/02/23 12:09:48 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/26 14:02:48 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	id_variables(t_shell *shell, t_list *current)
 		next_token = (t_token *)current->next->content;
 		next_token->lexem = VARIABLE;
 		tmp = ft_strjoin("$", next_token->content);
+		if (!tmp)
+			return (set_error(MALLOC_FAIL, shell));
 		free(next_token->content);
 		next_token->content = tmp;
 	}
