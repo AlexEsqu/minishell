@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:30:00 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 21:15:14 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:22:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ int	exec_pipe_monitor(t_shell *shell, t_tree *tree)
 	close(pipe_fd[READ]);
 	close(pipe_fd[WRITE]);
 	waitpid(fork_pid[0], &exit_code, 0);
-	fprintf(stderr, "pipe monitor recevies 1st with %d\n", exit_code);
 	waitpid(fork_pid[1], &exit_code, 0);
-	fprintf(stderr, "pipe monitor exits with %d\n", exit_code);
 	if (WIFEXITED(exit_code))
 		return (WEXITSTATUS(exit_code));
 	else
