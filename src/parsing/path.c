@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 23:11:48 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:39:12 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int	is_in_environ_paths(t_shell *shell, t_cmd *cmd)
 	char	*path_content;
 	int		is_in_environ;
 
-	path_env = find_env(shell->env_list, "PATH");
+	path_env = find_env(shell, shell->env_list, "PATH");
 	if (!path_env)
 		path_content = "PATH=/bin";
 	else

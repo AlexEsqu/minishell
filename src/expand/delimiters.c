@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimiters.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:29:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 23:19:04 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:41:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,27 @@ int	count_char_in_string(char *string, int c)
 
 static void	remove_char_from_string(t_shell *shell, char **ptr_to_string, int c)
 {
-	char	*original_string;
-	char	*result_string;
+	char	*original;
+	char	*result;
 	size_t	char_count;
 	size_t	i;
 	size_t	j;
 
-	original_string = *ptr_to_string;
-	char_count = count_char_in_string(original_string, c);
-	result_string = ft_calloc(sizeof(char),
-			ft_strlen(original_string) - (char_count) + 1);
-	if (!result_string)
+	original = *ptr_to_string;
+	char_count = count_char_in_string(original, c);
+	result = ft_calloc(sizeof(char), ft_strlen(original) - (char_count) + 1);
+	if (!result)
 		return (set_error(MALLOC_FAIL, shell));
 	i = 0;
 	j = 0;
-	while (original_string[i])
+	while (original[i])
 	{
-		if (original_string[i] != c)
-			result_string[j++] = original_string[i];
+		if (original[i] != c)
+			result[j++] = original[i];
 		i++;
 	}
-	free(original_string);
-	*ptr_to_string = result_string;
+	free(original);
+	*ptr_to_string = result;
 }
 
 void	remove_quotes_from_string(t_shell *shell, char **ptr_to_string)

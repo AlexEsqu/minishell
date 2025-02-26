@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:20:52 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 23:20:54 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:38:06 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	update_cwd(t_shell *shell, t_cmd *cmd)
 	pwd = ft_strjoin("PWD=", cwd_buffer);
 	if (!pwd)
 		return (set_cmd_error(MALLOC_FAIL, cmd, NULL), MALLOC_FAIL);
-	env_pwd = find_env(shell->env_list, "PWD");
+	env_pwd = find_env(shell, shell->env_list, "PWD");
 	if (!env_pwd)
 		ft_lstadd_back(&shell->env_list, ft_lstnew(pwd));
 	else
@@ -49,7 +49,7 @@ int	cd(t_shell *shell, t_cmd *cmd)
 		return (set_cmd_error(TOO_MANY_ARGS, cmd, NULL), E_CMD_FAIL);
 	if (cmd->argv[1] == NULL)
 	{
-		env_home = find_env(shell->env_list, "HOME");
+		env_home = find_env(shell, shell->env_list, "HOME");
 		if (env_home && env_home->content && ft_strlen(env_home->content) > 5)
 			path = env_home->content + 5;
 		else

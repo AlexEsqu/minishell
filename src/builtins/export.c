@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:20:23 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 23:20:27 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:38:15 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	replace_env(t_shell *shell, char *env_key_and_value)
 	t_list	*to_be_replaced;
 	char	*env_key;
 
-	env_key = extract_env_key(env_key_and_value);
-	to_be_replaced = find_env(shell->env_list, env_key);
+	env_key = extract_env_key(shell, env_key_and_value);
+	to_be_replaced = find_env(shell, shell->env_list, env_key);
 	if (!to_be_replaced)
 	{
 		to_be_replaced = ft_lstnew(ft_strdup(env_key_and_value));

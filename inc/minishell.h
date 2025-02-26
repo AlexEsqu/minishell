@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:24:18 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 23:26:04 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:37:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,11 @@ int			is_builtin(t_cmd *cmd);
 /* ENVIRON */
 
 void		expand_node(t_shell *shell, t_list *node);
-t_list		*find_env(t_list *env_list, char *env_name);
+t_list		*find_env(t_shell *shell, t_list *env_list, char *env_name);
 char		**extract_list_as_array(t_shell *shell, t_list *head);
 int			replace_env(t_shell *shell, char *env_value);
-char		*extract_env_key(char *env_key_and_value);
-char		*extract_env_value(char *env_key_and_value);
+char		*extract_env_key(t_shell *shell, char *env_key_and_value);
+char		*extract_env_value(t_shell *shell, char *env_key_and_value);
 
 /* SIGNAL */
 

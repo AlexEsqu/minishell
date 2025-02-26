@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:19:39 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/26 13:33:01 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/26 13:38:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 		expanded_var = ft_itoa(shell->last_exit_code);
 	else
 	{
-		relevant_env = find_env(shell->env_list, &var_name[1]);
+		relevant_env = find_env(shell, shell->env_list, &var_name[1]);
 		if (relevant_env)
-			expanded_var = extract_env_value(relevant_env->content);
+			expanded_var = extract_env_value(shell, relevant_env->content);
 		else
 			expanded_var = NULL;
 	}
@@ -68,6 +68,8 @@ char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
 		token = (t_token *)current->content;
 		if (current->content && ((t_token *)current->content)->content)
 			result = ft_strjoinfree(result, (char *)token->content);
+		if (!result)
+			return (set_error(MALLOC_FAIL, shell), NULL);
 		current = current->next;
 	}
 	return (result);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scanner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:37:27 by alex              #+#    #+#             */
-/*   Updated: 2025/02/25 23:15:35 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:42:00 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	add_delimiter_token(t_shell *shell, t_list **dest, char *input)
 	char	*delim;
 
 	delim = ft_calloc(sizeof(char), 2);
-	ft_strlcat(delim, &input[shell->index], 2);
 	if (!delim)
 		return (set_error(MALLOC_FAIL, shell));
+	ft_strlcat(delim, &input[shell->index], 2);
 	if (delim[0] == '(')
 		token = create_token(shell, OPEN_PARENTH, input[shell->index], delim);
 	else if (delim[0] == ')')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:10:18 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 18:52:27 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:38:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	pwd(t_shell *shell, t_cmd *cmd)
 	t_list	*pwd_env;
 	char	cwd_buffer[PATH_MAX + 1];
 
-	pwd_env = find_env(shell->env_list, "PWD");
+	pwd_env = find_env(shell, shell->env_list, "PWD");
 	if (pwd_env == NULL || pwd_env->content == NULL
 		|| ft_strlen((char *)pwd_env->content) < 4)
 	{
