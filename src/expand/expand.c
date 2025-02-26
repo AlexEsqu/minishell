@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:19:39 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/25 23:19:43 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:33:01 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,11 @@ void	expand_variable(t_shell *shell, char **ptr_to_variable)
 	*ptr_to_variable = expanded_var;
 }
 
-char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
+int	ft_arraylen(t_list *head)
 {
-	int		len;
 	t_list	*current;
-	t_token	*token;
-	char	*result;
+	int		len;
 
-	if (shell->critical_er)
-		return (NULL);
 	current = head;
 	len = 0;
 	while (current->next)
@@ -52,7 +48,20 @@ char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
 			len += ft_strlen((char *)((t_token *)current->content)->content);
 		current = current->next;
 	}
-	result = ft_calloc(sizeof(char), len + 1);
+	return (len);
+}
+
+char	*flatten_token_list_into_string(t_shell *shell, t_list *head)
+{
+	t_list	*current;
+	t_token	*token;
+	char	*result;
+
+	if (shell->critical_er)
+		return (NULL);
+	result = ft_calloc(sizeof(char), ft_arraylen(head) + 1);
+	if (!result)
+		return (set_error(MALLOC_FAIL, shell), NULL);
 	current = head;
 	while (current->next)
 	{
