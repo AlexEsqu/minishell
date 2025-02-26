@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:37:27 by alex              #+#    #+#             */
-/*   Updated: 2025/02/26 13:42:00 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/26 13:55:45 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,9 @@ void	add_operator_token(t_shell *shell, t_list **dest, char *input)
 	if (input[shell->index] == input[shell->index + 1])
 		len = 2;
 	token = create_token(shell, OPERATOR, input[shell->index], NULL);
-	token->content = ft_calloc(sizeof(char), len + 1);
 	if (!token)
 		return ;
-	ft_strlcat(token->content, &input[shell->index], 2);
+	token->content = ft_calloc(sizeof(char), len + 1);
 	if (!token->content)
 		return (set_error(MALLOC_FAIL, shell));
 	token->lexem = OPERATOR;
@@ -100,6 +99,8 @@ void	scan(t_shell *shell, t_list **dest, char *input)
 	ft_lstadd_back(dest, ft_lstnew(create_token(shell, START, '\0', NULL)));
 	while (shell->index < ft_strlen(input))
 	{
+		if (shell->critical_er)
+			return ;
 		if (letter_is(DELIMITER, &input[shell->index]))
 			add_delimiter_token(shell, dest, input);
 		else if (letter_is(OPERATOR, &input[shell->index]))
