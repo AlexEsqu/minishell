@@ -1,13 +1,3 @@
-[33mecho $USER$lol"$USER"$HOME(B[m
-[35m< bash       (exited with 0)(B[m
-[35m> minishell  (exited with 0)
-(B[m[94m----- STDOUT -----(B[m
-1c1
-< vgodoyvgodoy/home/vgodoy
----
-> vgodoy"vgodoy"/home/vgodoy
-
-
 [33mworld(B[m
 [35m< bash       (exited with 127)(B[m
 [35m> minishell  (exited with 127)
@@ -193,16 +183,6 @@
 > pipe monitor exits with 256
 
 
-[33mcat <"1""2""3""4""5"(B[m
-[35m< bash       (exited with 1)(B[m
-[35m> minishell  (exited with 2)
-(B[m[94m----- STDERR -----(B[m
-1c1
-< minishell: line 1: 12345: No such file or directory
----
-> shell: syntax error near unexpected token '<'
-
-
 [33mcat <missing(B[m
 [35m< bash       (exited with 1)(B[m
 [35m> minishell  (exited with 1)
@@ -266,20 +246,9 @@
 [35m> minishell  (exited with 126)
 (B[m[94m----- STDERR -----(B[m
 1c1
-< minishell: line 1: /home/vgodoy/minishell13/testing: Is a directory
+< minishell: line 1: /home/alex/workplace/github.com/AlexEsqu/minishell/testing: Is a directory
 ---
-> shell: /home/vgodoy/minishell13/testing: Is a directory
-
-
-[33m$EMPTY echo hi (B[m
-[35m< bash       (exited with 0)(B[m
-[35m> minishell  (exited with 127)
-(B[m[94m----- STDOUT -----(B[m
-1d0
-< hi
-[94m----- STDERR -----(B[m
-0a1
-> shell: No such file or directory
+> shell: /home/alex/workplace/github.com/AlexEsqu/minishell/testing: Is a directory
 
 
 [33m"aaa" (B[m

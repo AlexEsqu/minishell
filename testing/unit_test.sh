@@ -4,9 +4,12 @@ TEST_ARRAY=(
 '#### Vigo extra ####'
 'echo $USER$lol"$USER"$HOME'
 'e'c'h'o' lol'
+'export PATH=$PATH:$PWD && echo $PATH'
+
 '#### LucasKuhn / minishell_tester ####'
 'echo '''
 'echo hello world'
+'echo $?HELLO'
 'echo "hello world"'
 'echo 'hello world''
 'echo hello 'world''
