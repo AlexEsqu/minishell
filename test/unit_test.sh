@@ -5,6 +5,7 @@ TEST_ARRAY=(
 'echo $USER$lol"$USER"$HOME'
 'e'c'h'o' lol'
 'export PATH=$PATH:$PWD && echo $PATH'
+
 '#### LucasKuhn / minishell_tester ####'
 'echo '''
 'echo hello world'

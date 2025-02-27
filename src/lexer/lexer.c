@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:34:47 by alex              #+#    #+#             */
-/*   Updated: 2025/02/26 11:49:52 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/27 10:20:23 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ void	glue_words_to_strings(t_shell *shell, t_list *node)
 	{
 		while (token_is(STRING, node->next) || token_is(WORD, node->next)
 			|| token_is(VARIABLE, node->next))
-		{
 			merge_token(shell, node);
-		}
 		word->lexem = STRING;
 	}
 }
