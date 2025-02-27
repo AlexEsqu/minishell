@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 23:24:18 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/26 13:37:56 by alex             ###   ########.fr       */
+/*   Created: 2025/02/27 11:18:27 by vgodoy            #+#    #+#             */
+/*   Updated: 2025/02/27 11:18:29 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,13 @@ typedef struct s_shell
 
 /* SIGNAL */
 
-void		signals(t_shell *shell, int mode);
+int			signals(t_shell *shell, int mode);
 void		normal_mode(int signal, siginfo_t *info, void *context);
 void		interactive_mode(int signal, siginfo_t *info, void *context);
 void		heredoc_mode(int signal, siginfo_t *info, void *context);
+int			delim_summoned(char *line, t_file *file);
+int			control_c_pressed(char *line, t_shell *shell);
+int			control_d_pressed(char *line, t_file *file);
 
 /* INPUT */
 
@@ -162,12 +165,6 @@ int			replace_env(t_shell *shell, char *env_value);
 char		*extract_env_key(t_shell *shell, char *env_key_and_value);
 char		*extract_env_value(t_shell *shell, char *env_key_and_value);
 
-/* SIGNAL */
-
-int			delim_summoned(char *line, t_file *file);
-int			control_c_pressed(char *line, t_shell *shell);
-int			control_d_pressed(char *line, t_file *file);
-
 /* REDIRECTION */
 
 void		open_file(t_cmd *cmd, int mode, char *path);
@@ -212,7 +209,7 @@ int			token_is_operator(t_list *token_node);
 # define OPERATORS		"|><&"
 # define BLANKS			" \n\t"
 # define HEREDOC_LOC	"/tmp/.heredoc_"
-# define SHELL_NAME		"shell"
+# define SHELL_NAME		"algo"
 # define PATH_MAX		4096
 
 enum e_lexem
@@ -273,6 +270,7 @@ enum e_err_code
 	NO_HOME,
 	NO_PATH,
 	INVALID_VAR,
+	SIGNAL_ERROR,
 };
 
 /* Actual return values expected from minishell program */
@@ -313,18 +311,19 @@ enum e_tree_mode
 
 enum e_my_signal
 {
-	BASE = 0,
-	TYPING = 1,
-	IN_HEREDOC = 2,
-	CONTROL_C = 3,
-	CONTROL_D = 4,
+	BASE,
+	TYPING,
+	IN_HEREDOC,
+	CONTROL_C,
+	CONTROL_D,
 };
 
 enum e_ignal_mode
 {
-	NORMAL_MODE = 0,
-	INTERACTIVE_MODE = 1,
-	HEREDOC_MODE = 2,
+	NORMAL_MODE,
+	INTERACTIVE_MODE,
+	HEREDOC_MODE,
+	TEST_MODE,
 };
 
 #endif

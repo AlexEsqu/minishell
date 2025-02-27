@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:44:51 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/24 13:31:30 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/27 10:31:30 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,7 @@ char	*get_error_message(int err_code)
 		return ("Not a valid identifier");
 	if (err_code == INTERUPT)
 		return (NULL);
+	if (err_code == SIGNAL_ERROR)
+		return ("Fail to set up signals");
 	return (get_error_message_1(err_code));
 }

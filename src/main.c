@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:09:43 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/26 13:56:53 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/27 11:13:19 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@ int	main(int argc, char **argv, char **envp)
 	shell = create_minishell(envp);
 	if (!shell)
 		return (E_CMD_FAIL);
-	if (argc > 2 && ft_strcmp(argv[1], "-c") == 0)
-		parse_and_exec_cmd(shell, argv[2]);
-	else if (!isatty(STDIN_FILENO))
-		return (free_minishell(shell), 0);
-	else
-		init_readline(shell);
+	if (signals(shell, TEST_MODE))
+	{
+		if (argc > 2 && ft_strcmp(argv[1], "-c") == 0)
+			parse_and_exec_cmd(shell, argv[2]);
+		else if (!isatty(STDIN_FILENO))
+			return (free_minishell(shell), 0);
+		else
+			init_readline(shell);
+	}
 	exit_return = shell->last_exit_code;
 	free_minishell(shell);
 	return (exit_return);
