@@ -18,7 +18,7 @@ TEST_ARRAY=(
 'echo "$PWD"'
 'echo '\$PWD''
 'echo 1"aspas ->"'
-'echo \"> >> < * ? [ ] | ; [ ] || && ( ) & \# \$  <<\"'
+'echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ <<"'
 'echo "$"'
 'echo '$''
 'echo $'
