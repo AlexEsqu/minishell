@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refused.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:14 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 23:14:56 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/27 10:36:58 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,8 @@ int	is_missing_delimiter(t_shell *shell, char *input)
 	return (0);
 }
 
-int	contains_non_supported_char(t_shell *shell, char *input)
-{
-	while (*input)
-	{
-		if (*input == ';')
-			return (set_error(SYNTAX_ERROR, shell), 1);
-		input++;
-	}
-	return (0);
-}
-
 int	input_contains_unsupported(t_shell *shell, char *input)
 {
-	if (contains_non_supported_char(shell, input))
-		return (1);
 	if (is_missing_delimiter(shell, input))
 		return (1);
 	return (0);
