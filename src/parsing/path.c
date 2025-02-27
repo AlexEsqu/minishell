@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:32 by alex              #+#    #+#             */
-/*   Updated: 2025/02/26 14:20:02 by alex             ###   ########.fr       */
+/*   Updated: 2025/02/27 14:06:30 by mkling           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static int	is_in_environ_paths(t_shell *shell, t_cmd *cmd)
 	return (is_in_environ);
 }
 
-/* Checks successively, according to bahs man 3.7.2 on GNU.org :
+/* Checks successively, according to bash man 3.7.2 on GNU.org :
 
 1. if cmd name has no slash:
 	if it exists in the working directory, invokes it
@@ -126,7 +126,7 @@ void	find_cmd_path(t_shell *shell, t_cmd *cmd)
 	{
 		if (is_or_should_be_directory(cmd, cmd->cmd_path, false))
 			return ;
-		if (is_in_absolute_or_relative_path(cmd) || is_builtin(cmd))
+		if (is_builtin(cmd))
 			return ;
 		else if (is_in_environ_paths(shell, cmd))
 			return ;

@@ -6,7 +6,7 @@
 /*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:09:56 by vgodoy            #+#    #+#             */
-/*   Updated: 2025/02/19 18:09:58 by vgodoy           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:15:58 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	echo(t_cmd *cmd)
 
 	need_newline = true;
 	i = 1;
-	if (cmd->argv[1] && ft_strcmp(cmd->argv[1], "-n") == 0)
+	while (i < cmd->argc && ft_strncmp(cmd->argv[i], "-n", 2) == 0)
 	{
 		need_newline = false;
 		i++;

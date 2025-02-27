@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkling <mkling@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vgodoy <vgodoy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:37:36 by mkling            #+#    #+#             */
-/*   Updated: 2025/02/25 20:53:04 by mkling           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:05:52 by vgodoy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static int	exec_for_builtin(t_shell *shell, t_cmd *cmd, bool piped)
 	exit_code = exec_builtin(shell, cmd);
 	reset_std(shell, piped);
 	if (piped)
+	{
+		free_minishell(shell);
 		exit(exit_code);
+	}
 	return (exit_code);
 }
 
